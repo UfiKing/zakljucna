@@ -3,11 +3,15 @@
 #include "player.hpp"
 #include <esp_adc/adc_oneshot.h>
 #include "Vektor.hpp"
+#include <esp_log.h>
+#include <cmath>
 //player class
 
 
 
-
+void Player::draw(LGFX_Sprite *canvas){
+	canvas->drawRect(position.x, position.y, width, height, colour);
+}
 
 void Player::move(Joystick *joystick){
   int x = joystick->readX();
@@ -26,15 +30,30 @@ void Player::move(Joystick *joystick){
 
 }
 
-void Player::applyGravity(uint16_t dt){
-  velocity += Vektor((int16_t)0,(int16_t)gravityConstant);
-  if (velocity.x >= maxSpeed) velocity.x = maxSpeed;
-  if (velocity.y >= maxSpeed) velocity.y = maxSpeed;
+void Player::update(){
+	applyGravity();
+}
+
+void Player::applyGravity(){
   position += velocity;
+  if (abs(velocity.x) >= maxSpeed) return;
+  if (abs(velocity.y)>= maxSpeed) return;
+  velocity += Vektor((int16_t)0,(int16_t)gravityConstant);
 }
 
 void Player::resetVelocity(){
   velocity.x = 0;
   velocity.y = 0;
 }
+
+
+int16_t Player::getX() const { return position.x; }
+int16_t Player::getY() const { return position.y; }
+
+Vektor<int16_t> Player::getVelocity() const { return velocity; }
+
+int16_t Player::getLeft() const { return position.x; }
+int16_t Player::getRight() const { return position.x + width; }
+int16_t Player::getTop() const { return position.y; }
+int16_t Player::getBottom() const { return position.y + height; }
 

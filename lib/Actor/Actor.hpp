@@ -43,8 +43,23 @@ public:
   }
 
   virtual void update(int16_t newX, int16_t newY);
+	virtual void update();
   virtual void draw(LGFX_Sprite *canvas);
 
   uint16_t getWidth();
   uint16_t getHeight();
+	
+	virtual int16_t getLeft() const;
+  virtual int16_t getRight() const;
+  virtual int16_t getTop() const;
+  virtual int16_t getBottom() const;
+  virtual int16_t getX() const; 
+  virtual int16_t getY() const;
+	virtual void setX(int16_t newX);
+	virtual void setY(int16_t newY); 
+	virtual void setLeft(int16_t newLeft);
+	virtual void setRight(int16_t newRight);
+	virtual void setTop(int16_t newTop);
+	virtual void setBottom(int16_t newBottom);
+
 };
