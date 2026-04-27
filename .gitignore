@@ -1,5 +1,6 @@
 .pio
 .cache
-compile_commands.json
 .clangd
 sdkconfig.esp32dev
+.vscode
+compile_commands.json
