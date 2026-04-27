@@ -4,3 +4,6 @@
 sdkconfig.esp32dev
 .vscode
 compile_commands.json
+build/
+sdkconfig*
+partitions.csv
