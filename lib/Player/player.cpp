@@ -7,10 +7,7 @@
 
 
 
-void Player::draw(){
-  canvas->fillRect(position.x,position.y,width,width,TFT_GREEN);  
-  
-}
+
 
 void Player::move(Joystick *joystick){
   int x = joystick->readX();

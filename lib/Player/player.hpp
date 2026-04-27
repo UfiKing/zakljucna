@@ -11,13 +11,12 @@ protected:
   Vektor<int16_t> velocity;
 public:
   
-  Player(int16_t x, int16_t y, uint16_t width, uint16_t height, LGFX_Sprite *canvas) : Actor(x, y, width, height, canvas){
+  Player(int16_t x, int16_t y, uint16_t width, uint16_t height) : Actor(x, y, width, height){
     //konstruktor
   } 
 
-  void draw();
-  void move(Joystick *joystick);
   void applyGravity(uint16_t dt);
+	void move(Joystick *joystick);
   void resetVelocity();
   
 };
