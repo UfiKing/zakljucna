@@ -15,23 +15,25 @@ void Player::draw(LGFX_Sprite *canvas){
 
 void Player::move(Joystick *joystick){
   int x = joystick->readX();
-  int y = joystick->readY();
+  //int y = joystick->readY();
+	joystick->readButton();
   if (x <= joystick->lowerResting){
     position.x -= speed;
   }else if(joystick->upperResting < x){
     position.x += speed;
   }
   
-  if (y <= joystick->lowerResting){
+  /*if (y <= joystick->lowerResting){
     position.y -= speed;
   }else if(joystick->upperResting < y){
     position.y += speed;
-  }
+  }*/
 
 }
 
-void Player::update(){
+void Player::update(Joystick *joystick){
 	applyGravity();
+	move(joystick);
 }
 
 void Player::applyGravity(){
