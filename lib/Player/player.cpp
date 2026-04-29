@@ -57,12 +57,5 @@ void Player::setVelocityY(int16_t v){
   velocity.y = v;
 }
 
-int16_t Player::getX() const { return position.x; }
-int16_t Player::getY() const { return position.y; }
-
 Vektor<int16_t> Player::getVelocity() const { return velocity; }
 
-int16_t Player::getLeft() const { return position.x; }
-int16_t Player::getRight() const { return position.x + width; }
-int16_t Player::getTop() const { return position.y; }
-int16_t Player::getBottom() const { return position.y + height; }

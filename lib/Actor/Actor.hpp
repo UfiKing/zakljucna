@@ -86,13 +86,13 @@ public:
    * @brief Gets the width of the actor.
    * @return uint16_t The width.
    */
-  uint16_t getWidth();
+  virtual uint16_t getWidth();
 
   /**
    * @brief Gets the height of the actor.
    * @return uint16_t The height.
    */
-  uint16_t getHeight();
+  virtual uint16_t getHeight();
 	
   /**
    * @brief Gets the left edge X coordinate of the actor.

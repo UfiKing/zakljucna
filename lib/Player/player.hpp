@@ -52,22 +52,10 @@ public:
    */
 	void move(Joystick *joystick);
 
-  /** @brief Gets the current X position. */
-  int16_t getX() const;
-  /** @brief Gets the current Y position. */
-  int16_t getY() const;
   /** @brief Gets the current velocity vector. */
   Vektor<int16_t> getVelocity() const;
-  /** @brief Gets the left edge coordinate (same as X). */
-  int16_t getLeft() const;
-  /** @brief Gets the right edge coordinate (X + width). */
-  int16_t getRight() const;
-  /** @brief Gets the top edge coordinate (same as Y). */
-  int16_t getTop() const;
-  /** @brief Gets the bottom edge coordinate (Y + height). */
-  int16_t getBottom() const;
   
-  /**
+	/**
    * @brief Halts the player's movement by zeroing out the velocity vector.
    */
   void resetVelocity();
