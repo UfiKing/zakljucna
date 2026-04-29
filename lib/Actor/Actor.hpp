@@ -1,6 +1,7 @@
 #pragma once
 #include "Vektor.hpp"
 #include <LovyanGFX.hpp>
+#include "ObjectTypes.hpp"
 
 /**
  * @brief Base class for all physical entities in the game.
@@ -8,52 +9,32 @@
  * as well as common interfaces for updating and drawing.
  */
 class Actor {
+private:
+	enum ObjectTypes type = ACTOR;
 protected:
   Vektor<int16_t> position; ///< 2D vector storing the X and Y coordinates
   uint16_t width;           ///< Width of the actor's bounding box
   uint16_t height;          ///< Height of the actor's bounding box
-  int colour;               ///< Display color of the actor (e.g., TFT_WHITE)
 public:
 
   /**
-   * @brief Construct a rectangular actor with default white color.
+   * @brief Construct a rectangular actor.
    */
   Actor(int16_t x, int16_t y, uint16_t width, uint16_t height){
     position = Vektor(x,y);
     this->width = width;
     this->height = height;
-    this->colour = TFT_WHITE;
   }
   
   /**
-   * @brief Construct a square actor with default white color.
+   * @brief Construct a square actor.
    */
   Actor(int16_t x, int16_t y, uint16_t width){
     position = Vektor(x,y);
     this->width = width;
     this->height = width;
-    this->colour = TFT_WHITE;
   }
   
-  /**
-   * @brief Construct a rectangular actor with a specific color.
-   */
-  Actor(int16_t x, int16_t y, uint16_t width, uint16_t height, int colour){
-    position = Vektor(x,y);
-    this->width = width;
-    this->height = height;
-    this->colour = colour;
-  }
-  
-  /**
-   * @brief Construct a square actor with a specific color.
-   */
-  Actor(int16_t x, int16_t y, uint16_t width, int colour){
-    position = Vektor(x,y);
-    this->width = width;
-    this->height = width;
-    this->colour = colour;
-  }
 
   /**
    * @brief Virtual destructor for safe polymorphic deletion.
@@ -74,14 +55,6 @@ public:
    * Intended to be overridden by derived classes to handle frame-by-frame logic.
    */
 	virtual void update();
-
-  /**
-   * @brief Draws the actor to the specified canvas.
-   * @param canvas Pointer to the LovyanGFX sprite to draw on.
-   */
-  virtual void draw(LGFX_Sprite *canvas);
-
-	virtual void draw(LGFX_Sprite *canvas, int offsetX, int offsetY);
 
   /**
    * @brief Gets the width of the actor.
@@ -167,6 +140,8 @@ public:
    */
 	virtual void setBottom(int16_t newBottom);
 
-	virtual void changeColour(int newColour);
-
+	virtual ObjectTypes getType(){
+		return type;
+	}
+	
 };

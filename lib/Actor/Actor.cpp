@@ -9,14 +9,6 @@ uint16_t Actor::getWidth(){
   return width;
 }
 
-void Actor::draw(LGFX_Sprite *canvas){
-  // Draw the actor as a filled rectangle using its current position, dimensions, and color
-  canvas->fillRect(position.x, position.y, width, height, colour);
-}
-
-void Actor::draw(LGFX_Sprite *canvas, int offsetX, int offsetY){
-	canvas->fillRect(position.x + offsetX, position.y + offsetY, width, height, colour);
-}
 
 void Actor::update(int16_t newX, int16_t newY){
   // Directly override the actor's coordinates
@@ -62,6 +54,3 @@ void Actor::setBottom(int16_t newBottom) {
 }
 
 
-void Actor::changeColour(int newColour){
-	colour = newColour;
-}

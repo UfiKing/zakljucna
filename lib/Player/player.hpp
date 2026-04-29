@@ -1,13 +1,13 @@
 #pragma once
 #include "joystick.hpp"
 #include "Vektor.hpp"
-#include "Actor.hpp"
+#include "Object.hpp"
 
 /**
  * @brief Represents the player character in the game.
  * Handles physics (like gravity and velocity) and updates based on joystick input.
  */
-class Player : public Actor{
+class Player : public Object{
 protected:
   int8_t speed = 3;                  ///< Horizontal movement speed applied per frame
   const int16_t gravityConstant = 1; ///< Downward force applied each frame to simulate gravity
@@ -15,6 +15,7 @@ protected:
 	const int8_t jumpConstant = 8;	   ///< Force applied when jumping
 	bool hasJumped = false;			 			 ///< Prevents jumping every frame
   Vektor<int16_t> velocity;          ///< Current movement velocity vector of the player
+	enum ObjectTypes type = PLAYER;
 public:
 	bool touchedGround = true;				  ///< Prevents double jumping A
 
@@ -25,9 +26,9 @@ public:
    * @param width Player width.
    * @param height Player height.
    */
-  Player(int16_t x, int16_t y, uint16_t width, uint16_t height) : Actor(x, y, width, height){
-		colour = TFT_GREEN;
-  } 
+  Player(int16_t x, int16_t y, uint16_t width, uint16_t height) : Object(x, y, width, height, TFT_GREEN){
+
+  }
 
   /**
    * @brief Draws the player onto the provided canvas.

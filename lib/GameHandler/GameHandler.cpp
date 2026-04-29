@@ -8,9 +8,9 @@ void GameHandler::draw(){
 	canvas->fillScreen(TFT_BLACK);
 
 	// Draw all active scene objects (platforms, walls)
-  for (Actor* actor : objects){
-		if(actor == nullptr) continue;
-    actor->draw(canvas, -player->getX() + 64, 0);
+  for (Object* obj: objects){
+		if(obj == nullptr) continue;
+    obj->draw(canvas, -player->getX() + 64, 0);
   }
 
 	for(Coin* coin: coins){
@@ -33,7 +33,7 @@ void GameHandler::update(){
 	player->touchedGround = false;
 
 	// Update scene objects and check for collisions
-	for(Actor* obj : objects){
+	for(Object* obj : objects){
 		obj->update();
 		if(checkCollision(player,obj)){
 			int side = resolveCollision(player, obj);
@@ -57,11 +57,11 @@ void GameHandler::update(){
 
 }
 
-void GameHandler::addObject(Actor* newObj){
+void GameHandler::addObject(Object* newObj){
   objects.push_back(newObj);
 }
 
-void GameHandler::removeObject(Actor* obj){
+void GameHandler::removeObject(Object* obj){
 	// Free the memory and then remove the pointer from our active vector
 	delete obj;
 	objects.erase(std::remove(objects.begin(), objects.end(), obj), objects.end());

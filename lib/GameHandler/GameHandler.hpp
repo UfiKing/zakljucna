@@ -15,7 +15,7 @@
 class GameHandler {
   LGFX_Sprite *canvas;         ///< Off-screen buffer/sprite for double-buffered rendering
   Player *player;              ///< The active player instance
-  std::vector<Actor*> objects; ///< List of active game world objects (platforms, obstacles)
+  std::vector<Object*> objects; ///< List of active game world objects (platforms, obstacles)
 	std::vector<Coin*> coins;		 ///< List of active coins in the world
   LGFX_Lcd *lcd_ptr;           ///< Pointer to the physical LCD screen structure
   Joystick *joystick;          ///< Handles joystick and button inputs
@@ -72,13 +72,13 @@ public:
    * @brief Adds a new Actor object to the game scene.
    * @param newObj Pointer to the Actor to be added.
    */
-  void addObject(Actor* newObj);
+  void addObject(Object* newObj);
 
   /**
    * @brief Removes a specific Actor from the scene by its pointer.
    * @param obj Pointer to the Actor to be deleted and removed.
    */
-  void removeObject(Actor* obj);
+  void removeObject(Object* obj);
 
   
 	void removeObject(int pos, ObjectTypes type);

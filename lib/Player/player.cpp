@@ -11,7 +11,7 @@
 
 void Player::draw(LGFX_Sprite *canvas){
 	//canvas->drawRect(position.x, position.y, width, height, colour);
-	canvas->drawRect(64, position.y, width, height, colour);
+	canvas->drawRect(64, position.y, width, height, getColour());
 }
 
 void Player::move(Joystick *joystick){
