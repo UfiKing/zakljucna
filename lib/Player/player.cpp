@@ -15,32 +15,44 @@ void Player::draw(LGFX_Sprite *canvas){
 
 void Player::move(Joystick *joystick){
   int x = joystick->readX();
-  //int y = joystick->readY();
-	joystick->readButton();
+	ESP_LOGI("TOUCHED GROUND", "%d", touchedGround);
+	ESP_LOGI("HAS JUMPED", "%d", hasJumped);
+	if(joystick->readButton() && touchedGround && !hasJumped){
+		velocity.y = -jumpConstant; // Use assignment to guarantee exact jump height
+		touchedGround = false;	
+		hasJumped = true;
+		ESP_LOGI("jump", "jump"); 
+	}else if(!joystick->getButton() && hasJumped){
+		hasJumped = false;
+	}
+
   if (x <= joystick->lowerResting){
     position.x -= speed;
   }else if(joystick->upperResting < x){
     position.x += speed;
   }
   
-  /*if (y <= joystick->lowerResting){
-    position.y -= speed;
-  }else if(joystick->upperResting < y){
-    position.y += speed;
-  }*/
-
 }
 
 void Player::update(Joystick *joystick){
-	applyGravity();
 	move(joystick);
+	applyGravity();
 }
 
 void Player::applyGravity(){
-  position += velocity;
-  if (abs(velocity.x) >= maxSpeed) return;
-  if (abs(velocity.y)>= maxSpeed) return;
+  /*position += velocity;
+  if (velocity.x >= maxSpeed) return;
+  if (velocity.y >= maxSpeed) return;
   velocity += Vektor((int16_t)0,(int16_t)gravityConstant);
+  */
+
+	position += velocity;
+
+  velocity.y += gravityConstant; // Apply gravity
+  // Cap falling speed to maxSpeed
+  if (velocity.y > maxSpeed) {
+    velocity.y = maxSpeed;
+  }
 }
 
 void Player::resetVelocity(){
@@ -48,6 +60,9 @@ void Player::resetVelocity(){
   velocity.y = 0;
 }
 
+void Player::setVelocityY(int16_t v){
+  velocity.y = v;
+}
 
 int16_t Player::getX() const { return position.x; }
 int16_t Player::getY() const { return position.y; }
@@ -58,4 +73,3 @@ int16_t Player::getLeft() const { return position.x; }
 int16_t Player::getRight() const { return position.x + width; }
 int16_t Player::getTop() const { return position.y; }
 int16_t Player::getBottom() const { return position.y + height; }
-

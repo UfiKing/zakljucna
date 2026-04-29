@@ -9,12 +9,15 @@
  */
 class Player : public Actor{
 protected:
-  int8_t speed = 2;                  ///< Horizontal movement speed applied per frame
+  int8_t speed = 3;                  ///< Horizontal movement speed applied per frame
   const int16_t gravityConstant = 1; ///< Downward force applied each frame to simulate gravity
-  const int8_t maxSpeed = 2;         ///< Maximum velocity limit (for both axes)
+  const int8_t maxSpeed = 6;         ///< Maximum velocity limit (for both axes)
+	const int8_t jumpConstant = 8;	   ///< Force applied when jumping
+	bool hasJumped = false;			 			 ///< Prevents jumping every frame
   Vektor<int16_t> velocity;          ///< Current movement velocity vector of the player
 public:
-  
+	bool touchedGround = true;				  ///< Prevents double jumping A
+
   /**
    * @brief Construct a new Player object.
    * @param x Initial X coordinate.
@@ -69,5 +72,9 @@ public:
    */
   void resetVelocity();
   
+  /**
+   * @brief Allows direct override of the Y velocity (useful for stopping gravity on floors).
+   */
+  void setVelocityY(int16_t v);
 	
 };

@@ -20,16 +20,27 @@ void GameHandler::draw(){
 }
 
 void GameHandler::update(){
-	// Update player movements and physics state
+	// Update player movements and physics state (This evaluates the jump using LAST frame's collision data)
 	player->update(joystick);
-	
+
+	// Reset ground state BEFORE checking collisions for THIS frame
+	player->touchedGround = false;
+
 	// Update scene objects and check for collisions
 	for(Actor* obj : objects){
 		obj->update();
 		if(checkCollision(player,obj)){
-			resolveCollision(player, obj);
+			int side = resolveCollision(player, obj);
+			
+			if (side == 1) { // 1 means Player landed on top of an object (Floor)
+				player->touchedGround = true;
+				player->setVelocityY(0); // Stop falling
+			} /*else if (side == 2) { // 2 means Player hit bottom of an object (Ceiling)
+				player->setVelocityY(0); // Stop rising
+			}*/
 		}
 	}
+
 }
 
 void GameHandler::addObject(Actor* newObj){
@@ -58,7 +69,7 @@ bool GameHandler::checkCollision(Actor* obj1, Actor* obj2){
 	return !(test1 || test2 || test3 || test4);
 }
 
-void GameHandler::resolveCollision(Actor* obj1, Actor* obj2){
+int GameHandler::resolveCollision(Actor* obj1, Actor* obj2){
 	// Calculate how far obj1 has penetrated obj2 on all four sides
 	int16_t overlapLeft = obj1->getRight() - obj2->getLeft();
 	int16_t overlapRight = obj2->getRight() - obj1->getLeft();
@@ -71,11 +82,16 @@ void GameHandler::resolveCollision(Actor* obj1, Actor* obj2){
 	// Resolve the collision by pushing obj1 out of obj2 along the shortest overlap distance
 	if (minOverlap == overlapTop) {
 		obj1->setBottom(obj2->getTop());
+		return 1;
 	} else if (minOverlap == overlapBottom) {
 		obj1->setTop(obj2->getBottom());
+		return 2;
 	} else if (minOverlap == overlapLeft) {
 		obj1->setRight(obj2->getLeft());
+		return 3;
 	} else if (minOverlap == overlapRight) {
 		obj1->setLeft(obj2->getRight());
+		return 4;
 	}
+	return 0;
 }

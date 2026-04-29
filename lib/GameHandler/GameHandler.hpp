@@ -36,7 +36,7 @@ public:
 
 		canvas = new LGFX_Sprite(lcd_ptr);
 		canvas->createSprite(lcd_ptr->width(), lcd_ptr->height());
-		player = new Player(64,20,25,25);
+		player = new Player(40,20,10,10);
 		joystick = new Joystick();
   }
 
@@ -89,6 +89,7 @@ public:
 
   /**
    * @brief Resolves a detected collision by shifting obj1 out of obj2 along the axis of least penetration.
+   * @return int The side of obj2 that obj1 collided with: 1=Top, 2=Bottom, 3=Left, 4=Right.
    */
-	void resolveCollision(Actor* obj1, Actor* obj2);
+	int resolveCollision(Actor* obj1, Actor* obj2);
 };
