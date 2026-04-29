@@ -20,18 +20,30 @@ extern "C" void app_main() {
 	
 	// Populate the scene with static rectangular actors (platforms/obstacles)
 	Handler.addObject(new Actor(0,0,10,TFT_BLUE));
-	Handler.addObject(new Actor(40,40,10,40, TFT_BROWN));
+	Handler.addObject(new Actor(40,40,10,42, TFT_BROWN));
 	Handler.addObject(new Actor(0,100,200,10,TFT_GOLD));
 	Handler.addObject(new Actor(70,-5,10,10,TFT_GOLD));
 	
 	Handler.draw();
 	vTaskDelay(pdMS_TO_TICKS(500));
-	
+	int startTime = 0;
+	int timePassed = 0;	
+	int timePassed2 = 0;
 	// Main Game Loop
   while (true) {
+		startTime = esp_timer_get_time() / 1000;
 		Handler.update();
-		Handler.draw();
-		
-    vTaskDelay(pdMS_TO_TICKS(16)); // Delay roughly 16 milliseconds to hit ~60 FPS
+		Handler.draw(); 	
+
+		timePassed = esp_timer_get_time() / 1000 - startTime;
+		ESP_LOGI("TAG", "%d", timePassed);
+		if (timePassed < 16){
+    	vTaskDelay(pdMS_TO_TICKS(16 - timePassed)); // Delay roughly 16 milliseconds to hit ~60 FPS
+		} else {
+			// predamo handle operacijskem sistemu da lohk nardi svoje	
+			ESP_LOGE("TIME", "THE GAME LOOP TOOK LONGER THAN 16MILLIS");
+			ESP_LOGE("TIME", "THE AMMOUT OF TIME IT TOOK (INT MILLIS): %d", timePassed);
+		}
+		vTaskDelay(1); 
   }
 }

@@ -61,7 +61,6 @@ bool Joystick::readButton(){
   // Note: Since we are using a pull-up, the pin reads 0 when pressed (Active low).
   // We invert the result so that pressed evaluates to true.
   button = !(gpio_get_level((gpio_num_t)BUTTON_PIN));
-	ESP_LOGI("TAG", "%d", button);
   return button;
 }
 

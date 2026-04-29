@@ -15,13 +15,11 @@ void Player::draw(LGFX_Sprite *canvas){
 
 void Player::move(Joystick *joystick){
   int x = joystick->readX();
-	ESP_LOGI("TOUCHED GROUND", "%d", touchedGround);
-	ESP_LOGI("HAS JUMPED", "%d", hasJumped);
+
 	if(joystick->readButton() && touchedGround && !hasJumped){
 		velocity.y = -jumpConstant; // Use assignment to guarantee exact jump height
 		touchedGround = false;	
 		hasJumped = true;
-		ESP_LOGI("jump", "jump"); 
 	}else if(!joystick->getButton() && hasJumped){
 		hasJumped = false;
 	}
