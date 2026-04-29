@@ -1,0 +1,15 @@
+#include "Collectible.hpp"
+
+void Coin::draw(LGFX_Sprite *canvas){
+  // Draw the actor as a filled rectangle using its current position, dimensions, and color
+	canvas->fillCircle(position.x, position.y, radius, colour);
+}
+
+void Coin::draw(LGFX_Sprite *canvas, int offsetX, int offsetY){
+	canvas->fillCircle(position.x + offsetX, position.y + offsetY, radius, colour);
+}
+
+
+int16_t Coin::getRadius(){
+	return radius;
+}

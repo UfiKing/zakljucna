@@ -8,7 +8,7 @@
 #include "Vektor.hpp"
 #include "LCD.hpp"
 #include "GameHandler.hpp"
-
+#include "Collectible.hpp"
 // Global instances of the Display and the Game Handler
 static LGFX_Lcd lcd;
 static GameHandler Handler(&lcd);
@@ -25,7 +25,7 @@ extern "C" void app_main() {
   Handler.addObject(new Actor(150,100,20,10,TFT_LIGHTGRAY));
   Handler.addObject(new Actor(190,100,20,10,TFT_LIGHTGRAY));
   Handler.addObject(new Actor(230,100,80,10,TFT_LIGHTGRAY));
-
+	Handler.addObject(new Coin(10,85,5));	
 	Handler.draw();
 	vTaskDelay(pdMS_TO_TICKS(500));
 	int startTime = 0;

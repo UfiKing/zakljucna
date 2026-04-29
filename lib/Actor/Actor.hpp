@@ -14,6 +14,7 @@ protected:
   uint16_t height;          ///< Height of the actor's bounding box
   int colour;               ///< Display color of the actor (e.g., TFT_WHITE)
 public:
+
   /**
    * @brief Construct a rectangular actor with default white color.
    */
@@ -165,5 +166,7 @@ public:
    * @param newBottom The new bottom Y coordinate.
    */
 	virtual void setBottom(int16_t newBottom);
+
+	virtual void changeColour(int newColour);
 
 };

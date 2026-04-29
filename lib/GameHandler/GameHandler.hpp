@@ -5,6 +5,8 @@
 #include "LCD.hpp"
 #include "joystick.hpp"
 #include "player.hpp"
+#include "Collectible.hpp"
+#include "ObjectTypes.hpp"
 
 /**
  * @brief Central game manager responsible for handling the main game loop,
@@ -14,8 +16,10 @@ class GameHandler {
   LGFX_Sprite *canvas;         ///< Off-screen buffer/sprite for double-buffered rendering
   Player *player;              ///< The active player instance
   std::vector<Actor*> objects; ///< List of active game world objects (platforms, obstacles)
+	std::vector<Coin*> coins;		 ///< List of active coins in the world
   LGFX_Lcd *lcd_ptr;           ///< Pointer to the physical LCD screen structure
   Joystick *joystick;          ///< Handles joystick and button inputs
+
 
 public:
   /**
@@ -25,6 +29,7 @@ public:
   GameHandler(LGFX_Lcd *lcd) : lcd_ptr(lcd) {
 		// Pre-allocate memory for 100 objects to improve performance, but keep it empty initially
 		objects.reserve(100);
+		coins.reserve(10);
 	}
     
   /**
@@ -75,21 +80,28 @@ public:
    */
   void removeObject(Actor* obj);
 
-  /**
-   * @brief Removes an Actor from the scene by its vector index.
-   * @param pos Index of the object in the vector.
-   */
-	void removeObject(int pos);
+  
+	void removeObject(int pos, ObjectTypes type);
+
+  void addObject(Coin* newObj);
+
+  void removeObject(Coin* obj);
+
 
   /**
    * @brief Checks if two Actor objects are physically colliding.
    * @return true If the two objects intersect.
    */
 	bool checkCollision(Actor* obj1, Actor* obj2);
+	
+  bool checkCollision(Actor* obj1, Coin* obj2);
 
   /**
    * @brief Resolves a detected collision by shifting obj1 out of obj2 along the axis of least penetration.
    * @return int The side of obj2 that obj1 collided with: 1=Top, 2=Bottom, 3=Left, 4=Right.
    */
-	int resolveCollision(Actor* obj1, Actor* obj2);
+	int8_t resolveCollision(Actor* obj1, Actor* obj2);
+
+
+	int8_t resolveCollision(Actor* obj1, Coin* obj2);
 };

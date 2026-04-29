@@ -60,3 +60,8 @@ void Actor::setBottom(int16_t newBottom) {
   // Adjust the Y coordinate so that the bottom bounding edge aligns with newBottom
   position.y = newBottom - height;
 }
+
+
+void Actor::changeColour(int newColour){
+	colour = newColour;
+}
