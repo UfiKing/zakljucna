@@ -80,6 +80,8 @@ public:
    */
   virtual void draw(LGFX_Sprite *canvas);
 
+	virtual void draw(LGFX_Sprite *canvas, int offsetX, int offsetY);
+
   /**
    * @brief Gets the width of the actor.
    * @return uint16_t The width.

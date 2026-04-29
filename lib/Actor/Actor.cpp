@@ -14,6 +14,10 @@ void Actor::draw(LGFX_Sprite *canvas){
   canvas->fillRect(position.x, position.y, width, height, colour);
 }
 
+void Actor::draw(LGFX_Sprite *canvas, int offsetX, int offsetY){
+	canvas->fillRect(position.x + offsetX, position.y + offsetY, width, height, colour);
+}
+
 void Actor::update(int16_t newX, int16_t newY){
   // Directly override the actor's coordinates
   position.x = newX;

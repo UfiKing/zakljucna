@@ -19,16 +19,17 @@ extern "C" void app_main() {
 	Handler.init();
 	
 	// Populate the scene with static rectangular actors (platforms/obstacles)
-	Handler.addObject(new Actor(0,0,10,TFT_BLUE));
-	Handler.addObject(new Actor(40,40,10,42, TFT_BROWN));
-	Handler.addObject(new Actor(0,100,200,10,TFT_GOLD));
-	Handler.addObject(new Actor(70,-5,10,10,TFT_GOLD));
-	
+  Handler.addObject(new Actor(-60,-10,10,120,TFT_LIGHTGRAY));
+  Handler.addObject(new Actor(-60,100,150,10,TFT_LIGHTGRAY));
+  Handler.addObject(new Actor(110,100,20,10,TFT_LIGHTGRAY));
+  Handler.addObject(new Actor(150,100,20,10,TFT_LIGHTGRAY));
+  Handler.addObject(new Actor(190,100,20,10,TFT_LIGHTGRAY));
+  Handler.addObject(new Actor(230,100,80,10,TFT_LIGHTGRAY));
+
 	Handler.draw();
 	vTaskDelay(pdMS_TO_TICKS(500));
 	int startTime = 0;
 	int timePassed = 0;	
-	int timePassed2 = 0;
 	// Main Game Loop
   while (true) {
 		startTime = esp_timer_get_time() / 1000;
@@ -36,7 +37,7 @@ extern "C" void app_main() {
 		Handler.draw(); 	
 
 		timePassed = esp_timer_get_time() / 1000 - startTime;
-		ESP_LOGI("TAG", "%d", timePassed);
+		//ESP_LOGI("TAG", "%d", timePassed);
 		if (timePassed < 16){
     	vTaskDelay(pdMS_TO_TICKS(16 - timePassed)); // Delay roughly 16 milliseconds to hit ~60 FPS
 		} else {

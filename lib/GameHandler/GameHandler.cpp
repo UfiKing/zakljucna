@@ -10,10 +10,11 @@ void GameHandler::draw(){
 	// Draw all active scene objects (platforms, walls)
   for (Actor* actor : objects){
 		if(actor == nullptr) continue;
-    actor->draw(canvas);
+    actor->draw(canvas, -player->getX() + 64, 0);
   }
 	// Draw the player on top
 	player->draw(canvas);
+	ESP_LOGI("TAG", "%d", player->getX() + 64);
 
 	// Push the fully drawn canvas frame to the actual LCD display
 	canvas->pushSprite(0,0);
@@ -35,9 +36,7 @@ void GameHandler::update(){
 			if (side == 1) { // 1 means Player landed on top of an object (Floor)
 				player->touchedGround = true;
 				player->setVelocityY(0); // Stop falling
-			} /*else if (side == 2) { // 2 means Player hit bottom of an object (Ceiling)
-				player->setVelocityY(0); // Stop rising
-			}*/
+			}
 		}
 	}
 
@@ -54,9 +53,9 @@ void GameHandler::removeObject(Actor* obj){
 }
 
 void GameHandler::removeObject(int pos){
-	// Delete using vector indexing. (Note: using pos-1 looks like a 1-based index offset logic)
+	// Delete using vector indexing. 
 	delete objects.at(pos);
-	objects.erase(objects.begin() + pos - 1);
+	objects.erase(objects.begin() + pos);
 }
 
 bool GameHandler::checkCollision(Actor* obj1, Actor* obj2){

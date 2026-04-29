@@ -10,7 +10,8 @@
 
 
 void Player::draw(LGFX_Sprite *canvas){
-	canvas->drawRect(position.x, position.y, width, height, colour);
+	//canvas->drawRect(position.x, position.y, width, height, colour);
+	canvas->drawRect(64, position.y, width, height, colour);
 }
 
 void Player::move(Joystick *joystick){
@@ -38,12 +39,6 @@ void Player::update(Joystick *joystick){
 }
 
 void Player::applyGravity(){
-  /*position += velocity;
-  if (velocity.x >= maxSpeed) return;
-  if (velocity.y >= maxSpeed) return;
-  velocity += Vektor((int16_t)0,(int16_t)gravityConstant);
-  */
-
 	position += velocity;
 
   velocity.y += gravityConstant; // Apply gravity
