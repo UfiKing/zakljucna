@@ -80,28 +80,55 @@ public:
    */
   void removeObject(Object* obj);
 
-  
+  /**
+   * @brief Removes an object from the scene by its index and type.
+   * @param pos The index of the object in its respective list.
+   * @param type The type of the object to determine which list to remove from.
+   */
 	void removeObject(int pos, ObjectTypes type);
 
+  /**
+   * @brief Adds a new Coin object to the game scene.
+   * @param newObj Pointer to the Coin to be added.
+   */
   void addObject(Coin* newObj);
 
+  /**
+   * @brief Removes a specific Coin from the scene by its pointer.
+   * @param obj Pointer to the Coin to be deleted and removed.
+   */
   void removeObject(Coin* obj);
-
 
   /**
    * @brief Checks if two Actor objects are physically colliding.
+   * @param obj1 First actor to check.
+   * @param obj2 Second actor to check.
    * @return true If the two objects intersect.
    */
 	bool checkCollision(Actor* obj1, Actor* obj2);
 	
+  /**
+   * @brief Checks if an Actor object and a Coin are physically colliding.
+   * Takes the coin's circular bounds into consideration using its radius.
+   * @param obj1 The Actor.
+   * @param obj2 The Coin.
+   * @return true If the two objects intersect.
+   */
   bool checkCollision(Actor* obj1, Coin* obj2);
 
   /**
    * @brief Resolves a detected collision by shifting obj1 out of obj2 along the axis of least penetration.
+   * @param obj1 First actor involved in the collision.
+   * @param obj2 Second actor involved in the collision.
    * @return int The side of obj2 that obj1 collided with: 1=Top, 2=Bottom, 3=Left, 4=Right.
    */
 	int8_t resolveCollision(Actor* obj1, Actor* obj2);
 
-
+  /**
+   * @brief Resolves a detected collision between an Actor and a Coin.
+   * @param obj1 The Actor.
+   * @param obj2 The Coin.
+   * @return int The side of obj2 that obj1 collided with: 1=Top, 2=Bottom, 3=Left, 4=Right.
+   */
 	int8_t resolveCollision(Actor* obj1, Coin* obj2);
 };

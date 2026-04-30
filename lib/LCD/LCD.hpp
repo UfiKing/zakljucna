@@ -1,11 +1,19 @@
 #pragma once
 #include <LovyanGFX.h>
 
+/**
+ * @brief Custom LCD device configuration for the ST7735S display.
+ * Inherits from LovyanGFX's LGFX_Device to set up SPI bus and panel parameters.
+ */
 class LGFX_Lcd : public lgfx::LGFX_Device {
-  lgfx::Panel_ST7735S _panel_instance;
-  lgfx::Bus_SPI _bus_instance;
+  lgfx::Panel_ST7735S _panel_instance; ///< Panel instance for ST7735S
+  lgfx::Bus_SPI _bus_instance;         ///< SPI bus instance
 
 public:
+  /**
+   * @brief Construct a new LGFX_Lcd object.
+   * Configures the SPI bus pins, frequency, and panel resolution/offsets.
+   */
   LGFX_Lcd() {
     {
       auto cfg = _bus_instance.config();

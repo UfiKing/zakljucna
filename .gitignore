@@ -8,3 +8,4 @@ build/
 sdkconfig*
 partitions.csv
 zakljucna.code-workspace
+GEMINI.md

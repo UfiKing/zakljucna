@@ -43,10 +43,10 @@ extern "C" void app_main() {
 		if (timePassed < 16){
     	vTaskDelay(pdMS_TO_TICKS(16 - timePassed)); // Delay roughly 16 milliseconds to hit ~60 FPS
 		} else {
-			// predamo handle operacijskem sistemu da lohk nardi svoje	
 			ESP_LOGE("TIME", "THE GAME LOOP TOOK LONGER THAN 16MILLIS");
 			ESP_LOGE("TIME", "THE AMMOUT OF TIME IT TOOK (INT MILLIS): %d", timePassed);
 		}
+		// predamo handle operacijskem sistemu da lohk nardi svoje	
 		vTaskDelay(1); 
   }
 }

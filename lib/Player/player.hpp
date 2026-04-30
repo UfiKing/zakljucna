@@ -17,7 +17,7 @@ protected:
   Vektor<int16_t> velocity;          ///< Current movement velocity vector of the player
 	enum ObjectTypes type = PLAYER;
 public:
-	bool touchedGround = true;				  ///< Prevents double jumping A
+	bool touchedGround = true;				  ///< Indicates if the player is currently touching the ground (prevents double jumping)
 
   /**
    * @brief Construct a new Player object.

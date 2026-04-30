@@ -140,6 +140,10 @@ public:
    */
 	virtual void setBottom(int16_t newBottom);
 
+  /**
+   * @brief Gets the type of the actor.
+   * @return ObjectTypes The type enum value.
+   */
 	virtual ObjectTypes getType(){
 		return type;
 	}
