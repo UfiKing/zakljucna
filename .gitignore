@@ -5,7 +5,6 @@ sdkconfig.esp32dev
 .vscode
 compile_commands.json
 build/
-sdkconfig*
-partitions.csv
+sdkconfig
 zakljucna.code-workspace
 GEMINI.md
