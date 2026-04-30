@@ -7,8 +7,15 @@
 #include "player.hpp"
 #include "Collectible.hpp"
 #include "ObjectTypes.hpp"
+#include "Spikes.hpp"
 
-/**
+enum Screens {
+	START,
+	GAME,
+	DEATH
+};
+
+/*
  * @brief Central game manager responsible for handling the main game loop,
  * rendering to the LCD, maintaining game objects, and managing collisions.
  */

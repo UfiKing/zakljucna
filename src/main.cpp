@@ -10,7 +10,7 @@
 #include "GameHandler.hpp"
 #include "Collectible.hpp"
 #include "Object.hpp"
-
+#include "Spikes.hpp"
 // Global instances of the Display and the Game Handler
 static LGFX_Lcd lcd;
 static GameHandler Handler(&lcd);
@@ -27,7 +27,8 @@ extern "C" void app_main() {
   Handler.addObject(new Object(150,100,20,10,TFT_LIGHTGRAY));
   Handler.addObject(new Object(190,100,20,10,TFT_LIGHTGRAY));
   Handler.addObject(new Object(230,100,80,10,TFT_LIGHTGRAY));
-	Handler.addObject(new Coin(10,85,5));	
+	Handler.addObject(new Coin(10,85,5));
+	Handler.addObject(new Spike(-10,80,20,10));	
 	Handler.draw();
 	vTaskDelay(pdMS_TO_TICKS(500));
 	int startTime = 0;

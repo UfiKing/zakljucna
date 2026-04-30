@@ -9,5 +9,6 @@ enum ObjectTypes{
 	OBJECT,      ///< Standard object (e.g., walls/obstacles)
 	PLATFORM,    ///< Platform object (can be jumped on)
 	PLAYER,      ///< Player character
-	COLLECTIBLE  ///< Collectible item (e.g., coin)
+	COLLECTIBLE, ///< Collectible item (e.g., coin)
+	SPIKE
 };

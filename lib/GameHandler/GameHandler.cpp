@@ -36,14 +36,19 @@ void GameHandler::update(){
 	for(Object* obj : objects){
 		obj->update();
 		if(checkCollision(player,obj)){
-			int side = resolveCollision(player, obj);
+			if(obj->getType() == SPIKE){
+				obj->changeColour(TFT_WHITE);
+			}else{
+				int side = resolveCollision(player, obj);
 			
-			if (side == 1) { // 1 means Player landed on top of an object (Floor)
-				player->touchedGround = true;
-				player->setVelocityY(0); // Stop falling
+				if (side == 1) { // 1 means Player landed on top of an object (Floor)
+					player->touchedGround = true;
+					player->setVelocityY(0); // Stop falling
+				}
 			}
 		}
 	}
+
 
 	for(Coin* obj : coins){
 		obj->update();

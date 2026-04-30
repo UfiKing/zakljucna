@@ -1,6 +1,5 @@
 #include <esp_adc/adc_oneshot.h>
-#ifndef JOYSTICK_H
-#define JOYSTICK_H
+#pragma once
 //PINS:
 //xValue = 34; channel 6
 //yValue = 27; channel 7
@@ -71,4 +70,3 @@ class Joystick{
 
 };
 
-#endif // !JOYSTICK_H
