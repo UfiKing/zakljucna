@@ -7,8 +7,9 @@
  * Inherits from Actor and adds color and drawing functionality.
  */
 class Object : public Actor{
-	int colour;                     ///< The color of the object
 	enum ObjectTypes type = OBJECT; ///< Type identification for collision handling
+protected:
+	int colour;                     ///< The color of the object
 public:
 
 	/**

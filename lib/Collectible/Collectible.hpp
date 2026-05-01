@@ -26,6 +26,7 @@ public:
 		this->width = 2 * radius;
 		this->height = 2 * radius;
 		this->radius = radius;
+		this->colour = TFT_GOLD;
 	}
 
 	/**
@@ -47,5 +48,7 @@ public:
 	 * @return int16_t The radius.
 	 */
 	int16_t getRadius();
+
+	int getColour();
 
 };

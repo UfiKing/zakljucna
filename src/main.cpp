@@ -21,16 +21,8 @@ extern "C" void app_main() {
 	Handler.init();
 	
 	// Populate the scene with static rectangular actors (platforms/obstacles)
-  Handler.addObject(new Object(-60,-10,10,120,TFT_LIGHTGRAY));
-  Handler.addObject(new Object(-60,100,150,10,TFT_LIGHTGRAY));
-  Handler.addObject(new Object(110,100,20,10,TFT_LIGHTGRAY));
-  Handler.addObject(new Object(150,100,20,10,TFT_LIGHTGRAY));
-  Handler.addObject(new Object(190,100,20,10,TFT_LIGHTGRAY));
-  Handler.addObject(new Object(230,100,80,10,TFT_LIGHTGRAY));
-	Handler.addObject(new Coin(10,85,5));
-	Handler.addObject(new Spike(-10,90,20,10));	
-	Handler.draw();
-	vTaskDelay(pdMS_TO_TICKS(500));
+	
+	Handler.loadLevel();
 	int startTime = 0;
 	int timePassed = 0;	
 	// Main Game Loop

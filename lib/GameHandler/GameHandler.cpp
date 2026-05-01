@@ -3,6 +3,27 @@
 #include <algorithm>
 #include <esp_log.h>
 
+void GameHandler::loadLevel(){
+	addObject(new Object(-60,-10,10,120,TFT_LIGHTGRAY));
+  addObject(new Object(-60,100,400,10,TFT_LIGHTGRAY));
+	addObject(new Coin(100,90,5));
+	addObject(new Spike(180,95,10,10));
+	//powerup bo na 260, 100
+
+}
+
+void GameHandler::clearLevel(){
+	score = 0;
+	for(Object* obj : objects){
+		if(obj == nullptr) continue;
+		removeObject(obj);
+	}
+	for(Coin* coin : coins){
+		if(coin == nullptr) continue;
+		removeObject(coin);
+	}
+}
+
 void GameHandler::draw(){
 	// Clear the off-screen canvas to prepare for the new frame
 	canvas->fillScreen(TFT_BLACK);
@@ -74,15 +95,19 @@ void GameHandler::updateDeath(){
 		player->resetVelocity();
 
 		currentScreen = GAME;
+		clearLevel();
+		loadLevel();
 		draw();
 		vTaskDelay(pdMS_TO_TICKS(500)); 
 	}
 }
 
 void GameHandler::drawGame(){
-
-
 	// Draw all active scene objects (platforms, walls)
+	canvas->setTextColor(TFT_GOLD);
+	canvas->setCursor(1,1);
+	canvas->print("Score: ");
+	canvas->print(score);
   for (Object* obj: objects){
 		if(obj == nullptr) continue;
     obj->draw(canvas, -player->getX() + 64, 0);
@@ -95,7 +120,6 @@ void GameHandler::drawGame(){
 
 	// Draw the player on top
 	player->draw(canvas);
-
 
 }
 
@@ -131,10 +155,8 @@ void GameHandler::updateGame(){
 	for(Coin* obj : coins){
 		obj->update();
 		if(checkCollision(player, obj)){
-			//removeObject(obj);	
-			obj->changeColour(TFT_BLUE);
-		}else{
-			obj->changeColour(TFT_GOLD);
+			removeObject(obj);
+			score++;
 		}
 	}
 

@@ -27,6 +27,7 @@ class GameHandler {
   LGFX_Lcd *lcd_ptr;           ///< Pointer to the physical LCD screen structure
   Joystick *joystick;          ///< Handles joystick and button inputs
   enum Screens currentScreen = START; ///< Tracks the current game screen/state for rendering and logic control
+  uint16_t score = 0;
 
 public:
   /**
@@ -62,6 +63,10 @@ public:
 		
 		delete player;
   }
+
+  void loadLevel();
+
+  void clearLevel();
 
   void draw();
 
