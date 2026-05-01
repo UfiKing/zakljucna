@@ -6,6 +6,81 @@
 void GameHandler::draw(){
 	// Clear the off-screen canvas to prepare for the new frame
 	canvas->fillScreen(TFT_BLACK);
+	switch(currentScreen){
+		case START:
+			drawStart();
+			break;
+		case GAME:
+			drawGame();
+			break;
+		case DEATH:
+			drawDeath();
+			break;
+	}
+
+	// Push the fully drawn canvas frame to the actual LCD display
+	canvas->pushSprite(0,0);
+
+}
+
+void GameHandler::update(){
+	switch (currentScreen){
+		case START:
+			updateStart();
+			break;
+		case GAME:
+			updateGame();
+			break;
+		case DEATH:
+			updateDeath();
+			break;
+	}
+
+}
+
+void GameHandler::drawStart(){
+	canvas->setTextColor(TFT_WHITE);
+	canvas->setTextSize(1);
+	canvas->setCursor(20, 30);
+	canvas->print("Press Joystick");
+	canvas->setCursor(20, 70);
+	canvas->print("to Start");	
+}
+
+void GameHandler::updateStart(){
+	if(joystick->readButton()){
+		currentScreen = GAME;
+		draw();
+		vTaskDelay(pdMS_TO_TICKS(500)); 
+	}
+}
+
+void GameHandler::drawDeath(){
+	canvas->setTextColor(TFT_WHITE);
+	canvas->setTextSize(1);
+	canvas->setCursor(20, 30);
+	canvas->print("You Died!");
+	canvas->setCursor(20, 70);
+	canvas->print("Press Joystick");
+	canvas->setCursor(20, 110);
+	canvas->print("to Restart");	
+}
+
+void GameHandler::updateDeath(){
+	if(joystick->readButton()){
+		// Reset player position and velocity
+		player->setX(20);
+		player->setY(20);
+		player->resetVelocity();
+
+		currentScreen = GAME;
+		draw();
+		vTaskDelay(pdMS_TO_TICKS(500)); 
+	}
+}
+
+void GameHandler::drawGame(){
+
 
 	// Draw all active scene objects (platforms, walls)
   for (Object* obj: objects){
@@ -21,14 +96,15 @@ void GameHandler::draw(){
 	// Draw the player on top
 	player->draw(canvas);
 
-	// Push the fully drawn canvas frame to the actual LCD display
-	canvas->pushSprite(0,0);
+
 }
 
-void GameHandler::update(){
+void GameHandler::updateGame(){
 	// Update player movements and physics state (This evaluates the jump using LAST frame's collision data)
 	player->update(joystick);
-
+	if(player->getY() > 130){
+		currentScreen = DEATH;
+	}
 	// Reset ground state BEFORE checking collisions for THIS frame
 	player->touchedGround = false;
 
@@ -38,6 +114,8 @@ void GameHandler::update(){
 		if(checkCollision(player,obj)){
 			if(obj->getType() == SPIKE){
 				obj->changeColour(TFT_WHITE);
+				currentScreen = DEATH;
+				break;
 			}else{
 				int side = resolveCollision(player, obj);
 			

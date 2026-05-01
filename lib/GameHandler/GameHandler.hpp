@@ -26,7 +26,7 @@ class GameHandler {
 	std::vector<Coin*> coins;		 ///< List of active coins in the world
   LGFX_Lcd *lcd_ptr;           ///< Pointer to the physical LCD screen structure
   Joystick *joystick;          ///< Handles joystick and button inputs
-
+  enum Screens currentScreen = START; ///< Tracks the current game screen/state for rendering and logic control
 
 public:
   /**
@@ -63,17 +63,30 @@ public:
 		delete player;
   }
 
+  void draw();
+
+  void update();
+
   /**
    * @brief Renders the entire scene (background, objects, player) onto the sprite,
    * and then pushes it to the display.
    */
-  void draw();
+  void drawGame();
 
   /**
    * @brief Advances the game state by updating player logic, object logic,
    * and running collision detection and resolution.
    */
-	void update();
+	void updateGame();
+
+  void drawStart();
+
+  void drawDeath();
+
+  void updateStart();
+
+  void updateDeath();
+
 
   /**
    * @brief Adds a new Actor object to the game scene.
