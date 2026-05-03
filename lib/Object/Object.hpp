@@ -8,7 +8,7 @@
 class Object : public Actor{
 	enum ObjectTypes type = OBJECT; ///< Type identification for collision handling
 protected:
-	int colour;                     ///< The color of the object
+	uint16_t colour;                     ///< The color of the object
 public:
 
 	/**
@@ -19,7 +19,7 @@ public:
 	 * @param height Object height.
 	 * @param colour Color of the object.
 	 */
-	Object(int16_t x, int16_t y, int16_t width, int16_t height, int16_t colour) : Actor(x,y,width,height){
+	Object(int16_t x, int16_t y, int16_t width, int16_t height, uint16_t colour) : Actor(x,y,width,height){
 		this->colour = colour;
 
 	}
@@ -41,12 +41,12 @@ public:
 	 * @brief Changes the color of the object.
 	 * @param newColour The new color to set.
 	 */
-	virtual void changeColour(int newColour);
+	virtual void changeColour(uint16_t newColour);
 
 	/**
 	 * @brief Gets the current color of the object.
-	 * @return int The color.
+	 * @return uint16_t The color.
 	 */
-	virtual int getColour();
+	virtual uint16_t getColour();
 
 };

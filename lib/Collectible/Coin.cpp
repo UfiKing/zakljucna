@@ -9,10 +9,6 @@ void Coin::draw(LGFX_Sprite *canvas, int offsetX, int offsetY){
 	canvas->fillCircle(position.x + offsetX, position.y + offsetY, radius, getColour());
 }
 
-int Coin::getColour(){
-	return colour;
-}
-
 int16_t Coin::getRadius(){
 	return radius;
 }

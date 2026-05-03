@@ -9,10 +9,10 @@ void Object::draw(LGFX_Sprite *canvas, int offsetX, int offsetY){
 	canvas->fillRect(position.x + offsetX, position.y + offsetY, width, height, colour);
 }
 
-void Object::changeColour(int newColour){
+void Object::changeColour(uint16_t newColour){
 	colour = newColour;
 }
 
-int Object::getColour(){
+uint16_t Object::getColour(){
 	return colour;
 }

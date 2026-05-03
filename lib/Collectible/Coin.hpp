@@ -47,6 +47,5 @@ public:
 	 */
 	int16_t getRadius();
 
-	int getColour();
 
 };
