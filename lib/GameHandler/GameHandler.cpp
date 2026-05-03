@@ -4,11 +4,30 @@
 #include <esp_log.h>
 
 void GameHandler::loadLevel(){
-	addObject(new Object(-60,-10,10,120,TFT_LIGHTGRAY));
-  addObject(new Object(-60,100,400,10,TFT_LIGHTGRAY));
-	addObject(new Coin(100,90,5));
-	addObject(new Spike(180,89,10,10));
-	//powerup bo na 260, 100
+	addObject(new Spike(130,100,10,4));
+	addObject(new Spike(150,100,10,4));
+	addObject(new Spike(170,100,10,4));
+	addObject(new Spike(190,100,10,4));
+	addObject(new Spike(210,100,10,4));
+	addObject(new Spike(230,100,10,10));
+	addObject(new Spike(240,100,10,10));
+	addObject(new Spike(250,100,10,10));
+	addObject(new Spike(270,100,10,4));
+
+  addObject(new Object(-60,0,10,100,TFT_LIGHTGRAY));
+  addObject(new Object(-60,100,680,10,TFT_LIGHTGRAY));
+  addObject(new Object(-10,0,620,10,TFT_LIGHTGRAY));
+  addObject(new Object(120,90,10,10,TFT_LIGHTGRAY));
+  addObject(new Object(140,80,10,20,TFT_LIGHTGRAY));
+  addObject(new Object(160,70,10,30,TFT_LIGHTGRAY));
+  addObject(new Object(180,60,10,40,TFT_LIGHTGRAY));
+  addObject(new Object(200,60,10,40,TFT_LIGHTGRAY));
+  addObject(new Object(220,70,10,30,TFT_LIGHTGRAY));
+  addObject(new Object(240,55,10,10,TFT_LIGHTGRAY));
+	addObject(new Coin(245,46,4));
+  addObject(new Object(260,70,10,30,TFT_LIGHTGRAY));
+  addObject(new Object(280,80,10,20,TFT_LIGHTGRAY));
+
 
 }
 
@@ -104,10 +123,7 @@ void GameHandler::updateDeath(){
 
 void GameHandler::drawGame(){
 	// Draw all active scene objects (platforms, walls)
-	canvas->setTextColor(TFT_GOLD);
-	canvas->setCursor(1,1);
-	canvas->print("Score: ");
-	canvas->print(score);
+
   for (Object* obj: objects){
 		if(obj == nullptr) continue;
     obj->draw(canvas, -player->getX() + 64, 0);
@@ -117,6 +133,11 @@ void GameHandler::drawGame(){
 		if(coin == nullptr) continue;
 		coin->draw(canvas, -player->getX() + 64, 0);
 	}
+	canvas->fillRect(0,0,60,15,TFT_BLACK);
+	canvas->setTextColor(TFT_GOLD);
+	canvas->setCursor(1,1);
+	canvas->print("Score: ");
+	canvas->print(score);
 
 	// Draw the player on top
 	player->draw(canvas);

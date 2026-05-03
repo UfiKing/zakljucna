@@ -49,7 +49,7 @@ public:
 
 		canvas = new LGFX_Sprite(lcd_ptr);
 		canvas->createSprite(lcd_ptr->width(), lcd_ptr->height());
-		player = new Player(20,20,10,10);
+		player = new Player(20,20,5,5);
 		joystick = new Joystick();
   }
 
