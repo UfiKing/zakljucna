@@ -1,4 +1,4 @@
-#include "Collectible.hpp"
+#include "Coin.hpp"
 
 void Coin::draw(LGFX_Sprite *canvas){
   // Draw the actor as a filled rectangle using its current position, dimensions, and color

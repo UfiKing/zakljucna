@@ -5,7 +5,7 @@
 #include "LCD.hpp"
 #include "joystick.hpp"
 #include "player.hpp"
-#include "Collectible.hpp"
+#include "Coin.hpp"
 #include "ObjectTypes.hpp"
 #include "Spikes.hpp"
 

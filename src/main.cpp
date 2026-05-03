@@ -8,9 +8,6 @@
 #include "Vektor.hpp"
 #include "LCD.hpp"
 #include "GameHandler.hpp"
-#include "Collectible.hpp"
-#include "Object.hpp"
-#include "Spikes.hpp"
 // Global instances of the Display and the Game Handler
 static LGFX_Lcd lcd;
 static GameHandler Handler(&lcd);
