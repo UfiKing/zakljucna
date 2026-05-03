@@ -7,7 +7,7 @@ void GameHandler::loadLevel(){
 	addObject(new Object(-60,-10,10,120,TFT_LIGHTGRAY));
   addObject(new Object(-60,100,400,10,TFT_LIGHTGRAY));
 	addObject(new Coin(100,90,5));
-	addObject(new Spike(180,95,10,10));
+	addObject(new Spike(180,89,10,10));
 	//powerup bo na 260, 100
 
 }

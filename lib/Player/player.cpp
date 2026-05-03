@@ -1,13 +1,6 @@
-#include <LovyanGFX.hpp>
-#include <cstdint>
 #include "player.hpp"
-#include <esp_adc/adc_oneshot.h>
-#include "Vektor.hpp"
-#include <esp_log.h>
-#include <cmath>
+
 //player class
-
-
 
 void Player::draw(LGFX_Sprite *canvas){
 	//canvas->drawRect(position.x, position.y, width, height, colour);

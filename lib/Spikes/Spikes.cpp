@@ -1,5 +1,4 @@
 #include "Spikes.hpp"
-#include <esp_log.h>
 
 void Spike::draw(LGFX_Sprite* canvas){
 	canvas->fillTriangle(getX(), getY(), getX() + (getWidth() / 2), getY() - getHeight(), getX() + getWidth(), getY(), getColour());

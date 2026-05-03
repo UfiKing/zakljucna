@@ -1,7 +1,5 @@
 #pragma once
 #include "Object.hpp"
-#include "Vektor.hpp"
-#include <LovyanGFX.hpp>
 
 /**
  * @brief Represents a collectible coin in the game.

@@ -1,7 +1,6 @@
 #pragma once
-#include "joystick.hpp"
-#include "Vektor.hpp"
 #include "Object.hpp"
+#include "joystick.hpp"
 
 /**
  * @brief Represents the player character in the game.

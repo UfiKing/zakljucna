@@ -1,6 +1,5 @@
 #pragma once
 #include "Actor.hpp"
-#include "ObjectTypes.hpp"
 
 /**
  * @brief Represents a static or dynamic object in the game.
