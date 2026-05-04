@@ -20,17 +20,17 @@ public:
       cfg.spi_host = SPI2_HOST;     
       cfg.spi_mode = 0;
       cfg.freq_write = 27000000;    
-      cfg.pin_sclk = 21;            
-      cfg.pin_mosi = 18;           
+      cfg.pin_sclk = 18;            
+      cfg.pin_mosi = 23;           
       cfg.pin_miso = -1;
-      cfg.pin_dc   = 22;            
+      cfg.pin_dc   = 26;            
       _bus_instance.config(cfg);
       _panel_instance.setBus(&_bus_instance);
     }
     {
       auto cfg = _panel_instance.config();
       cfg.pin_cs           = 5;     
-      cfg.pin_rst          = 23;    
+      cfg.pin_rst          = 13;    
       cfg.panel_width      = 128;
       cfg.panel_height     = 160;
       cfg.memory_width     = 128;
