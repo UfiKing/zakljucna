@@ -7,27 +7,25 @@ void Player::draw(LGFX_Sprite *canvas){
 	canvas->drawRect(64, position.y, width, height, getColour());
 }
 
-void Player::move(Joystick *joystick){
-  int x = joystick->readX();
+void Player::move(Controller* controller){
 
-	if(joystick->readButton() && touchedGround && !hasJumped){
+	if(controller->buttons->getUpButton() && touchedGround && !hasJumped){
 		velocity.y = -jumpConstant; // Use assignment to guarantee exact jump height
 		touchedGround = false;	
 		hasJumped = true;
-	}else if(!joystick->getButton() && hasJumped){
+	}else if(!controller->buttons->getUpButton() && hasJumped){
 		hasJumped = false;
 	}
 
-  if (x <= joystick->lowerResting){
+  if (controller->buttons->getLeftButton()){
     position.x -= speed;
-  }else if(joystick->upperResting < x){
+  }else if(controller->buttons->getRightButton()){
     position.x += speed;
   }
-  
 }
 
-void Player::update(Joystick *joystick){
-	move(joystick);
+void Player::update(Controller* controller){
+	move(controller);
 	applyGravity();
 }
 

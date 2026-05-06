@@ -3,11 +3,11 @@
 #include <vector> 
 #include "Actor.hpp"
 #include "LCD.hpp"
-#include "joystick.hpp"
 #include "player.hpp"
 #include "Coin.hpp"
 #include "ObjectTypes.hpp"
 #include "Spikes.hpp"
+#include "GameHandler.hpp"
 
 enum Screens {
 	START,
@@ -25,10 +25,9 @@ class GameHandler {
   std::vector<Object*> objects; ///< List of active game world objects (platforms, obstacles)
 	std::vector<Coin*> coins;		 ///< List of active coins in the world
   LGFX_Lcd *lcd_ptr;           ///< Pointer to the physical LCD screen structure
-  Joystick *joystick;          ///< Handles joystick and button inputs
   enum Screens currentScreen = START; ///< Tracks the current game screen/state for rendering and logic control
   uint16_t score = 0;
-
+	Controller* controller;
 public:
   /**
    * @brief Construct a new GameHandler object.
@@ -46,11 +45,11 @@ public:
   void init() {
 		lcd_ptr->setRotation(3);
 		lcd_ptr->init();
-
+		
 		canvas = new LGFX_Sprite(lcd_ptr);
 		canvas->createSprite(lcd_ptr->width(), lcd_ptr->height());
 		player = new Player(20,20,5,5);
-		joystick = new Joystick();
+		controller = new Controller(&buttons);
   }
 
   /**
@@ -156,4 +155,5 @@ public:
    * @return int The side of obj2 that obj1 collided with: 1=Top, 2=Bottom, 3=Left, 4=Right.
    */
 	int8_t resolveCollision(Actor* obj1, Coin* obj2);
+
 };

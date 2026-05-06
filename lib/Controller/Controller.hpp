@@ -76,8 +76,7 @@ public:
 //falling edge = 1
 static void IRAM_ATTR button_isr_handler1(void *arg){
   int level = gpio_get_level((gpio_num_t)BUTTON1_PIN);
-	ESP_EARLY_LOGI("TAG", "button1");
-	if(level == 1){
+	if(level == 0){
 		buttons.upButtonOn();
 	}else{
 		buttons.upButtonOff();
@@ -87,8 +86,7 @@ static void IRAM_ATTR button_isr_handler1(void *arg){
 
 static void IRAM_ATTR button_isr_handler2(void *arg){
   int level = gpio_get_level((gpio_num_t)BUTTON2_PIN);
-	ESP_EARLY_LOGI("TAG", "button2");
-	if(level == 1){
+	if(level == 0){
 		buttons.rightButtonOn();
 	}else{
 		buttons.rightButtonOff();
@@ -99,8 +97,7 @@ static void IRAM_ATTR button_isr_handler2(void *arg){
 
 static void IRAM_ATTR button_isr_handler3(void *arg){
   int level = gpio_get_level((gpio_num_t)BUTTON3_PIN);
-	ESP_EARLY_LOGI("TAG", "button3");	
-	if(level == 1){
+	if(level == 0){
 		buttons.leftButtonOn();
 	}else{
 		buttons.leftButtonOff();
@@ -111,8 +108,7 @@ static void IRAM_ATTR button_isr_handler3(void *arg){
 
 static void IRAM_ATTR button_isr_handler4(void *arg){
   int level = gpio_get_level((gpio_num_t)BUTTON4_PIN);
-	ESP_EARLY_LOGI("TAG", "button4");
-	if(level == 1){
+	if(level == 0){
 		buttons.downButtonOn();
 	}else{
 		buttons.downButtonOff();
@@ -122,10 +118,8 @@ static void IRAM_ATTR button_isr_handler4(void *arg){
 
 
 class Controller{
-
-	GamepadButtons* buttons;	
-
 public: 
+	GamepadButtons* buttons;	
   Controller(GamepadButtons* buttons){
 		this->buttons = buttons;
     const gpio_config_t button1Config = gpio_config_t{
@@ -172,7 +166,9 @@ public:
     gpio_isr_handler_add((gpio_num_t)BUTTON4_PIN, button_isr_handler4, NULL);
   }
   
-
+	bool getAnyButton(){
+		return buttons->getDownButton() || buttons->getLeftButton() || buttons->getRightButton() || buttons->getUpButton();
+	}
 
 
 };

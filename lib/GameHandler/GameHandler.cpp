@@ -82,13 +82,13 @@ void GameHandler::drawStart(){
 	canvas->setTextColor(TFT_WHITE);
 	canvas->setTextSize(1);
 	canvas->setCursor(20, 30);
-	canvas->print("Press Joystick");
+	canvas->print("Press Any Button");
 	canvas->setCursor(20, 70);
 	canvas->print("to Start");	
 }
 
 void GameHandler::updateStart(){
-	if(joystick->readButton()){
+	if(controller->getAnyButton()){
 		currentScreen = GAME;
 		draw();
 		vTaskDelay(pdMS_TO_TICKS(500)); 
@@ -101,13 +101,13 @@ void GameHandler::drawDeath(){
 	canvas->setCursor(20, 30);
 	canvas->print("You Died!");
 	canvas->setCursor(20, 70);
-	canvas->print("Press Joystick");
+	canvas->print("Press Any Button");
 	canvas->setCursor(20, 110);
 	canvas->print("to Restart");	
 }
 
 void GameHandler::updateDeath(){
-	if(joystick->readButton()){
+	if(controller->getAnyButton()){
 		// Reset player position and velocity
 		player->setX(20);
 		player->setY(20);
@@ -146,7 +146,7 @@ void GameHandler::drawGame(){
 
 void GameHandler::updateGame(){
 	// Update player movements and physics state (This evaluates the jump using LAST frame's collision data)
-	player->update(joystick);
+	player->update(controller);
 	if(player->getY() > 130){
 		currentScreen = DEATH;
 	}

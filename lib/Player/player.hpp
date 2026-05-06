@@ -1,6 +1,6 @@
 #pragma once
 #include "Object.hpp"
-#include "joystick.hpp"
+#include "Controller.hpp"
 
 /**
  * @brief Represents the player character in the game.
@@ -33,24 +33,18 @@ public:
    * @brief Draws the player onto the provided canvas.
    * @param canvas Pointer to the LovyanGFX sprite to draw on.
    */
-	void draw(LGFX_Sprite *canvas);
+	void draw(LGFX_Sprite* canvas);
 
-  /**
-   * @brief Main update loop for the player. Applies physics and handles inputs.
-   * @param joystick Pointer to the joystick to read inputs from.
-   */
-	void update(Joystick *joystick);	
+
+	void update(Controller* controller);	
 
   /**
    * @brief Applies gravitational force and limits the velocity to maxSpeed.
    */
   void applyGravity();
 
-  /**
-   * @brief Updates the player's horizontal position based on joystick input.
-   * @param joystick Pointer to the joystick reading horizontal inputs.
-   */
-	void move(Joystick *joystick);
+
+	void move(Controller* controller);
 
   /** @brief Gets the current velocity vector. */
   Vektor<int16_t> getVelocity() const;
