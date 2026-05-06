@@ -8,3 +8,4 @@ build/
 sdkconfig
 zakljucna.code-workspace
 GEMINI.md
+countLines.py
