@@ -15,6 +15,7 @@ static void IRAM_ATTR button_isr_handler1(void *arg){
   int level = gpio_get_level((gpio_num_t)BUTTON1_PIN);
   if(level == 0){
     ESP_EARLY_LOGI("TAG", "pressdown");
+
   }else{
     ESP_EARLY_LOGI("TAG", "release");
   }
@@ -33,8 +34,7 @@ static void IRAM_ATTR button_isr_handler4(void *arg){
 }
 
 
-
-class Controller{
+static class Controller{
 
 public: 
   Controller(){
@@ -84,4 +84,4 @@ public:
   
 
 
-};
+} controller;
