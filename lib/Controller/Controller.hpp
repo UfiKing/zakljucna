@@ -7,37 +7,127 @@
 #define BUTTON3_PIN 21 
 #define BUTTON4_PIN 22
 #define ESP_INTR_FLAG_DEFAULT 0
+/*
+BUTTON1 = up
+BUTTON2 = right
+BUTTON3 = left
+BUTTON4 = down
+*/
 
+static class GamepadButtons{
+	bool upButton = false;
+	bool downButton = false;
+	bool leftButton = false;
+	bool rightButton = false;
+
+public:
+	GamepadButtons(){}
+
+	void upButtonOn(){
+		upButton = true;
+	}
+	
+	void upButtonOff(){
+		upButton = false;
+	}
+
+	bool getUpButton(){
+		return upButton;
+	}
+
+	void downButtonOn(){
+		downButton = true;
+	}
+	
+	void downButtonOff(){
+		downButton = false;
+	}
+
+	bool getDownButton(){
+		return downButton;
+	}
+	
+	void leftButtonOn(){
+		leftButton = true;
+	}
+	
+	void leftButtonOff(){
+		leftButton = false;
+	}
+
+	bool getLeftButton(){
+		return leftButton;
+	}
+
+	void rightButtonOn(){
+		rightButton = true;
+	}
+	
+	void rightButtonOff(){
+		rightButton = false;
+	}
+
+	bool getRightButton(){
+		return rightButton;
+	}
+}buttons;
 
 //rising edge = 0
 //falling edge = 1
 static void IRAM_ATTR button_isr_handler1(void *arg){
   int level = gpio_get_level((gpio_num_t)BUTTON1_PIN);
-  if(level == 0){
-    ESP_EARLY_LOGI("TAG", "pressdown");
+	ESP_EARLY_LOGI("TAG", "button1");
+	if(level == 1){
+		buttons.upButtonOn();
+	}else{
+		buttons.upButtonOff();
+	}
 
-  }else{
-    ESP_EARLY_LOGI("TAG", "release");
-  }
 }
 
 static void IRAM_ATTR button_isr_handler2(void *arg){
   int level = gpio_get_level((gpio_num_t)BUTTON2_PIN);
+	ESP_EARLY_LOGI("TAG", "button2");
+	if(level == 1){
+		buttons.rightButtonOn();
+	}else{
+		buttons.rightButtonOff();
+	}
+
+
 }
 
 static void IRAM_ATTR button_isr_handler3(void *arg){
   int level = gpio_get_level((gpio_num_t)BUTTON3_PIN);
+	ESP_EARLY_LOGI("TAG", "button3");	
+	if(level == 1){
+		buttons.leftButtonOn();
+	}else{
+		buttons.leftButtonOff();
+	}
+
+
 }
 
 static void IRAM_ATTR button_isr_handler4(void *arg){
   int level = gpio_get_level((gpio_num_t)BUTTON4_PIN);
+	ESP_EARLY_LOGI("TAG", "button4");
+	if(level == 1){
+		buttons.downButtonOn();
+	}else{
+		buttons.downButtonOff();
+	}
 }
 
 
-static class Controller{
+
+class Controller{
+
+	GamepadButtons* buttons;	
 
 public: 
-  Controller(){
+  Controller(GamepadButtons* buttons){
+		this->buttons = buttons;
     const gpio_config_t button1Config = gpio_config_t{
       .pin_bit_mask = 1ULL << BUTTON1_PIN,
       .mode = GPIO_MODE_INPUT,
@@ -84,4 +174,5 @@ public:
   
 
 
-} controller;
+
+};

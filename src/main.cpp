@@ -18,7 +18,7 @@ static GameHandler Handler(&lcd);
 extern "C" void app_main() {
 	// Initialize the LCD display, Canvas, Player, and Joystick
 	//Handler.init();
-	Controller controller = Controller();
+	Controller controller = Controller(&buttons);
 	// Populate the scene with static rectangular actors (platforms/obstacles)
 	
 	Handler.loadLevel();
