@@ -8,6 +8,9 @@
 void GameHandler::loadLevel(){
 	checkpointX = 300;
 	checkpointY = 20;
+
+	addObject(new Platform(-20,90,10,10,GRAYBRICKS));
+
 	for(int i = 0; i < 5; i++){
 		addObject(new Spike(130 + i * 20,100,10,4));
 	}
@@ -25,30 +28,28 @@ void GameHandler::loadLevel(){
 	addObject(new Coin(245,46,4));
 	addObject(new Coin(390,25,4));
 
-  addObject(new Object(-60,0,10,100,TFT_LIGHTGRAY));
-  addObject(new Object(-60,100,680,10,TFT_LIGHTGRAY));
-  addObject(new Object(-10,0,620,10,TFT_LIGHTGRAY));
-  addObject(new Object(120,90,10,10,TFT_LIGHTGRAY));
-  addObject(new Object(140,80,10,20,TFT_LIGHTGRAY));
-  addObject(new Object(160,70,10,30,TFT_LIGHTGRAY));
-  addObject(new Object(180,60,10,40,TFT_LIGHTGRAY));
-  addObject(new Object(200,60,10,40,TFT_LIGHTGRAY));
-  addObject(new Object(220,70,10,30,TFT_LIGHTGRAY));
-  addObject(new Object(240,55,10,10,TFT_LIGHTGRAY));
-  addObject(new Object(260,70,10,30,TFT_LIGHTGRAY));
-  addObject(new Object(280,80,10,20,TFT_LIGHTGRAY));
-  addObject(new Object(340,80,5,10,TFT_LIGHTGRAY));
-  addObject(new Object(340,60,5,10,TFT_LIGHTGRAY));
-  addObject(new Object(340,40,5,10,TFT_LIGHTGRAY));
-  addObject(new Object(345,40,20,50,TFT_LIGHTGRAY));
-  addObject(new Object(365,60,50,30,TFT_LIGHTGRAY));
-  addObject(new Object(415,40,20,50,TFT_LIGHTGRAY));
-  addObject(new Object(385,30,10,10,TFT_LIGHTGRAY));
-  addObject(new Object(435,80,5,10,TFT_LIGHTGRAY));
-  addObject(new Object(435,60,5,10,TFT_LIGHTGRAY));
-  addObject(new Object(435,40,5,10,TFT_LIGHTGRAY));
-
-
+  addObject(new Platform(-60,0,10,100,GRAYBRICKS));
+  addObject(new Platform(-60,100,680,10,GRAYBRICKS));
+  addObject(new Platform(-10,0,620,10,GRAYBRICKS));
+  addObject(new Platform(120,90,10,10,GRAYBRICKS));
+  addObject(new Platform(140,80,10,20,GRAYBRICKS));
+  addObject(new Platform(160,70,10,30,GRAYBRICKS));
+  addObject(new Platform(180,60,10,40,GRAYBRICKS));
+  addObject(new Platform(200,60,10,40,GRAYBRICKS));
+  addObject(new Platform(220,70,10,30,GRAYBRICKS));
+  addObject(new Platform(240,55,10,10,GRAYBRICKS));
+  addObject(new Platform(260,70,10,30,GRAYBRICKS));
+  addObject(new Platform(280,80,10,20,GRAYBRICKS));
+  addObject(new Platform(340,80,5,10,GRAYBRICKS));
+  addObject(new Platform(340,60,5,10,GRAYBRICKS));
+  addObject(new Platform(340,40,5,10,GRAYBRICKS));
+  addObject(new Platform(345,40,20,50,GRAYBRICKS));
+  addObject(new Platform(365,60,50,30,GRAYBRICKS));
+  addObject(new Platform(415,40,20,50,GRAYBRICKS));
+  addObject(new Platform(385,30,10,10,GRAYBRICKS));
+  addObject(new Platform(435,80,5,10,GRAYBRICKS));
+  addObject(new Platform(435,60,5,10,GRAYBRICKS));
+  addObject(new Platform(435,40,5,10,GRAYBRICKS));
 }
 
 void GameHandler::clearLevel(){

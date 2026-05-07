@@ -26,10 +26,8 @@ public:
    * @brief Construct a new Player object.
    * @param x Initial X coordinate.
    * @param y Initial Y coordinate.
-   * @param width Player width.
-   * @param height Player height.
    */
-  Player(int16_t x, int16_t y) : Object(x, y, defaultSize, defaultSize, TFT_PINK){
+  Player(int16_t x, int16_t y) : Object(x, y, 5, 5, TFT_PINK){
 
   }
 
