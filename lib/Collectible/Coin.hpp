@@ -11,6 +11,7 @@ class Coin : public Object{
 	int16_t height;                      ///< Height of the coin's bounding box
 	Vektor<int16_t> position;            ///< 2D vector storing the X and Y coordinates
 	enum ObjectTypes type = COLLECTIBLE; ///< Type identification for collision handling
+	int accentColour = TFT_YELLOW;
 public:
 
 	/**
