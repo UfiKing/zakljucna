@@ -28,7 +28,6 @@ void GameHandler::loadLevel(){
   addObject(new Object(-60,0,10,100,TFT_LIGHTGRAY));
   addObject(new Object(-60,100,680,10,TFT_LIGHTGRAY));
   addObject(new Object(-10,0,620,10,TFT_LIGHTGRAY));
-  addObject(new Object(60,75,50,5,TFT_BROWN));
   addObject(new Object(120,90,10,10,TFT_LIGHTGRAY));
   addObject(new Object(140,80,10,20,TFT_LIGHTGRAY));
   addObject(new Object(160,70,10,30,TFT_LIGHTGRAY));

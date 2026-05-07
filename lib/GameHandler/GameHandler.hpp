@@ -55,7 +55,7 @@ public:
 		
 		canvas = new LGFX_Sprite(lcd_ptr);
 		canvas->createSprite(lcd_ptr->width(), lcd_ptr->height());
-		player = new Player(300,20,5,5);
+		player = new Player(300,20);
 		controller = new Controller(&buttons);
   }
 

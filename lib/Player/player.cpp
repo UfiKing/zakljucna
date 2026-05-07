@@ -49,3 +49,30 @@ void Player::setVelocityY(int16_t v){
 }
 
 Vektor<int16_t> Player::getVelocity() const { return velocity; }
+
+void Player::resize(uint8_t size){
+	width = size;	
+	height = size;
+}
+
+void Player::resetSize(){
+	width = defaultSize;
+	height = defaultSize;	
+}
+
+void Player::changeSpeed(int16_t speed){
+	this->speed = speed;
+}
+
+void Player::resetSpeed(){
+	this->speed = this->defaultSpeed;
+}
+
+void Player::changeJump(int16_t jump){
+	this->jumpConstant = jump;
+}
+
+void Player::resetJump(){
+	this->jumpConstant = this->defaultJump;
+}
+
