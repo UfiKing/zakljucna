@@ -6,7 +6,7 @@
 
 
 void GameHandler::loadLevel(){
-	checkpointX = 300;
+	checkpointX = -40;
 	checkpointY = 20;
 
 	addObject(new Platform(-20,90,10,10,GRAYBRICKS));
@@ -28,9 +28,9 @@ void GameHandler::loadLevel(){
 	addObject(new Coin(245,46,4));
 	addObject(new Coin(390,25,4));
 
-  addObject(new Platform(-60,0,10,100,GRAYBRICKS));
-  addObject(new Platform(-60,100,680,10,GRAYBRICKS));
-  addObject(new Platform(-10,0,620,10,GRAYBRICKS));
+  addObject(new Object(-60,0,10,100,TFT_DARKGRAY));
+  addObject(new Object(-60,100,680,10,TFT_DARKGRAY));
+  addObject(new Object(-10,0,620,10,TFT_DARKGRAY));
   addObject(new Platform(120,90,10,10,GRAYBRICKS));
   addObject(new Platform(140,80,10,20,GRAYBRICKS));
   addObject(new Platform(160,70,10,30,GRAYBRICKS));
@@ -193,6 +193,10 @@ void GameHandler::drawGame(){
 
   for (Object* obj: objects){
 		if(obj == nullptr) continue;
+		/*if(obj->getX() - player->getX() + 64 > 128 || obj->getX() - player->getX() + 64 < 0) {
+
+			continue;	
+		}*/
     obj->draw(canvas, -player->getX() + 64, 0);
   }
 
