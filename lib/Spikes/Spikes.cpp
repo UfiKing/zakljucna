@@ -1,11 +1,11 @@
 #include "Spikes.hpp"
 
 void Spike::draw(LGFX_Sprite* canvas){
-	canvas->fillTriangle(getX(), getY(), getX() + (getWidth() / 2), getY() - getHeight(), getX() + getWidth(), getY(), getColour());
+	canvas->fillTriangle(position.x, position.y, position.x + (width / 2), position.y - height, position.x + width, position.y, getColour());
 }
 
-void Spike::draw(LGFX_Sprite* canvas, int offsetX, int offsetY){
-	canvas->fillTriangle(getX()+ offsetX, getY() + offsetY, getX() + (getWidth() / 2)+ offsetX, getY() - getHeight() + offsetY, getX() + getWidth()+ offsetX, getY() + offsetY, getColour());
+void Spike::draw(LGFX_Sprite* canvas, int offX, int offY){
+	canvas->fillTriangle(position.x + offX, position.y + offY, position.x + (width / 2) + offX, position.y - height + offY, position.x + width + offX, position.y + offY, getColour());
 }
 
 enum ObjectTypes Spike::getType(){

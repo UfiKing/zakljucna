@@ -28,6 +28,8 @@ void GameHandler::loadLevel(){
 	addObject(new Coin(245,46,4));
 	addObject(new Coin(390,25,4));
 
+	addObject(new MovingSpike(290, 100, 480, 100, 10,10,1));
+
   addObject(new Object(-60,0,10,100,TFT_DARKGRAY));
   addObject(new Object(-60,100,680,10,TFT_DARKGRAY));
   addObject(new Object(-10,0,620,10,TFT_DARKGRAY));
@@ -50,6 +52,9 @@ void GameHandler::loadLevel(){
   addObject(new Platform(435,80,5,10,GRAYBRICKS));
   addObject(new Platform(435,60,5,10,GRAYBRICKS));
   addObject(new Platform(435,40,5,10,GRAYBRICKS));
+  addObject(new Platform(490,80,10,20,GRAYBRICKS));
+
+	
 }
 
 void GameHandler::clearLevel(){

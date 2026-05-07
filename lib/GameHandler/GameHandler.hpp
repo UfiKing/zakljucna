@@ -9,6 +9,7 @@
 #include "Spikes.hpp"
 #include "GameHandler.hpp"
 #include "Platform.hpp"
+#include "MovingSpikes.hpp"
 
 enum Screens {
 	START,
