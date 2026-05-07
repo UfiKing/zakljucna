@@ -30,13 +30,13 @@ void Player::update(Controller* controller){
 }
 
 void Player::applyGravity(){
-	position += velocity;
-
   velocity.y += gravityConstant; // Apply gravity
   // Cap falling speed to maxSpeed
   if (velocity.y > maxSpeed) {
     velocity.y = maxSpeed;
   }
+
+	position += velocity;
 }
 
 void Player::resetVelocity(){
@@ -49,4 +49,3 @@ void Player::setVelocityY(int16_t v){
 }
 
 Vektor<int16_t> Player::getVelocity() const { return velocity; }
-

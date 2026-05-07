@@ -162,28 +162,63 @@ void GameHandler::drawGame(){
 }
 
 void GameHandler::updateGame(){
-	// Update player movements and physics state (This evaluates the jump using LAST frame's collision data)
-	player->update(controller);
+
+	for(Object* obj : objects){
+		if(obj != nullptr) obj->update();
+	}
+
+
+	// 1. Move player purely on the X axis
+	player->move(controller);
+
+	// Check X axis collisions
+	for(Object* obj : objects){
+		if(obj == nullptr) continue;
+		if(checkCollision(player,obj)){
+			if(obj->getType() == SPIKE){
+				currentScreen = DEATH;
+				return;
+			}else{
+				int16_t overlapLeft = player->getRight() - obj->getLeft();
+				int16_t overlapRight = obj->getRight() - player->getLeft();
+			
+				if (overlapLeft < overlapRight) {
+					player->setRight(obj->getLeft());
+				} else {
+					player->setLeft(obj->getRight());
+				}
+			}
+		}
+	}
+
+	player->applyGravity();
+	
 	if(player->getY() > 130){
 		currentScreen = DEATH;
+		return;
 	}
-	// Reset ground state BEFORE checking collisions for THIS frame
+
 	player->touchedGround = false;
 
 	// Update scene objects and check for collisions
 	for(Object* obj : objects){
-		obj->update();
+		if(obj == nullptr) continue;
 		if(checkCollision(player,obj)){
 			if(obj->getType() == SPIKE){
 				obj->changeColour(TFT_WHITE);
 				currentScreen = DEATH;
-				break;
+				return;
 			}else{
-				int side = resolveCollision(player, obj);
+				int16_t overlapTop = player->getBottom() - obj->getTop();
+				int16_t overlapBottom = obj->getBottom() - player->getTop();
 			
-				if (side == 1) { // 1 means Player landed on top of an object (Floor)
+				if (overlapTop < overlapBottom) {
+					player->setBottom(obj->getTop());
 					player->touchedGround = true;
 					player->setVelocityY(0); // Stop falling
+				} else {
+					player->setTop(obj->getBottom());
+					player->setVelocityY(0); // Hit ceiling, stop rising
 				}
 			}
 		}
@@ -241,20 +276,20 @@ void GameHandler::removeObject(Coin* obj){
 bool GameHandler::checkCollision(Actor* obj1, Actor* obj2){
 	// Standard Axis-Aligned Bounding Box (AABB) Collision Detection
 	// Checks if any gap exists between the objects on any axis. If no gap exists, they are colliding.
-	bool test1 = obj1->getLeft() > obj2->getRight();
-	bool test2 = obj1->getRight() < obj2->getLeft();
-	bool test3 = obj1->getBottom() < obj2->getTop();
-	bool test4 = obj1->getTop() > obj2->getBottom(); 
+	bool test1 = obj1->getLeft() >= obj2->getRight();
+	bool test2 = obj1->getRight() <= obj2->getLeft();
+	bool test3 = obj1->getBottom() <= obj2->getTop();
+	bool test4 = obj1->getTop() >= obj2->getBottom(); 
 	return !(test1 || test2 || test3 || test4);
 }
 
 bool GameHandler::checkCollision(Actor* obj1, Coin* obj2){
 	// Standard Axis-Aligned Bounding Box (AABB) Collision Detection
 	// Checks if any gap exists between the objects on any axis. If no gap exists, they are colliding.
-	bool test1 = obj1->getLeft() > obj2->getRight() - obj2->getRadius();
-	bool test2 = obj1->getRight() < obj2->getLeft() - obj2->getRadius();
-	bool test3 = obj1->getBottom() < obj2->getTop() - obj2->getRadius();
-	bool test4 = obj1->getTop() > obj2->getBottom() - obj2->getRadius(); 
+	bool test1 = obj1->getLeft() >= obj2->getRight() - obj2->getRadius();
+	bool test2 = obj1->getRight() <= obj2->getLeft() - obj2->getRadius();
+	bool test3 = obj1->getBottom() <= obj2->getTop() - obj2->getRadius();
+	bool test4 = obj1->getTop() >= obj2->getBottom() - obj2->getRadius(); 
 	return !(test1 || test2 || test3 || test4);
 }
 
