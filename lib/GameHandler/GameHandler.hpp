@@ -12,7 +12,8 @@
 enum Screens {
 	START,
 	GAME,
-	DEATH
+	DEATH,
+	GAMEOVER
 };
 
 /*
@@ -27,7 +28,13 @@ class GameHandler {
   LGFX_Lcd *lcd_ptr;           ///< Pointer to the physical LCD screen structure
   enum Screens currentScreen = START; ///< Tracks the current game screen/state for rendering and logic control
   uint16_t score = 0;
+	const int8_t maxLives = 5;
+	int8_t life = maxLives;
+	int16_t checkpointX;
+	int16_t checkpointY;
 	Controller* controller;
+	const int16_t startingPosX = -40;
+	const int16_t startingPosY = 20;
 public:
   /**
    * @brief Construct a new GameHandler object.
@@ -63,6 +70,8 @@ public:
 		delete player;
   }
 
+	void drawHeart(int16_t x, int16_t y);
+
   void loadLevel();
 
   void clearLevel();
@@ -87,9 +96,13 @@ public:
 
   void drawDeath();
 
+	void drawGameOver();
+
   void updateStart();
 
   void updateDeath();
+
+	void updateGameOver();	
 
 
   /**

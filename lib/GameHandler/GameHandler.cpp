@@ -3,7 +3,11 @@
 #include <algorithm>
 #include <esp_log.h>
 
+
+
 void GameHandler::loadLevel(){
+	checkpointX = 300;
+	checkpointY = 20;
 	for(int i = 0; i < 5; i++){
 		addObject(new Spike(130 + i * 20,100,10,4));
 	}
@@ -19,7 +23,7 @@ void GameHandler::loadLevel(){
 	}
 
 	addObject(new Coin(245,46,4));
-
+	addObject(new Coin(390,25,4));
 
   addObject(new Object(-60,0,10,100,TFT_LIGHTGRAY));
   addObject(new Object(-60,100,680,10,TFT_LIGHTGRAY));
@@ -34,30 +38,30 @@ void GameHandler::loadLevel(){
   addObject(new Object(240,55,10,10,TFT_LIGHTGRAY));
   addObject(new Object(260,70,10,30,TFT_LIGHTGRAY));
   addObject(new Object(280,80,10,20,TFT_LIGHTGRAY));
-  addObject(new Object(338,80,7,10,TFT_LIGHTGRAY));
+  addObject(new Object(340,80,5,10,TFT_LIGHTGRAY));
   addObject(new Object(340,60,5,10,TFT_LIGHTGRAY));
-  addObject(new Object(338,40,7,10,TFT_LIGHTGRAY));
+  addObject(new Object(340,40,5,10,TFT_LIGHTGRAY));
   addObject(new Object(345,40,20,50,TFT_LIGHTGRAY));
   addObject(new Object(365,60,50,30,TFT_LIGHTGRAY));
   addObject(new Object(415,40,20,50,TFT_LIGHTGRAY));
   addObject(new Object(385,30,10,10,TFT_LIGHTGRAY));
-  addObject(new Object(435,80,7,10,TFT_LIGHTGRAY));
+  addObject(new Object(435,80,5,10,TFT_LIGHTGRAY));
   addObject(new Object(435,60,5,10,TFT_LIGHTGRAY));
-  addObject(new Object(435,40,7,10,TFT_LIGHTGRAY));
+  addObject(new Object(435,40,5,10,TFT_LIGHTGRAY));
 
 
 }
 
 void GameHandler::clearLevel(){
 	score = 0;
-	for(Object* obj : objects){
-		if(obj == nullptr) continue;
-		removeObject(obj);
+	for(int i = 0; i < objects.size(); i++){
+		if(objects[i] != nullptr) delete objects[i];	
 	}
-	for(Coin* coin : coins){
-		if(coin == nullptr) continue;
-		removeObject(coin);
+	objects.clear();
+	for(int i = 0; i < coins.size(); i++){
+		if(coins[i] != nullptr) delete coins[i];
 	}
+	coins.clear();
 }
 
 void GameHandler::draw(){
@@ -72,6 +76,9 @@ void GameHandler::draw(){
 			break;
 		case DEATH:
 			drawDeath();
+			break;
+		case GAMEOVER:
+			drawGameOver();
 			break;
 	}
 
@@ -91,8 +98,40 @@ void GameHandler::update(){
 		case DEATH:
 			updateDeath();
 			break;
+		case GAMEOVER:
+			updateGameOver();
+			break;
 	}
 
+}
+
+void GameHandler::updateGameOver(){
+	if(controller->getAnyButton()){
+		// Reset player position and velocity
+		player->setX(startingPosX);
+		player->setY(startingPosY);
+		player->resetVelocity();
+
+		currentScreen = GAME;
+
+		life = maxLives;
+		clearLevel();
+		loadLevel();
+		draw();
+		vTaskDelay(pdMS_TO_TICKS(500)); 
+	}
+}
+
+void GameHandler::drawGameOver(){
+	canvas->setTextColor(TFT_WHITE);
+	canvas->setTextSize(2);
+	canvas->setCursor(25, 15);
+	canvas->print("Game Over!");
+	canvas->setTextSize(1);
+	canvas->setCursor(30, 50);
+	canvas->print("Press Any Button");
+	canvas->setCursor(30, 70);
+	canvas->print("To Restart");
 }
 
 void GameHandler::drawStart(){
@@ -114,25 +153,36 @@ void GameHandler::updateStart(){
 
 void GameHandler::drawDeath(){
 	canvas->setTextColor(TFT_WHITE);
-	canvas->setTextSize(1);
-	canvas->setCursor(20, 30);
+	canvas->setTextSize(2);
+	canvas->setCursor(25, 15);
 	canvas->print("You Died!");
-	canvas->setCursor(20, 70);
+	canvas->setTextSize(1);
+	canvas->setCursor(30, 50);
 	canvas->print("Press Any Button");
-	canvas->setCursor(20, 110);
-	canvas->print("to Restart");	
+	canvas->setCursor(30, 70);
+	canvas->print("To Respawn");
+	canvas->setCursor(30, 90);
+	canvas->print("At Last Checkpoint");
+	canvas->setCursor(30,110);
+	canvas->print("Remaining Lives: ");
+	canvas->print(life);
+
 }
 
 void GameHandler::updateDeath(){
+	if(life == 0){
+		currentScreen = GAMEOVER;
+		return;
+	}
 	if(controller->getAnyButton()){
 		// Reset player position and velocity
-		player->setX(20);
-		player->setY(20);
+		player->setX(checkpointX);
+		player->setY(checkpointY);
 		player->resetVelocity();
 
 		currentScreen = GAME;
-		clearLevel();
-		loadLevel();
+		//clearLevel();
+		//loadLevel();
 		draw();
 		vTaskDelay(pdMS_TO_TICKS(500)); 
 	}
@@ -156,6 +206,9 @@ void GameHandler::drawGame(){
 	canvas->print("Score: ");
 	canvas->print(score);
 
+	for(int i = 0; i < life; i++){
+		drawHeart(1 + i*10,10);
+	}
 	// Draw the player on top
 	player->draw(canvas);
 
@@ -177,6 +230,7 @@ void GameHandler::updateGame(){
 		if(checkCollision(player,obj)){
 			if(obj->getType() == SPIKE){
 				currentScreen = DEATH;
+				life--;
 				return;
 			}else{
 				int16_t overlapLeft = player->getRight() - obj->getLeft();
@@ -195,6 +249,7 @@ void GameHandler::updateGame(){
 	
 	if(player->getY() > 130){
 		currentScreen = DEATH;
+		life--;
 		return;
 	}
 
@@ -205,8 +260,8 @@ void GameHandler::updateGame(){
 		if(obj == nullptr) continue;
 		if(checkCollision(player,obj)){
 			if(obj->getType() == SPIKE){
-				obj->changeColour(TFT_WHITE);
 				currentScreen = DEATH;
+				life--;
 				return;
 			}else{
 				int16_t overlapTop = player->getBottom() - obj->getTop();
@@ -235,17 +290,32 @@ void GameHandler::updateGame(){
 
 }
 
+
+void GameHandler::drawHeart(int16_t x, int16_t y){
+	canvas->fillRect(x+1,y,2,1,TFT_RED);
+	canvas->fillRect(x+4,y,2,1,TFT_RED);
+	canvas->fillRect(x,y+1,7,2,TFT_RED);
+	canvas->fillRect(x+1,y+3,5,1,TFT_RED);
+	canvas->fillRect(x+2,y+4,3,1,TFT_RED);
+	canvas->drawPixel(x+3,y+5,TFT_RED);
+
+}
+
 void GameHandler::addObject(Object* newObj){
   objects.push_back(newObj);
 }
 
 void GameHandler::removeObject(Object* obj){
 	// Free the memory and then remove the pointer from our active vector
+	ESP_LOGE("ERR: DO NOT USE THIS METHOD", "THIS IS UNSTABLE AND CAN CRASH THE ESP32");
+	ESP_LOGE("ERR:", "PLEASE DO NOT DELETE BY REFERENCE");
 	delete obj;
 	objects.erase(std::remove(objects.begin(), objects.end(), obj), objects.end());
 }
 
 void GameHandler::removeObject(int pos, ObjectTypes type){
+	ESP_LOGE("ERR: DO NOT USE THIS METHOD", "THIS IS UNSTABLE AND CAN CRASH THE ESP32");
+	ESP_LOGE("ERR:", "PLEASE DO NOT DELETE BY REFERENCE");
 	// Delete using vector indexing. 
 	switch(type){
 		case ACTOR:
