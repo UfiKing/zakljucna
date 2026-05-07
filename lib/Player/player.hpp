@@ -25,7 +25,7 @@ public:
    * @param width Player width.
    * @param height Player height.
    */
-  Player(int16_t x, int16_t y, uint16_t width, uint16_t height) : Object(x, y, width, height, TFT_GREEN){
+  Player(int16_t x, int16_t y, uint16_t width, uint16_t height) : Object(x, y, width, height, TFT_PINK){
 
   }
 

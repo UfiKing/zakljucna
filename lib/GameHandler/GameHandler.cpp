@@ -4,19 +4,27 @@
 #include <esp_log.h>
 
 void GameHandler::loadLevel(){
-	addObject(new Spike(130,100,10,4));
-	addObject(new Spike(150,100,10,4));
-	addObject(new Spike(170,100,10,4));
-	addObject(new Spike(190,100,10,4));
-	addObject(new Spike(210,100,10,4));
-	addObject(new Spike(230,100,10,10));
-	addObject(new Spike(240,100,10,10));
-	addObject(new Spike(250,100,10,10));
+	for(int i = 0; i < 5; i++){
+		addObject(new Spike(130 + i * 20,100,10,4));
+	}
+
+	for(int i = 0; i < 3; i++){
+		addObject(new Spike(230 + i * 10,100,10,10));
+	}
+
 	addObject(new Spike(270,100,10,4));
+
+	for(int i = 0; i < 10; i++){
+		addObject(new Spike(365+i*5,59,5,5));
+	}
+
+	addObject(new Coin(245,46,4));
+
 
   addObject(new Object(-60,0,10,100,TFT_LIGHTGRAY));
   addObject(new Object(-60,100,680,10,TFT_LIGHTGRAY));
   addObject(new Object(-10,0,620,10,TFT_LIGHTGRAY));
+  addObject(new Object(60,75,50,5,TFT_BROWN));
   addObject(new Object(120,90,10,10,TFT_LIGHTGRAY));
   addObject(new Object(140,80,10,20,TFT_LIGHTGRAY));
   addObject(new Object(160,70,10,30,TFT_LIGHTGRAY));
@@ -24,9 +32,18 @@ void GameHandler::loadLevel(){
   addObject(new Object(200,60,10,40,TFT_LIGHTGRAY));
   addObject(new Object(220,70,10,30,TFT_LIGHTGRAY));
   addObject(new Object(240,55,10,10,TFT_LIGHTGRAY));
-	addObject(new Coin(245,46,4));
   addObject(new Object(260,70,10,30,TFT_LIGHTGRAY));
   addObject(new Object(280,80,10,20,TFT_LIGHTGRAY));
+  addObject(new Object(338,80,7,10,TFT_LIGHTGRAY));
+  addObject(new Object(340,60,5,10,TFT_LIGHTGRAY));
+  addObject(new Object(338,40,7,10,TFT_LIGHTGRAY));
+  addObject(new Object(345,40,20,50,TFT_LIGHTGRAY));
+  addObject(new Object(365,60,50,30,TFT_LIGHTGRAY));
+  addObject(new Object(415,40,20,50,TFT_LIGHTGRAY));
+  addObject(new Object(385,30,10,10,TFT_LIGHTGRAY));
+  addObject(new Object(435,80,7,10,TFT_LIGHTGRAY));
+  addObject(new Object(435,60,5,10,TFT_LIGHTGRAY));
+  addObject(new Object(435,40,7,10,TFT_LIGHTGRAY));
 
 
 }
