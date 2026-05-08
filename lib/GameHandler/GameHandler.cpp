@@ -64,10 +64,11 @@ void GameHandler::clearLevel(){
 		if(objects[i] != nullptr) delete objects[i];	
 	}
 	objects.clear();
-	for(int i = 0; i < coins.size(); i++){
-		if(coins[i] != nullptr) delete coins[i];
+	for(int i = 0; i < collectibles.size(); i++){
+		if(collectibles[i] != nullptr) delete collectibles[i];
+
 	}
-	coins.clear();
+	collectibles.clear();
 }
 
 void GameHandler::draw(){
@@ -206,9 +207,10 @@ void GameHandler::drawGame(){
     obj->draw(canvas, -player->getX() + 64, 0);
   }
 
-	for(Coin* coin: coins){
-		if(coin == nullptr) continue;
-		coin->draw(canvas, -player->getX() + 64, 0);
+	for(Collectible* obj: collectibles){
+		if(obj== nullptr) continue;
+		obj->draw(canvas, -player->getX() + 64, 0);
+		
 	}
 	canvas->fillRect(0,0,60,15,TFT_BLACK);
 	canvas->setTextColor(TFT_GOLD);
@@ -290,12 +292,17 @@ void GameHandler::updateGame(){
 	}
 
 
-	for(Coin* obj : coins){
+	for(Collectible* obj : collectibles){
 		obj->update();
-		if(checkCollision(player, obj)){
-			removeObject(obj);
-			score++;
+		if(obj->getCollectibleType() == COIN1){
+			if(checkCollision(player, (Coin*)obj)){
+				removeObject(obj);
+				score++;
+			}
+		}else{
+
 		}
+		
 	}
 
 }
@@ -334,8 +341,8 @@ void GameHandler::removeObject(int pos, ObjectTypes type){
 			objects.erase(objects.begin() + pos);
 			break;
 		case COLLECTIBLE:
-			delete coins.at(pos);
-			coins.erase(coins.begin() + pos);
+			delete collectibles.at(pos);
+			collectibles.erase(collectibles.begin() + pos);
 			break;
 		default:
 			break;
@@ -343,14 +350,14 @@ void GameHandler::removeObject(int pos, ObjectTypes type){
 	
 }
 
-void GameHandler::addObject(Coin* newObj){
-  coins.push_back(newObj);
+void GameHandler::addObject(Collectible* newObj){
+  collectibles.push_back(newObj);
 }
 
-void GameHandler::removeObject(Coin* obj){
+void GameHandler::removeObject(Collectible* obj){
 	// Free the memory and then remove the pointer from our active vector
 	delete obj;
-	coins.erase(std::remove(coins.begin(), coins.end(), obj), coins.end());
+	collectibles.erase(std::remove(collectibles.begin(), collectibles.end(), obj), collectibles.end());
 }
 
 bool GameHandler::checkCollision(Actor* obj1, Actor* obj2){

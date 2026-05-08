@@ -10,6 +10,7 @@
 #include "GameHandler.hpp"
 #include "Platform.hpp"
 #include "MovingSpikes.hpp"
+#include "Collectible.hpp"
 
 enum Screens {
 	START,
@@ -26,7 +27,7 @@ class GameHandler {
   LGFX_Sprite *canvas;         ///< Off-screen buffer/sprite for double-buffered rendering
   Player *player;              ///< The active player instance
   std::vector<Object*> objects; ///< List of active game world objects (platforms, obstacles)
-	std::vector<Coin*> coins;		 ///< List of active coins in the world
+	std::vector<Collectible*> collectibles;		 ///< List of active coins in the world
   LGFX_Lcd *lcd_ptr;           ///< Pointer to the physical LCD screen structure
   enum Screens currentScreen = START; ///< Tracks the current game screen/state for rendering and logic control
   uint16_t score = 0;
@@ -45,7 +46,7 @@ public:
   GameHandler(LGFX_Lcd *lcd) : lcd_ptr(lcd) {
 		// Pre-allocate memory for 100 objects to improve performance, but keep it empty initially
 		objects.reserve(100);
-		coins.reserve(10);
+		collectibles.reserve(10);
 	}
     
   /**
@@ -130,13 +131,13 @@ public:
    * @brief Adds a new Coin object to the game scene.
    * @param newObj Pointer to the Coin to be added.
    */
-  void addObject(Coin* newObj);
+  void addObject(Collectible* newObj);
 
   /**
    * @brief Removes a specific Coin from the scene by its pointer.
    * @param obj Pointer to the Coin to be deleted and removed.
    */
-  void removeObject(Coin* obj);
+  void removeObject(Collectible* obj);
 
   /**
    * @brief Checks if two Actor objects are physically colliding.
