@@ -7,9 +7,33 @@ void Coin::draw(LGFX_Sprite *canvas){
 }
 
 void Coin::draw(LGFX_Sprite *canvas, int offsetX, int offsetY){
-	canvas->fillCircle(position.x + offsetX, position.y + offsetY, radius, getColour());
-	//canvas->drawFastVLine(position.x + offsetX, position.y - radius + 1 + offsetY, 2 * radius - 2, accentColour);
-	canvas->fillRect(position.x - 1 + offsetX, position.y - radius + 1 + offsetY, 3, 2 * radius - 2, accentColour);
+	//canvas->fillCircle(position.x + offsetX, position.y + offsetY, radius, getColour());
+	//canvas->fillRect(position.x - 1 + offsetX, position.y - radius + 1 + offsetY, 3, 2 * radius - 2, accentColour);
+	int x = position.x - 4 + offsetX;
+	int y = position.y - 4 + offsetY;
+	
+	canvas->drawFastVLine(x, y+2,6,colour);
+	canvas->drawFastVLine(x+1,y+1,8,colour);
+	
+	canvas->drawFastVLine(x+2,y,10,colour);
+	canvas->drawFastVLine(x+3,y,10,colour);
+	canvas->drawFastVLine(x+4,y,10,colour);
+	canvas->drawFastVLine(x+5,y,10,colour);
+
+	canvas->drawFastVLine(x+6,y,10,shadeColour);
+	canvas->drawFastVLine(x+6,y+1,8,colour);
+
+	canvas->drawFastVLine(x+7,y+1,8,shadeColour);
+	canvas->drawFastVLine(x+7,y+2,6,colour);
+
+	canvas->drawFastVLine(x+8,y+2,6,shadeColour);
+
+	canvas->drawFastVLine(x+2,y+2,6,accentColour);
+	canvas->drawFastVLine(x+5,y+2,6,accentShadeColour);
+	canvas->drawFastHLine(x+3,y+1,2,accentColour);
+	canvas->drawFastHLine(x+3,y+8,2,accentColour);
+	
+
 }
 
 int16_t Coin::getRadius(){

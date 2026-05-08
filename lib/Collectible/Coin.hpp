@@ -11,7 +11,9 @@ class Coin : public Object{
 	int16_t height;                      ///< Height of the coin's bounding box
 	Vektor<int16_t> position;            ///< 2D vector storing the X and Y coordinates
 	enum ObjectTypes type = COLLECTIBLE; ///< Type identification for collision handling
-	int accentColour = TFT_YELLOW;
+	int accentColour;
+	int shadeColour;
+	int accentShadeColour;
 public:
 
 	/**
@@ -26,6 +28,20 @@ public:
 		this->height = 2 * radius;
 		this->radius = radius;
 		this->colour = TFT_GOLD;
+		accentColour = TFT_YELLOW;
+		shadeColour = 24992;
+		accentShadeColour = 43776;
+	}
+
+	Coin(int16_t x, int16_t y, int16_t radius, int colour, int accentColour, int shadeColour, int accentShadeColour) : Object(x,y,radius * 2, radius * 2, TFT_GOLD){
+		position = Vektor(x,y);
+		this->width = 2 * radius;
+		this->height = 2 * radius;
+		this->radius = radius;
+		this->colour = colour;
+		this->accentColour = accentColour;
+		this->shadeColour = shadeColour;
+		this->accentShadeColour = accentShadeColour;
 	}
 
 	/**
