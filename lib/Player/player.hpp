@@ -21,6 +21,9 @@ protected:
 	enum ObjectTypes type = PLAYER;
 public:
 	bool touchedGround = true;				  ///< Indicates if the player is currently touching the ground (prevents double jumping)
+	bool touchingWallLeft = false;			  ///< True if the player is touching a wall on their left
+	bool touchingWallRight = false;			  ///< True if the player is touching a wall on their right
+
 
   /**
    * @brief Construct a new Player object.

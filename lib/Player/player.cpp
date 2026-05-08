@@ -9,11 +9,26 @@ void Player::draw(LGFX_Sprite *canvas){
 
 void Player::move(Controller* controller){
 
-	if(controller->buttons->getUpButton() && touchedGround && !hasJumped){
-		velocity.y = -jumpConstant; // Use assignment to guarantee exact jump height
-		touchedGround = false;	
-		hasJumped = true;
-	}else if(!controller->buttons->getUpButton() && hasJumped){
+	// Decay horizontal velocity (used for wall jump push-back momentum)
+	if (velocity.x > 0) velocity.x--;
+	else if (velocity.x < 0) velocity.x++;
+
+	// Jump and Wall Jump logic
+	if(controller->buttons->getUpButton() && !hasJumped){
+		if (touchedGround) {
+			velocity.y = -jumpConstant; // Use assignment to guarantee exact jump height
+			touchedGround = false;	
+			hasJumped = true;
+		} else if (touchingWallRight) {
+			velocity.y = -jumpConstant;
+			velocity.x = -(speed * 3); // Push left, away from the right wall
+			hasJumped = true;
+		} else if (touchingWallLeft) {
+			velocity.y = -jumpConstant;
+			velocity.x = speed * 3; // Push right, away from the left wall
+			hasJumped = true;
+		}
+	} else if(!controller->buttons->getUpButton() && hasJumped){
 		hasJumped = false;
 	}
 
@@ -21,6 +36,11 @@ void Player::move(Controller* controller){
     position.x -= speed;
   }else if(controller->buttons->getRightButton()){
     position.x += speed;
+  }
+
+  // Wall sliding (slows down falling speed when hugging a wall)
+  if ((touchingWallLeft || touchingWallRight) && !touchedGround && velocity.y > 0) {
+    velocity.y = 1; 
   }
 }
 
@@ -75,4 +95,3 @@ void Player::changeJump(int16_t jump){
 void Player::resetJump(){
 	this->jumpConstant = this->defaultJump;
 }
-

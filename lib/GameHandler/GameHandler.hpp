@@ -37,7 +37,7 @@ class GameHandler {
 	int16_t checkpointX;
 	int16_t checkpointY;
 	Controller* controller;
-	const int16_t startingPosX = -40;
+	const int16_t startingPosX = 510;
 	const int16_t startingPosY = 20;
 public:
   /**
@@ -59,7 +59,7 @@ public:
 		
 		canvas = new LGFX_Sprite(lcd_ptr);
 		canvas->createSprite(lcd_ptr->width(), lcd_ptr->height());
-		player = new Player(-40,20);
+		player = new Player(510,20);
 		controller = new Controller(&buttons);
   }
 

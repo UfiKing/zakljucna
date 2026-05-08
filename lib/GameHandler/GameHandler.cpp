@@ -6,7 +6,7 @@
 
 
 void GameHandler::loadLevel(){
-	checkpointX = -40;
+	checkpointX = 510;
 	checkpointY = 20;
 
 	addObject(new Platform(-20,90,10,10,GRAYBRICKS));
@@ -33,8 +33,8 @@ void GameHandler::loadLevel(){
 	addObject(new MovingSpike(290, 100, 480, 100, 10,10,1));
 
   addObject(new Object(-60,0,10,100,TFT_DARKGRAY));
-  addObject(new Object(-60,100,680,10,TFT_DARKGRAY));
-  addObject(new Object(-10,0,620,10,TFT_DARKGRAY));
+  addObject(new Object(-60,100,780,10,TFT_DARKGRAY));
+  addObject(new Object(-10,0,732,10,TFT_DARKGRAY));
   addObject(new Platform(120,90,10,10,GRAYBRICKS));
   addObject(new Platform(140,80,10,20,GRAYBRICKS));
   addObject(new Platform(160,70,10,30,GRAYBRICKS));
@@ -55,6 +55,12 @@ void GameHandler::loadLevel(){
   addObject(new Platform(435,60,5,10,GRAYBRICKS));
   addObject(new Platform(435,40,5,10,GRAYBRICKS));
   addObject(new Platform(490,80,10,20,GRAYBRICKS));
+  addObject(new Platform(550,30,20,40,GRAYBRICKS));
+  addObject(new Platform(570,10,20,20,GRAYBRICKS));
+  addObject(new Platform(570,70,20,20,GRAYBRICKS));
+  addObject(new Platform(610,10,60,20,GRAYBRICKS));
+  addObject(new Platform(650,30,20,40,GRAYBRICKS));
+  addObject(new Platform(610,70,60,10,GRAYBRICKS)); 
 
 	
 }
@@ -233,9 +239,12 @@ void GameHandler::updateGame(){
 		if(obj != nullptr) obj->update();
 	}
 
-
 	// 1. Move player purely on the X axis
 	player->move(controller);
+
+	// Reset wall touch states BEFORE checking new collisions
+	player->touchingWallLeft = false;
+	player->touchingWallRight = false;
 
 	// Check X axis collisions
 	for(Object* obj : objects){
@@ -248,11 +257,13 @@ void GameHandler::updateGame(){
 			}else{
 				int16_t overlapLeft = player->getRight() - obj->getLeft();
 				int16_t overlapRight = obj->getRight() - player->getLeft();
-			
+				ESP_LOGI("TAG", "%d", overlapLeft);
 				if (overlapLeft < overlapRight) {
 					player->setRight(obj->getLeft());
+					player->touchingWallRight = true;
 				} else {
 					player->setLeft(obj->getRight());
+					player->touchingWallLeft = true;
 				}
 			}
 		}
