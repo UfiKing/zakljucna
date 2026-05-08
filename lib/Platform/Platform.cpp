@@ -10,6 +10,10 @@ void Platform::draw(LGFX_Sprite* canvas, int offsetX, int offsetY) {
 
 	int rows = h / 10;
 	int cols = w / 10;
+	//future optimizing jure, tuki pa pomojem se ne da velik vec. Ze startWrite pa endWrite pomojem ful pomagata
+	//tuki se pa pozna ker mas tko 200+ rectov
+
+	canvas->startWrite();
 
 	for(int j = 0; j < rows; j++){
 		int y_ofs = y + (j * 10);
@@ -27,4 +31,5 @@ void Platform::draw(LGFX_Sprite* canvas, int offsetX, int offsetY) {
 			canvas->drawFastVLine(x_ofs + 5, y_ofs + 4, 3, TFT_LIGHTGRAY);
 		}	
 	}
+	canvas->endWrite();
 }

@@ -11,6 +11,7 @@
 #include "Platform.hpp"
 #include "MovingSpikes.hpp"
 #include "Collectible.hpp"
+#include "LifeCollectible.hpp"
 
 enum Screens {
 	START,

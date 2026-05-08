@@ -26,8 +26,9 @@ void GameHandler::loadLevel(){
 	}
 
 	addObject(new Coin(245,46,5));
-	addObject(new Coin(390,25,5));
-	addObject(new Coin(8,90,5));
+	addObject(new LifeCollectible(387,22));
+	addObject(new Coin(352,32,5));
+	addObject(new Coin(427,32,5));
 
 	addObject(new MovingSpike(290, 100, 480, 100, 10,10,1));
 
@@ -294,13 +295,20 @@ void GameHandler::updateGame(){
 
 	for(Collectible* obj : collectibles){
 		obj->update();
-		if(obj->getCollectibleType() == COIN1){
+		//definiramo variable zato da zmanjsamo stevilo function callov
+		enum CollectibleType type = obj->getCollectibleType();
+		
+		if(type == COIN1){
 			if(checkCollision(player, (Coin*)obj)){
 				removeObject(obj);
 				score++;
 			}
-		}else{
-
+		}else if (type == LIFE1){
+			if(checkCollision(player,obj)){
+				removeObject(obj);
+				score += 5;
+				life++;
+			}
 		}
 		
 	}
@@ -309,12 +317,14 @@ void GameHandler::updateGame(){
 
 
 void GameHandler::drawHeart(int16_t x, int16_t y){
+	canvas->startWrite();
 	canvas->fillRect(x+1,y,2,1,TFT_RED);
 	canvas->fillRect(x+4,y,2,1,TFT_RED);
 	canvas->fillRect(x,y+1,7,2,TFT_RED);
 	canvas->fillRect(x+1,y+3,5,1,TFT_RED);
 	canvas->fillRect(x+2,y+4,3,1,TFT_RED);
 	canvas->drawPixel(x+3,y+5,TFT_RED);
+	canvas->endWrite();
 
 }
 
