@@ -7,7 +7,7 @@ protected:
   enum CollectibleType collectibleType;
 
 public:
-  Collectible(int16_t x, int16_t y, uint16_t width, uint16_t height, enum CollectibleType type) : Object(x,y,width,height, TFT_GRAY){
+  Collectible(int16_t x, int16_t y, uint16_t width, uint16_t height, enum CollectibleType type) : Object(x,y,width,height, TFT_DARKGRAY){
     this->collectibleType = type;
   }
 

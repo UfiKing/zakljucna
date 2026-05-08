@@ -33,7 +33,7 @@ public:
 		accentShadeColour = 43776;
 	}
 
-	Coin(int16_t x, int16_t y, int16_t radius, int colour, int accentColour, int shadeColour, int accentShadeColour) : Object(x,y,radius * 2, radius * 2, TFT_GOLD){
+	Coin(int16_t x, int16_t y, int16_t radius, int colour, int accentColour, int shadeColour, int accentShadeColour) : Collectible(x,y,(uint16_t)(radius * 2), (uint16_t)(radius * 2), TFT_GOLD, COIN1){
 		position = Vektor(x,y);
 		this->width = 2 * radius;
 		this->height = 2 * radius;

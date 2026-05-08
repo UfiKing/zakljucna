@@ -25,9 +25,9 @@ void GameHandler::loadLevel(){
 		addObject(new Spike(365+i*5,59,5,5));
 	}
 
-	addObject(new Coin(245,46,4));
-	addObject(new Coin(390,25,4));
-	addObject(new Coin(8,90,4));
+	addObject(new Coin(245,46,5));
+	addObject(new Coin(390,25,5));
+	addObject(new Coin(8,90,5));
 
 	addObject(new MovingSpike(290, 100, 480, 100, 10,10,1));
 
