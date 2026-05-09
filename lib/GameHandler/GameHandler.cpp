@@ -211,19 +211,19 @@ void GameHandler::updateDeath(){
 void GameHandler::drawGame(){
 	// Draw all active scene objects (platforms, walls)
 
+  int screenWidth = lcd_ptr->width();
   for (Object* obj: objects){
 		if(obj == nullptr) continue;
-		/*if(obj->getX() - player->getX() + 64 > 128 || obj->getX() - player->getX() + 64 < 0) {
-
-			continue;	
-		}*/
+		int renderX = obj->getX() - player->getX() + 64;
+		if(renderX + obj->getWidth() < 0 || renderX > screenWidth) continue;
     obj->draw(canvas, -player->getX() + 64, 0);
   }
 
 	for(Collectible* obj: collectibles){
 		if(obj== nullptr) continue;
+		int renderX = obj->getX() - player->getX() + 64;
+		if(renderX + obj->getWidth() < 0 || renderX > screenWidth) continue;
 		obj->draw(canvas, -player->getX() + 64, 0);
-		
 	}
 	canvas->fillRect(0,0,60,15,TFT_BLACK);
 	canvas->setTextColor(TFT_GOLD);
@@ -309,27 +309,33 @@ void GameHandler::updateGame(){
 		}
 	}
 
-
-	for(Collectible* obj : collectibles){
+	for(auto it = collectibles.begin(); it != collectibles.end();){
+		Collectible* obj = *it;
 		obj->update();
-		//definiramo variable zato da zmanjsamo stevilo function callov
+
+		bool collected = false;
 		enum CollectibleType type = obj->getCollectibleType();
-		
+
 		if(type == COIN1){
 			if(checkCollision(player, (Coin*)obj)){
-				removeObject(obj);
+				collected = true;
 				score++;
 			}
 		}else if (type == LIFE1){
 			if(checkCollision(player,obj)){
-				removeObject(obj);
+				collected = true;
 				score += 5;
 				life++;
 			}
 		}
-		
-	}
 
+		if(collected){
+			delete obj;
+			it = collectibles.erase(it);
+		} else {
+			++it;
+		}
+	}
 }
 
 
@@ -349,42 +355,8 @@ void GameHandler::addObject(Object* newObj){
   objects.push_back(newObj);
 }
 
-void GameHandler::removeObject(Object* obj){
-	// Free the memory and then remove the pointer from our active vector
-	ESP_LOGE("ERR: DO NOT USE THIS METHOD", "THIS IS UNSTABLE AND CAN CRASH THE ESP32");
-	ESP_LOGE("ERR:", "PLEASE DO NOT DELETE BY REFERENCE");
-	delete obj;
-	objects.erase(std::remove(objects.begin(), objects.end(), obj), objects.end());
-}
-
-void GameHandler::removeObject(int pos, ObjectTypes type){
-	ESP_LOGE("ERR: DO NOT USE THIS METHOD", "THIS IS UNSTABLE AND CAN CRASH THE ESP32");
-	ESP_LOGE("ERR:", "PLEASE DO NOT DELETE BY REFERENCE");
-	// Delete using vector indexing. 
-	switch(type){
-		case ACTOR:
-		case PLATFORM:
-			delete objects.at(pos);
-			objects.erase(objects.begin() + pos);
-			break;
-		case COLLECTIBLE:
-			delete collectibles.at(pos);
-			collectibles.erase(collectibles.begin() + pos);
-			break;
-		default:
-			break;
-	}
-	
-}
-
 void GameHandler::addObject(Collectible* newObj){
   collectibles.push_back(newObj);
-}
-
-void GameHandler::removeObject(Collectible* obj){
-	// Free the memory and then remove the pointer from our active vector
-	delete obj;
-	collectibles.erase(std::remove(collectibles.begin(), collectibles.end(), obj), collectibles.end());
 }
 
 bool GameHandler::checkCollision(Actor* obj1, Actor* obj2){

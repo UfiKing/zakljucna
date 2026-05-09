@@ -18,7 +18,7 @@
  * @brief A data structure to store the current state of the gamepad buttons.
  * Used to globally track which buttons are currently pressed.
  */
-static class GamepadButtons{
+class GamepadButtons{
 	bool upButton = false;
 	bool downButton = false;
 	bool leftButton = false;
@@ -117,7 +117,7 @@ public:
 	bool getRightButton(){
 		return rightButton;
 	}
-}buttons;
+};
 
 /**
  * @brief ISR handler for BUTTON1 (UP).
@@ -125,12 +125,13 @@ public:
  * @param arg User argument (unused).
  */
 static void IRAM_ATTR button_isr_handler1(void *arg){
+  GamepadButtons* buttons = static_cast<GamepadButtons*>(arg);
   int level = gpio_get_level((gpio_num_t)BUTTON1_PIN);
 	// Active low: level == 0 means pressed (falling edge), level == 1 means released (rising edge)
 	if(level == 0){
-		buttons.upButtonOn();
+		buttons->upButtonOn();
 	}else{
-		buttons.upButtonOff();
+		buttons->upButtonOff();
 	}
 }
 
@@ -140,11 +141,12 @@ static void IRAM_ATTR button_isr_handler1(void *arg){
  * @param arg User argument (unused).
  */
 static void IRAM_ATTR button_isr_handler2(void *arg){
+  GamepadButtons* buttons = static_cast<GamepadButtons*>(arg);
   int level = gpio_get_level((gpio_num_t)BUTTON2_PIN);
 	if(level == 0){
-		buttons.rightButtonOn();
+		buttons->rightButtonOn();
 	}else{
-		buttons.rightButtonOff();
+		buttons->rightButtonOff();
 	}
 }
 
@@ -154,11 +156,12 @@ static void IRAM_ATTR button_isr_handler2(void *arg){
  * @param arg User argument (unused).
  */
 static void IRAM_ATTR button_isr_handler3(void *arg){
+  GamepadButtons* buttons = static_cast<GamepadButtons*>(arg);
   int level = gpio_get_level((gpio_num_t)BUTTON3_PIN);
 	if(level == 0){
-		buttons.leftButtonOn();
+		buttons->leftButtonOn();
 	}else{
-		buttons.leftButtonOff();
+		buttons->leftButtonOff();
 	}
 }
 
@@ -168,11 +171,12 @@ static void IRAM_ATTR button_isr_handler3(void *arg){
  * @param arg User argument (unused).
  */
 static void IRAM_ATTR button_isr_handler4(void *arg){
+  GamepadButtons* buttons = static_cast<GamepadButtons*>(arg);
   int level = gpio_get_level((gpio_num_t)BUTTON4_PIN);
 	if(level == 0){
-		buttons.downButtonOn();
+		buttons->downButtonOn();
 	}else{
-		buttons.downButtonOff();
+		buttons->downButtonOff();
 	}
 }
 
@@ -187,10 +191,9 @@ public:
    * @brief Construct a new Controller object.
    * Configures the GPIO pins as inputs with pull-ups, installs the ISR service,
    * and attaches the specific interrupt handlers for each button.
-   * @param buttons Pointer to the shared GamepadButtons instance.
    */
-  Controller(GamepadButtons* buttons){
-		this->buttons = buttons;
+  Controller(){
+		this->buttons = new GamepadButtons();
     const gpio_config_t button1Config = gpio_config_t{
       .pin_bit_mask = 1ULL << BUTTON1_PIN,
       .mode = GPIO_MODE_INPUT,
@@ -229,12 +232,16 @@ public:
     gpio_config(&button4Config);
 
     gpio_install_isr_service(ESP_INTR_FLAG_DEFAULT);
-    gpio_isr_handler_add((gpio_num_t)BUTTON1_PIN, button_isr_handler1, NULL);
-    gpio_isr_handler_add((gpio_num_t)BUTTON2_PIN, button_isr_handler2, NULL);
-    gpio_isr_handler_add((gpio_num_t)BUTTON3_PIN, button_isr_handler3, NULL);
-    gpio_isr_handler_add((gpio_num_t)BUTTON4_PIN, button_isr_handler4, NULL);
+    gpio_isr_handler_add((gpio_num_t)BUTTON1_PIN, button_isr_handler1, this->buttons);
+    gpio_isr_handler_add((gpio_num_t)BUTTON2_PIN, button_isr_handler2, this->buttons);
+    gpio_isr_handler_add((gpio_num_t)BUTTON3_PIN, button_isr_handler3, this->buttons);
+    gpio_isr_handler_add((gpio_num_t)BUTTON4_PIN, button_isr_handler4, this->buttons);
   }
   
+	~Controller() {
+		delete buttons;
+	}
+
 	/**
 	 * @brief Checks if any button on the gamepad is currently pressed.
 	 * @return true if at least one button is pressed, false otherwise.

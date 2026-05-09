@@ -63,14 +63,14 @@ public:
 		canvas = new LGFX_Sprite(lcd_ptr);
 		canvas->createSprite(lcd_ptr->width(), lcd_ptr->height());
 		player = new Player(000,20);
-		controller = new Controller(&buttons);
+		controller = new Controller();
   }
 
   /**
    * @brief Destructor clears out dynamically allocated world objects and the player.
    */
   ~GameHandler(){
-		for(Actor* obj : objects){
+		for(Object* obj : objects){
 			delete obj;
 		}
 		objects.clear();
@@ -81,6 +81,7 @@ public:
 		collectibles.clear();
 		
 		delete player;
+		delete controller;
   }
 
   /**
@@ -162,33 +163,10 @@ public:
   void addObject(Object* newObj);
 
   /**
-   * @brief Removes a specific Object from the scene by its pointer.
-   * @warning DO NOT USE THIS METHOD. The implementation states it is unstable 
-   * and can crash the ESP32.
-   * @param obj Pointer to the Object to be deleted and removed.
-   */
-  void removeObject(Object* obj);
-
-  /**
-   * @brief Removes an object from the scene by its index and type.
-   * @warning DO NOT USE THIS METHOD. The implementation states it is unstable 
-   * and can crash the ESP32.
-   * @param pos The index of the object in its respective list.
-   * @param type The type of the object to determine which list to remove from.
-   */
-	void removeObject(int pos, ObjectTypes type);
-
-  /**
    * @brief Adds a new Collectible object to the game scene.
    * @param newObj Pointer to the Collectible to be added.
    */
   void addObject(Collectible* newObj);
-
-  /**
-   * @brief Removes a specific Collectible from the scene by its pointer.
-   * @param obj Pointer to the Collectible to be deleted and removed.
-   */
-  void removeObject(Collectible* obj);
 
   /**
    * @brief Checks if two Actor objects are physically colliding.
