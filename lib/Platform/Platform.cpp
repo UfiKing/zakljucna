@@ -1,14 +1,22 @@
 #include "Platform.hpp"
 
-void Platform::draw(LGFX_Sprite* canvas, int offsetX, int offsetY) {
+void Platform::draw(LGFX_Sprite* canvas, int offsetX, int offsetY){
+	switch(platformType){
+		case GRAYBRICKS:
+			drawGrayBricks(canvas, offsetX, offsetY);
+			break;
+		case GRAYBLOCK:
+			drawGrayBlock(canvas, offsetX, offsetY);
+			break;
+	}
+}
+
+void Platform::drawGrayBricks(LGFX_Sprite* canvas, int offsetX, int offsetY) {
 	int x = getX() + offsetX;
 	int y = getY() + offsetY;
 	int w = getWidth();
 	int h = getHeight();
 
-
-	//int rows = h / 10;
-	//int cols = w / 10;
 	int rows = h;
 	int cols = w;
 
@@ -18,23 +26,6 @@ void Platform::draw(LGFX_Sprite* canvas, int offsetX, int offsetY) {
 	canvas->startWrite();
 	//old drawing method
 
-	//canvas->fillRect(x, y, w, h, TFT_DARKGRAY);
-	/*for(int j = 0; j < rows; j++){
-		int y_ofs = y + (j * 10);
-		canvas->drawFastHLine(x, y_ofs, w, TFT_LIGHTGRAY);
-		canvas->drawFastHLine(x, y_ofs + 3, w, TFT_LIGHTGRAY);
-		canvas->drawFastHLine(x, y_ofs + 7, w, TFT_LIGHTGRAY);
-		for(int i = 0; i < cols; i++){
-			int x_ofs = x + (i * 10);
-			canvas->drawFastVLine(x_ofs + 3, y_ofs + 1, 2, TFT_LIGHTGRAY);
-			canvas->drawFastVLine(x_ofs + 8, y_ofs + 1, 2, TFT_LIGHTGRAY);
-			canvas->drawFastVLine(x_ofs + 3, y_ofs + 8, 2, TFT_LIGHTGRAY);
-			canvas->drawFastVLine(x_ofs + 8, y_ofs + 8, 2, TFT_LIGHTGRAY);
-
-			canvas->drawFastVLine(x_ofs, y_ofs + 4, 3, TFT_LIGHTGRAY);
-			canvas->drawFastVLine(x_ofs + 5, y_ofs + 4, 3, TFT_LIGHTGRAY);
-		}	
-	}*/
 	for(int i = 0; i < rows; i++){
 		switch(i % 7){
 			case 1:
@@ -55,4 +46,46 @@ void Platform::draw(LGFX_Sprite* canvas, int offsetX, int offsetY) {
 		}
 	}
 	canvas->endWrite();
+}
+
+void Platform::drawGrayBlock(LGFX_Sprite* canvas, int offsetX, int offsetY){
+	int x = getX() + offsetX;
+	int y = getY() + offsetY;
+	int w = getWidth();
+	int h = getHeight();
+
+	int rows = h / 10;
+	int cols = w / 10;
+
+	int xoff = x;
+	int yoff = y;
+	canvas->startWrite();
+	for(int i = 0; i < rows; i++){
+		for(int j = 0; j < cols; j++){
+			xoff = x + j * 10;
+			yoff = y + i * 10;	
+			//first draw the box in the middle
+			canvas->fillRect(xoff + 2, yoff + 2, 6, 6, TFT_DARKGRAY);
+			//then the white boxes on the left and the top
+			canvas->fillRect(xoff, yoff, 9,2, TFT_WHITE);
+			canvas->fillRect(xoff, yoff, 2, 9, TFT_WHITE);
+			//then the black boxes
+			canvas->fillRect(xoff + 8, yoff + 1, 2, 9, TFT_BLACK);
+			canvas->fillRect(xoff + 1, yoff + 8, 9, 2, TFT_BLACK);
+			//then the little pixels in the corners
+			canvas->drawPixel(xoff, yoff, TFT_DARKGRAY);
+			canvas->drawPixel(xoff + 1, yoff + 1, TFT_DARKGRAY);
+			
+			canvas->drawPixel(xoff, yoff + 9, TFT_DARKGRAY);
+			canvas->drawPixel(xoff + 1, yoff + 8, TFT_DARKGRAY);
+
+			canvas->drawPixel(xoff + 9, yoff, TFT_DARKGRAY);
+			canvas->drawPixel(xoff + 8, yoff + 1, TFT_DARKGRAY);
+			
+			canvas->drawPixel(xoff + 8, yoff + 8, TFT_DARKGRAY);
+			canvas->drawPixel(xoff + 9, yoff + 9, TFT_DARKGRAY);
+		}
+	}
+	canvas->endWrite();
+
 }

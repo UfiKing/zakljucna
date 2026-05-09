@@ -6,7 +6,7 @@
 
 
 void GameHandler::loadLevel(){
-	checkpointX = 510;
+	checkpointX = 000;
 	checkpointY = 20;
 
 	addObject(new Platform(-20,90,10,10,GRAYBRICKS));
@@ -38,18 +38,19 @@ void GameHandler::loadLevel(){
 	addObject(new Coin(645,62,5));
 
 	//addObject(new MovingSpike(290, 100, 480, 100, 10,10,1));
-  addObject(new Object(-60,0,10,100,TFT_DARKGRAY));
+ 
+	  addObject(new Object(-60,0,10,100,TFT_DARKGRAY));
   addObject(new Object(-60,100,780,10,TFT_DARKGRAY));
   addObject(new Object(-10,0,732,10,TFT_DARKGRAY));
-  addObject(new Platform(120,90,10,10,GRAYBRICKS));
-  addObject(new Platform(140,80,10,20,GRAYBRICKS));
-  addObject(new Platform(160,70,10,30,GRAYBRICKS));
-  addObject(new Platform(180,60,10,40,GRAYBRICKS));
-  addObject(new Platform(200,60,10,40,GRAYBRICKS));
-  addObject(new Platform(220,70,10,30,GRAYBRICKS));
-  addObject(new Platform(240,55,10,10,GRAYBRICKS));
-  addObject(new Platform(260,70,10,30,GRAYBRICKS));
-  addObject(new Platform(280,80,10,20,GRAYBRICKS));
+  addObject(new Platform(120,90,10,10,GRAYBLOCK));
+  addObject(new Platform(140,80,10,20,GRAYBLOCK));
+  addObject(new Platform(160,70,10,30,GRAYBLOCK));
+  addObject(new Platform(180,60,10,40,GRAYBLOCK));
+  addObject(new Platform(200,60,10,40,GRAYBLOCK));
+  addObject(new Platform(220,70,10,30,GRAYBLOCK));
+  addObject(new Platform(240,55,10,10,GRAYBLOCK));
+  addObject(new Platform(260,70,10,30,GRAYBLOCK));
+  addObject(new Platform(280,80,10,20,GRAYBLOCK));
   addObject(new Platform(340,82,5,8,GRAYBRICKS));
   addObject(new Platform(340,61,5,10,GRAYBRICKS));
   addObject(new Platform(340,40,5,10,GRAYBRICKS));

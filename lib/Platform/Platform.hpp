@@ -11,4 +11,7 @@ public:
 	}
 
 	void draw(LGFX_Sprite* canvas, int offsetX, int offsetY) override;
+	void drawGrayBricks(LGFX_Sprite* canvas, int offsetX, int offsetY);
+	void drawGrayBlock(LGFX_Sprite* canvas, int offsetX, int offsetY);
+
 };
