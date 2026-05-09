@@ -3,7 +3,7 @@
 
 /**
  * @brief Represents a collectible coin in the game.
- * Inherits from Object, drawn as a circle on the screen.
+ * Inherits from Collectible, drawn with a custom pixel-art style on the screen.
  */
 class Coin : public Collectible{
 	int16_t radius;                      ///< Radius of the coin
@@ -11,9 +11,9 @@ class Coin : public Collectible{
 	int16_t height;                      ///< Height of the coin's bounding box
 	Vektor<int16_t> position;            ///< 2D vector storing the X and Y coordinates
 	enum ObjectTypes type = COLLECTIBLE; ///< Type identification for collision handling
-	int accentColour;
-	int shadeColour;
-	int accentShadeColour;
+	int accentColour;                    ///< Lighter color used for highlights
+	int shadeColour;                     ///< Darker color used for shading/shadows
+	int accentShadeColour;               ///< Mixed color for shaded highlights
 public:
 
 	/**
@@ -33,6 +33,16 @@ public:
 		accentShadeColour = 43776;
 	}
 
+	/**
+	 * @brief Construct a new Coin object with custom colors.
+	 * @param x Initial X coordinate.
+	 * @param y Initial Y coordinate.
+	 * @param radius Radius of the coin.
+	 * @param colour Base color of the coin.
+	 * @param accentColour Highlight color.
+	 * @param shadeColour Shadow color.
+	 * @param accentShadeColour Highlight shadow color.
+	 */
 	Coin(int16_t x, int16_t y, int16_t radius, int colour, int accentColour, int shadeColour, int accentShadeColour) : Collectible(x,y,(uint16_t)(radius * 2), (uint16_t)(radius * 2), TFT_GOLD, COIN1){
 		position = Vektor(x,y);
 		this->width = 2 * radius;
