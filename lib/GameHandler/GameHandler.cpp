@@ -6,7 +6,7 @@
 
 
 void GameHandler::loadLevel(){
-	checkpointX = 000;
+	checkpointX = 510;
 	checkpointY = 20;
 
 	addObject(new Platform(-20,90,10,10,GRAYBRICKS));
@@ -39,7 +39,7 @@ void GameHandler::loadLevel(){
 
 	//addObject(new MovingSpike(290, 100, 480, 100, 10,10,1));
  
-	  addObject(new Object(-60,0,10,100,TFT_DARKGRAY));
+  addObject(new Object(-60,0,10,100,TFT_DARKGRAY));
   addObject(new Object(-60,100,780,10,TFT_DARKGRAY));
   addObject(new Object(-10,0,732,10,TFT_DARKGRAY));
   addObject(new Platform(120,90,10,10,GRAYBLOCK));
@@ -68,6 +68,9 @@ void GameHandler::loadLevel(){
   addObject(new Platform(610,10,60,20,GRAYBRICKS));
   addObject(new Platform(650,30,20,40,GRAYBRICKS));
   addObject(new Platform(610,70,60,10,GRAYBRICKS));
+  addObject(new Object(735,70,30,40,TFT_LIGHTGRAY));
+  addObject(new Object(705,05,10,80,TFT_LIGHTGRAY));
+
 	
 }
 

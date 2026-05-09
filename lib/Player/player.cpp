@@ -39,6 +39,9 @@ void Player::move(Controller* controller){
     position.x += speed;
   }
 
+  // Apply horizontal momentum from wall jumps
+  position.x += velocity.x;
+
   // Wall sliding (slows down falling speed when hugging a wall)
   if ((touchingWallLeft || touchingWallRight) && !touchedGround && velocity.y > 0) {
     velocity.y = 1; 
@@ -59,7 +62,7 @@ void Player::applyGravity(){
   }
 
 	// Update physical position based on the current velocity vector
-	position += velocity;
+	position.y += velocity.y;
 }
 
 void Player::resetVelocity(){

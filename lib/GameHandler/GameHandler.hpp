@@ -40,7 +40,7 @@ class GameHandler {
 	int16_t checkpointX;                 ///< X coordinate of the player's last checkpoint.
 	int16_t checkpointY;                 ///< Y coordinate of the player's last checkpoint.
 	Controller* controller;              ///< Pointer to the gamepad controller instance.
-	const int16_t startingPosX = 000;    ///< Initial player X spawn position.
+	const int16_t startingPosX = 680;    ///< Initial player X spawn position.
 	const int16_t startingPosY = 20;     ///< Initial player Y spawn position.
 public:
   /**
@@ -62,7 +62,7 @@ public:
 		
 		canvas = new LGFX_Sprite(lcd_ptr);
 		canvas->createSprite(lcd_ptr->width(), lcd_ptr->height());
-		player = new Player(000,20);
+		player = new Player(startingPosX,startingPosY);
 		controller = new Controller();
   }
 
