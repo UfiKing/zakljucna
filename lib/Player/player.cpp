@@ -1,9 +1,9 @@
 #include "player.hpp"
 
-//player class
 
 void Player::draw(LGFX_Sprite *canvas){
-	//canvas->drawRect(position.x, position.y, width, height, colour);
+	// Draw the player at a fixed screen X-coordinate (64) while world objects move around them.
+	// This creates a side-scrolling camera effect centered on the player.
 	canvas->drawRect(64, position.y, width, height, getColour());
 }
 
@@ -32,6 +32,7 @@ void Player::move(Controller* controller){
 		hasJumped = false;
 	}
 
+  // Horizontal movement logic
   if (controller->buttons->getLeftButton()){
     position.x -= speed;
   }else if(controller->buttons->getRightButton()){
@@ -45,6 +46,7 @@ void Player::move(Controller* controller){
 }
 
 void Player::update(Controller* controller){
+	// Execute movement logic and then apply gravity to the player
 	move(controller);
 	applyGravity();
 }
@@ -56,6 +58,7 @@ void Player::applyGravity(){
     velocity.y = maxSpeed;
   }
 
+	// Update physical position based on the current velocity vector
 	position += velocity;
 }
 
