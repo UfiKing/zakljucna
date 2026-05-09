@@ -10,5 +10,7 @@ enum ObjectTypes{
 	PLATFORM,    ///< Platform object (can be jumped on)
 	PLAYER,      ///< Player character
 	COLLECTIBLE, ///< Collectible item (e.g., coin)
-	SPIKE
+	SPIKE,
+	BULLET,
+	BULLETSPAWNER
 };

@@ -1,12 +1,14 @@
 #pragma once
 #include "Object.hpp"
 #include "PlatformTypes.hpp"
+#include "ObjectTypes.hpp"
 
 /**
  * @brief Represents a solid platform object in the game world.
  * Inherits from Object. Platforms have different visual styles determined by their PlatformType.
  */
 class Platform : public Object{
+	enum ObjectTypes type = PLATFORM;
 protected:
 	enum PlatformTypes platformType; ///< The visual style/type of this platform.
 public:

@@ -32,6 +32,7 @@ class GameHandler {
   Player *player;              ///< The active player instance
   std::vector<Object*> objects; ///< List of active game world objects (platforms, obstacles)
 	std::vector<Collectible*> collectibles;		 ///< List of active coins in the world
+	std::vector<Object*> spawners;
   LGFX_Lcd *lcd_ptr;           ///< Pointer to the physical LCD screen structure
   enum Screens currentScreen = START; ///< Tracks the current game screen/state for rendering and logic control
   uint16_t score = 0;                  ///< Current score of the player.
@@ -51,6 +52,7 @@ public:
 		// Pre-allocate memory for 100 objects to improve performance, but keep it empty initially
 		objects.reserve(100);
 		collectibles.reserve(10);
+		spawners.reserve(10);
 	}
     
   /**
@@ -167,6 +169,10 @@ public:
    * @param newObj Pointer to the Collectible to be added.
    */
   void addObject(Collectible* newObj);
+
+	void addSpawner(Object* newObj);
+
+	int checkCollision(Object* obj);
 
   /**
    * @brief Checks if two Actor objects are physically colliding.

@@ -2,7 +2,7 @@
 #include "LCD.hpp"
 #include <algorithm>
 #include <esp_log.h>
-
+#include "BulletSpawner.hpp"
 
 
 void GameHandler::loadLevel(){
@@ -39,9 +39,10 @@ void GameHandler::loadLevel(){
 
 	//addObject(new MovingSpike(290, 100, 480, 100, 10,10,1));
  
+ 
   addObject(new Object(-60,0,10,100,TFT_DARKGRAY));
   addObject(new Object(-60,100,780,10,TFT_DARKGRAY));
-  addObject(new Object(-10,0,732,10,TFT_DARKGRAY));
+  addObject(new Object(-10,0,830,10,TFT_DARKGRAY));
   addObject(new Platform(120,90,10,10,GRAYBLOCK));
   addObject(new Platform(140,80,10,20,GRAYBLOCK));
   addObject(new Platform(160,70,10,30,GRAYBLOCK));
@@ -68,8 +69,13 @@ void GameHandler::loadLevel(){
   addObject(new Platform(610,10,60,20,GRAYBRICKS));
   addObject(new Platform(650,30,20,40,GRAYBRICKS));
   addObject(new Platform(610,70,60,10,GRAYBRICKS));
-  addObject(new Object(735,70,30,40,TFT_LIGHTGRAY));
-  addObject(new Object(705,05,10,80,TFT_LIGHTGRAY));
+  addObject(new Platform(735,33,30,80,GRAYBRICKS));
+  addObject(new Platform(710,10,10,70,GRAYBRICKS));
+  addObject(new Platform(775,30,40,10,GRAYBRICKS));
+  addObject(new Platform(825,30,40,10,GRAYBRICKS));
+  addObject(new Platform(765,40,100,70,GRAYBRICKS));
+
+  addSpawner(new BulletSpawner(660,90,16,10,5000,LEFT,1,10,10)); 
 
 	
 }
@@ -85,11 +91,15 @@ void GameHandler::clearLevel(){
 
 	}
 	collectibles.clear();
+	for(int i = 0; i < spawners.size();i ++){
+		if(spawners[i] != nullptr) delete spawners[i];
+	}
+	spawners.clear();
 }
 
 void GameHandler::draw(){
 	// Clear the off-screen canvas to prepare for the new frame
-	canvas->fillScreen(TFT_BLACK);
+	canvas->fillScreen(TFT_NAVY);
 	switch(currentScreen){
 		case START:
 			drawStart();
@@ -212,39 +222,48 @@ void GameHandler::updateDeath(){
 }
 
 void GameHandler::drawGame(){
-	// Draw all active scene objects (platforms, walls)
+  // Draw all active scene objects (platforms, walls)
 
   int screenWidth = lcd_ptr->width();
+  int offset = -player->getX() + 64;
   for (Object* obj: objects){
-		if(obj == nullptr) continue;
-		int renderX = obj->getX() - player->getX() + 64;
-		if(renderX + obj->getWidth() < 0 || renderX > screenWidth) continue;
-    obj->draw(canvas, -player->getX() + 64, 0);
+    if(obj == nullptr) continue;
+    int renderX = obj->getX() - player->getX() + 64;
+    if(renderX + obj->getWidth() < 0 || renderX > screenWidth) continue;
+    obj->draw(canvas, offset, 0);
   }
 
-	for(Collectible* obj: collectibles){
-		if(obj== nullptr) continue;
-		int renderX = obj->getX() - player->getX() + 64;
-		if(renderX + obj->getWidth() < 0 || renderX > screenWidth) continue;
-		obj->draw(canvas, -player->getX() + 64, 0);
-	}
-	canvas->fillRect(0,0,60,15,TFT_BLACK);
-	canvas->setTextColor(TFT_GOLD);
-	canvas->setCursor(1,1);
-	canvas->print("Score: ");
-	canvas->print(score);
+  for(Object* obj : spawners){
+    obj->draw(canvas, offset, 0);
+  }
 
-	for(int i = 0; i < life; i++){
-		drawHeart(1 + i*10,10);
-	}
-	// Draw the player on top
-	player->draw(canvas);
+  for(Collectible* obj: collectibles){
+    if(obj== nullptr) continue;
+    int renderX = obj->getX() - player->getX() + 64;
+    if(renderX + obj->getWidth() < 0 || renderX > screenWidth) continue;
+    obj->draw(canvas, offset, 0);
+  }
+  canvas->fillRect(0,0,60,15,TFT_BLACK);
+  canvas->setTextColor(TFT_GOLD);
+  canvas->setCursor(1,1);
+  canvas->print("Score: ");
+  canvas->print(score);
+
+  for(int i = 0; i < life; i++){
+    drawHeart(1 + i*10,10);
+  }
+  // Draw the player on top
+  player->draw(canvas);
 
 }
 
 void GameHandler::updateGame(){
 
 	for(Object* obj : objects){
+		if(obj != nullptr) obj->update();
+	}
+
+	for(Object* obj : spawners){
 		if(obj != nullptr) obj->update();
 	}
 
@@ -277,6 +296,29 @@ void GameHandler::updateGame(){
 			}
 		}
 	}
+	//TOLE bi blo zlo fajn spremenit da nimas duplicate kode
+	//ampak jbg bomo ze enkrat its too late in the day za zdele to nardit
+	for(Object* obj : spawners){
+		if(obj == nullptr) continue;
+		if(checkCollision(player,obj)){
+			if(obj->getType() == SPIKE || obj->getType() == BULLET){
+				currentScreen = DEATH;
+				life--;
+				return;
+			}else{
+				int16_t overlapLeft = player->getRight() - obj->getLeft();
+				int16_t overlapRight = obj->getRight() - player->getLeft();
+				ESP_LOGI("TAG", "%d", overlapLeft);
+				if (overlapLeft < overlapRight) {
+					player->setRight(obj->getLeft());
+					player->touchingWallRight = true;
+				} else {
+					player->setLeft(obj->getRight());
+					player->touchingWallLeft = true;
+				}
+			}
+		}
+	}
 
 	player->applyGravity();
 	
@@ -290,6 +332,29 @@ void GameHandler::updateGame(){
 
 	// Update scene objects and check for collisions
 	for(Object* obj : objects){
+		if(obj == nullptr) continue;
+		if(checkCollision(player,obj)){
+			if(obj->getType() == SPIKE){
+				currentScreen = DEATH;
+				life--;
+				return;
+			}else{
+				int16_t overlapTop = player->getBottom() - obj->getTop();
+				int16_t overlapBottom = obj->getBottom() - player->getTop();
+			
+				if (overlapTop < overlapBottom) {
+					player->setBottom(obj->getTop());
+					player->touchedGround = true;
+					player->setVelocityY(0); // Stop falling
+				} else {
+					player->setTop(obj->getBottom());
+					player->setVelocityY(0); // Hit ceiling, stop rising
+				}
+			}
+		}
+	}
+
+	for(Object* obj : spawners){
 		if(obj == nullptr) continue;
 		if(checkCollision(player,obj)){
 			if(obj->getType() == SPIKE){
@@ -360,6 +425,10 @@ void GameHandler::addObject(Object* newObj){
 
 void GameHandler::addObject(Collectible* newObj){
   collectibles.push_back(newObj);
+}
+
+void GameHandler::addSpawner(Object* newObj){
+  spawners.push_back(newObj);
 }
 
 bool GameHandler::checkCollision(Actor* obj1, Actor* obj2){
