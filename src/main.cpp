@@ -25,17 +25,17 @@ extern "C" void app_main() {
 	int timePassed = 0;	
 	// Main Game Loop
   while (true) {
-		startTime = esp_timer_get_time() / 1000;
+		startTime = esp_timer_get_time();
 		Handler.update();
 		Handler.draw(); 	
 
-		timePassed = esp_timer_get_time() / 1000 - startTime;
+		timePassed = esp_timer_get_time() - startTime;
 		//ESP_LOGI("TAG", "%d", timePassed);
-		if (timePassed < 16){
-    	vTaskDelay(pdMS_TO_TICKS(16 - timePassed)); // Delay roughly 16 milliseconds to hit ~60 FPS
+		if (timePassed < 16000){
+    	vTaskDelay(pdMS_TO_TICKS(16 - timePassed / 1000)); // Delay roughly 16 milliseconds to hit ~60 FPS
 		} else {
 			ESP_LOGE("TIME", "THE GAME LOOP TOOK LONGER THAN 16MILLIS");
-			ESP_LOGE("TIME", "THE AMMOUT OF TIME IT TOOK (INT MILLIS): %d", timePassed);
+			ESP_LOGE("TIME", "THE AMMOUT OF TIME IT TOOK: %d", timePassed);
 		}
 		// predamo handle operacijskem sistemu da lohk nardi svoje	
 		vTaskDelay(1); 

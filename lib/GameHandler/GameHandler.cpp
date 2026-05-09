@@ -20,18 +20,24 @@ void GameHandler::loadLevel(){
 	}
 
 	addObject(new Spike(270,100,10,4));
-
+	//na unmu velkmu letecem boxu
 	for(int i = 0; i < 10; i++){
-		addObject(new Spike(365+i*5,59,5,5));
+		addObject(new Spike(365+i*5,61,5,5));
 	}
 
 	addObject(new Coin(245,46,5));
 	addObject(new LifeCollectible(387,22));
 	addObject(new Coin(352,32,5));
 	addObject(new Coin(427,32,5));
+	
+	addObject(new Coin(575,62,5));
+	addObject(new Coin(585,62,5));
+	addObject(new Coin(615,62,5));
+	addObject(new Coin(625,62,5));
+	addObject(new Coin(635,62,5));
+	addObject(new Coin(645,62,5));
 
-	addObject(new MovingSpike(290, 100, 480, 100, 10,10,1));
-
+	//addObject(new MovingSpike(290, 100, 480, 100, 10,10,1));
   addObject(new Object(-60,0,10,100,TFT_DARKGRAY));
   addObject(new Object(-60,100,780,10,TFT_DARKGRAY));
   addObject(new Object(-10,0,732,10,TFT_DARKGRAY));
@@ -44,15 +50,15 @@ void GameHandler::loadLevel(){
   addObject(new Platform(240,55,10,10,GRAYBRICKS));
   addObject(new Platform(260,70,10,30,GRAYBRICKS));
   addObject(new Platform(280,80,10,20,GRAYBRICKS));
-  addObject(new Platform(340,80,5,10,GRAYBRICKS));
-  addObject(new Platform(340,60,5,10,GRAYBRICKS));
+  addObject(new Platform(340,82,5,8,GRAYBRICKS));
+  addObject(new Platform(340,61,5,10,GRAYBRICKS));
   addObject(new Platform(340,40,5,10,GRAYBRICKS));
   addObject(new Platform(345,40,20,50,GRAYBRICKS));
-  addObject(new Platform(365,60,50,30,GRAYBRICKS));
+  addObject(new Platform(365,61,50,28,GRAYBRICKS));
   addObject(new Platform(415,40,20,50,GRAYBRICKS));
   addObject(new Platform(385,30,10,10,GRAYBRICKS));
-  addObject(new Platform(435,80,5,10,GRAYBRICKS));
-  addObject(new Platform(435,60,5,10,GRAYBRICKS));
+  addObject(new Platform(435,82,5,8,GRAYBRICKS));
+  addObject(new Platform(435,61,5,10,GRAYBRICKS));
   addObject(new Platform(435,40,5,10,GRAYBRICKS));
   addObject(new Platform(490,80,10,20,GRAYBRICKS));
   addObject(new Platform(550,30,20,40,GRAYBRICKS));
@@ -60,8 +66,7 @@ void GameHandler::loadLevel(){
   addObject(new Platform(570,70,20,20,GRAYBRICKS));
   addObject(new Platform(610,10,60,20,GRAYBRICKS));
   addObject(new Platform(650,30,20,40,GRAYBRICKS));
-  addObject(new Platform(610,70,60,10,GRAYBRICKS)); 
-
+  addObject(new Platform(610,70,60,10,GRAYBRICKS));
 	
 }
 
