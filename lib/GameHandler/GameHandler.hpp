@@ -13,14 +13,17 @@
 #include "Collectible.hpp"
 #include "LifeCollectible.hpp"
 
+/**
+ * @brief Enumeration for the different game states/screens.
+ */
 enum Screens {
-	START,
-	GAME,
-	DEATH,
-	GAMEOVER
+	START,    ///< The initial start screen shown upon boot.
+	GAME,     ///< The main active gameplay screen.
+	DEATH,    ///< The screen shown when the player dies (respawn prompt).
+	GAMEOVER  ///< The screen shown when all lives are lost.
 };
 
-/*
+/**
  * @brief Central game manager responsible for handling the main game loop,
  * rendering to the LCD, maintaining game objects, and managing collisions.
  */
@@ -31,14 +34,14 @@ class GameHandler {
 	std::vector<Collectible*> collectibles;		 ///< List of active coins in the world
   LGFX_Lcd *lcd_ptr;           ///< Pointer to the physical LCD screen structure
   enum Screens currentScreen = START; ///< Tracks the current game screen/state for rendering and logic control
-  uint16_t score = 0;
-	const int8_t maxLives = 5;
-	int8_t life = maxLives;
-	int16_t checkpointX;
-	int16_t checkpointY;
-	Controller* controller;
-	const int16_t startingPosX = 000;
-	const int16_t startingPosY = 20;
+  uint16_t score = 0;                  ///< Current score of the player.
+	const int8_t maxLives = 5;           ///< Maximum number of lives the player starts with.
+	int8_t life = maxLives;              ///< Current remaining lives.
+	int16_t checkpointX;                 ///< X coordinate of the player's last checkpoint.
+	int16_t checkpointY;                 ///< Y coordinate of the player's last checkpoint.
+	Controller* controller;              ///< Pointer to the gamepad controller instance.
+	const int16_t startingPosX = 000;    ///< Initial player X spawn position.
+	const int16_t startingPosY = 20;     ///< Initial player Y spawn position.
 public:
   /**
    * @brief Construct a new GameHandler object.
@@ -64,79 +67,126 @@ public:
   }
 
   /**
-   * @brief Destructor clears out any dynamically allocated objects to free memory.
+   * @brief Destructor clears out dynamically allocated world objects and the player.
    */
   ~GameHandler(){
 		for(Actor* obj : objects){
 			delete obj;
 		}
+		objects.clear();
+
+		for(Collectible* obj : collectibles){
+			delete obj;
+		}
+		collectibles.clear();
 		
 		delete player;
   }
 
+  /**
+   * @brief Draws a heart icon representing a life at the specified coordinates.
+   * @param x The X coordinate on the screen.
+   * @param y The Y coordinate on the screen.
+   */
 	void drawHeart(int16_t x, int16_t y);
 
+  /**
+   * @brief Loads the initial level layout, including platforms, spikes, and collectibles.
+   */
   void loadLevel();
 
+  /**
+   * @brief Clears the current level layout by deleting all dynamically allocated objects
+   * and collectibles, and resetting the score.
+   */
   void clearLevel();
 
+  /**
+   * @brief Master draw function that delegates to specific draw methods based on the current screen state.
+   * Fills the screen with black and pushes the canvas to the LCD at the end.
+   */
   void draw();
 
+  /**
+   * @brief Master update function that delegates to specific update methods based on the current screen state.
+   */
   void update();
 
   /**
-   * @brief Renders the entire scene (background, objects, player) onto the sprite,
-   * and then pushes it to the display.
+   * @brief Renders the entire scene (background, objects, player, UI) onto the canvas sprite.
+   * Note: This does not push to the display; that is handled by draw().
    */
   void drawGame();
 
   /**
    * @brief Advances the game state by updating player logic, object logic,
-   * and running collision detection and resolution.
+   * running collision detection and resolution, and managing collectibles.
    */
 	void updateGame();
 
+  /**
+   * @brief Renders the start screen text.
+   */
   void drawStart();
 
+  /**
+   * @brief Renders the death screen text and remaining lives.
+   */
   void drawDeath();
 
+  /**
+   * @brief Renders the game over screen text.
+   */
 	void drawGameOver();
 
+  /**
+   * @brief Handles logic for the start screen (e.g., waiting for input to start the game).
+   */
   void updateStart();
 
+  /**
+   * @brief Handles logic for the death screen, respawning at the checkpoint or moving to GAMEOVER.
+   */
   void updateDeath();
 
+  /**
+   * @brief Handles logic for the game over screen, waiting for input to reset positions and restart the game.
+   */
 	void updateGameOver();	
 
 
   /**
-   * @brief Adds a new Actor object to the game scene.
-   * @param newObj Pointer to the Actor to be added.
+   * @brief Adds a new Object to the game scene.
+   * @param newObj Pointer to the Object to be added.
    */
   void addObject(Object* newObj);
 
   /**
-   * @brief Removes a specific Actor from the scene by its pointer.
-   * @param obj Pointer to the Actor to be deleted and removed.
+   * @brief Removes a specific Object from the scene by its pointer.
+   * @warning DO NOT USE THIS METHOD. The implementation states it is unstable 
+   * and can crash the ESP32.
+   * @param obj Pointer to the Object to be deleted and removed.
    */
   void removeObject(Object* obj);
 
   /**
    * @brief Removes an object from the scene by its index and type.
+   * @warning DO NOT USE THIS METHOD. The implementation states it is unstable 
+   * and can crash the ESP32.
    * @param pos The index of the object in its respective list.
    * @param type The type of the object to determine which list to remove from.
    */
 	void removeObject(int pos, ObjectTypes type);
 
   /**
-   * @brief Adds a new Coin object to the game scene.
-   * @param newObj Pointer to the Coin to be added.
+   * @brief Adds a new Collectible object to the game scene.
+   * @param newObj Pointer to the Collectible to be added.
    */
   void addObject(Collectible* newObj);
 
   /**
-   * @brief Removes a specific Coin from the scene by its pointer.
-   * @param obj Pointer to the Coin to be deleted and removed.
+   * @brief Removes a specific Collectible from the scene by its pointer.
+   * @param obj Pointer to the Collectible to be deleted and removed.
    */
   void removeObject(Collectible* obj);
 
