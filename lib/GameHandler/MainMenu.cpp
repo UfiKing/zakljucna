@@ -33,11 +33,9 @@ void MainMenu::drawWelcome(){
 	canvas->fillScreen(backgroundColour);
 	canvas->setTextColor(TFT_BLACK, backgroundColour);
 	canvas->setTextSize(2.5);
-	canvas->setCursor(40,10);
-	canvas->println("BLOCK");
+	canvas->setCursor(25,10);
+	canvas->println("ArduCube");
 
-	canvas->setCursor(25,30);
-	canvas->println("JUMPING");
 
 	canvas->setTextSize(1);
 	canvas->setCursor(60,65);
@@ -74,13 +72,25 @@ void MainMenu::drawCredits(){
 	canvas->setCursor(25,10);
 	canvas->println("CREDITS");
 	canvas->setTextSize(1);
-	canvas->setCursor(6,50);
+	canvas->setCursor(1,40);
 	canvas->println("This game was made by ufi");
+	canvas->setCursor(1,50);
+	canvas->println("Special thanks goes to:");
+	canvas->setCursor(1,60);
+	canvas->println("Ema (provided the name)");
+	canvas->setCursor(1,70);
+	canvas->println("Bine (kept me company)");
 
-	canvas->setCursor(8,70);
+	canvas->setCursor(1,80);
+	canvas->println("My GF (dealt with me com-");
+
+	canvas->setCursor(1,90);
+	canvas->println("plaining about this game)");
+
+	canvas->setCursor(8,100);
 	canvas->println("Press back (green button)");
 
-	canvas->setCursor(50,80);
+	canvas->setCursor(50,110);
 	canvas->println("To go back");
 }
 
