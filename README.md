@@ -28,3 +28,17 @@ There was some usage of generative LLMs (from now on "AI", even tho there is not
 AI was mainly used to aid in writing some boilerplate code, most of the comments, general debugging, and writing git commit messages.
 Most of the code was written by me, except the classes Checkpoint and Bullet was writen primarly with AI.
 I was mainly testing the effectivnes of local AI models compared to gemini pro, and general AI use in my coding worklow, as I haven't used it (int this capacity) yet.
+
+## Compiling
+For installing platformio please follow the instructions at https://docs.platformio.org/en/latest/core/installation/index.html
+All the dependecies are already listed in `platformio.ini`
+you should be able to compile the code with:
+```
+pio run
+```
+
+the code can be uploaded with:
+```
+pio run -t upload
+```
+when uploading make sure your user has the adquate permisions to do so.
