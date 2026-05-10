@@ -14,6 +14,7 @@
 #include "LifeCollectible.hpp"
 #include "MainMenu.hpp"
 #include "Checkpoint.hpp"
+#include "Text.hpp"
 
 /**
  * @brief Enumeration for the different game states/screens.

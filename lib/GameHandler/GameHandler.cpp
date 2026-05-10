@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <esp_log.h>
 #include "BulletSpawner.hpp"
+#include <cstring>
 
 void GameHandler::loadLevel(){
 	switch(currentLevel){
@@ -33,31 +34,35 @@ void GameHandler::loadLevel1(){
   addObject(new Object(60,90,10,10,TFT_DARKGRAY));
   addObject(new Object(90,90,10,10,TFT_RED));
   addObject(new Object(120,90,10,10,TFT_GOLD));
-  addObject(new Platform(160,90,10,10,BROWNBLOCK));
-  addObject(new Platform(170,80,10,20,BROWNBLOCK));
-  addObject(new Platform(180,70,10,30,BROWNBLOCK));
-  addObject(new Platform(200,70,10,30,BROWNBLOCK));
-  addObject(new Platform(220,60,10,40,BROWNBLOCK));
-  addObject(new Platform(240,70,10,30,BROWNBLOCK));
-  addObject(new Platform(260,70,10,30,BROWNBLOCK));
+  addObject(new Platform(260,90,10,10,BROWNBLOCK));
   addObject(new Platform(270,80,10,20,BROWNBLOCK));
-  addObject(new Platform(280,90,10,10,BROWNBLOCK));
-  addObject(new Platform(390,90,10,10,BROWNBLOCK));
-  addObject(new Platform(400,80,10,20,BROWNBLOCK));
-  addObject(new Platform(410,70,10,30,BROWNBLOCK));
-  addObject(new Platform(420,60,10,40,BROWNBLOCK));
-  addObject(new Platform(430,50,10,50,BROWNBLOCK));
-  addObject(new Platform(500,90,10,10,BROWNBLOCK));
-  addObject(new Platform(490,80,10,20,BROWNBLOCK));
-  addObject(new Platform(480,70,10,30,BROWNBLOCK));
-  addObject(new Platform(470,60,10,40,BROWNBLOCK));
-  addObject(new Platform(460,50,10,50,BROWNBLOCK));
-  addObject(new Platform(620,90,10,10,BROWNBLOCK));
-  addObject(new Platform(630,80,10,20,BROWNBLOCK));
-  addObject(new Platform(640,70,10,30,BROWNBLOCK));
-  addObject(new Platform(650,60,10,40,BROWNBLOCK));
-  addObject(new Platform(660,50,10,50,BROWNBLOCK));
-
+  addObject(new Platform(280,70,10,30,BROWNBLOCK));
+  addObject(new Platform(300,70,10,30,BROWNBLOCK));
+  addObject(new Platform(320,60,10,40,BROWNBLOCK));
+  addObject(new Platform(340,70,10,30,BROWNBLOCK));
+  addObject(new Platform(360,70,10,30,BROWNBLOCK));
+  addObject(new Platform(370,80,10,20,BROWNBLOCK));
+  addObject(new Platform(380,90,10,10,BROWNBLOCK));
+  addObject(new Platform(490,90,10,10,BROWNBLOCK));
+  addObject(new Platform(500,80,10,20,BROWNBLOCK));
+  addObject(new Platform(510,70,10,30,BROWNBLOCK));
+  addObject(new Platform(520,60,10,40,BROWNBLOCK));
+  addObject(new Platform(530,50,10,50,BROWNBLOCK));
+  addObject(new Platform(600,90,10,10,BROWNBLOCK));
+  addObject(new Platform(590,80,10,20,BROWNBLOCK));
+  addObject(new Platform(580,70,10,30,BROWNBLOCK));
+  addObject(new Platform(570,60,10,40,BROWNBLOCK));
+  addObject(new Platform(560,50,10,50,BROWNBLOCK));
+  addObject(new Platform(720,90,10,10,BROWNBLOCK));
+  addObject(new Platform(730,80,10,20,BROWNBLOCK));
+  addObject(new Platform(740,70,10,30,BROWNBLOCK));
+  addObject(new Platform(750,60,10,40,BROWNBLOCK));
+  addObject(new Platform(760,50,10,50,BROWNBLOCK));
+	
+	const char* text1Const = "hihiha";
+	char* text1 = new char[10];
+	std::strncpy(text1,text1Const,10);
+	addNonCollidingObject(new Text(10,50,35,10,text1,1,TFT_BLACK,backgroundColour));
 	addNonCollidingObject(new Checkpoint(10,81));
  
 }
@@ -329,9 +334,9 @@ void GameHandler::drawGame(){
     if (obj == nullptr) continue;
     int renderX = obj->getX() - player->getX() + 64;
     // Only draw if visible
-    if (renderX + obj->getWidth() >= 0 && renderX <= screenWidth) {
-      obj->draw(canvas, offset, 0);
-    }
+    if (renderX + obj->getWidth() < 0 || renderX > screenWidth) continue;
+    obj->draw(canvas, offset, 0);
+    
   }
 
 
