@@ -30,7 +30,7 @@ extern "C" void app_main() {
 		Handler.draw(); 	
 
 		timePassed = esp_timer_get_time() - startTime;
-		//ESP_LOGI("TAG", "%d", timePassed);
+		ESP_LOGI("TAG", "%d", timePassed);
 		if (timePassed < 16000){
     	vTaskDelay(pdMS_TO_TICKS(16 - timePassed / 1000)); // Delay roughly 16 milliseconds to hit ~60 FPS
 		} else {

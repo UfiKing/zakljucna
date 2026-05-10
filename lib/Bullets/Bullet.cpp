@@ -39,3 +39,7 @@ void Bullet::setDirection(Direction newDirection) {
 void Bullet::setSpeed(int16_t newSpeed) {
   speed = newSpeed;
 }
+
+void Bullet::destroy(){
+	destroyed = true;
+}

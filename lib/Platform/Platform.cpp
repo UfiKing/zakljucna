@@ -23,8 +23,6 @@ void Platform::drawGrayBricks(LGFX_Sprite* canvas, int offsetX, int offsetY) {
 	//future optimizing jure, tuki pa pomojem se ne da velik vec. Ze startWrite pa endWrite pomojem ful pomagata
 	//tuki se pa pozna ker mas tko 200+ rectov
 
-	canvas->startWrite();
-	//old drawing method
 
 	for(int i = 0; i < rows; i++){
 		switch(i % 7){
@@ -45,7 +43,6 @@ void Platform::drawGrayBricks(LGFX_Sprite* canvas, int offsetX, int offsetY) {
 				break;
 		}
 	}
-	canvas->endWrite();
 }
 
 void Platform::drawGrayBlock(LGFX_Sprite* canvas, int offsetX, int offsetY){
@@ -59,7 +56,6 @@ void Platform::drawGrayBlock(LGFX_Sprite* canvas, int offsetX, int offsetY){
 
 	int xoff = x;
 	int yoff = y;
-	canvas->startWrite();
 	for(int i = 0; i < rows; i++){
 		for(int j = 0; j < cols; j++){
 			xoff = x + j * 10;
@@ -86,6 +82,5 @@ void Platform::drawGrayBlock(LGFX_Sprite* canvas, int offsetX, int offsetY){
 			canvas->drawPixel(xoff + 9, yoff + 9, TFT_DARKGRAY);
 		}
 	}
-	canvas->endWrite();
 
 }

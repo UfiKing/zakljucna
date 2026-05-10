@@ -99,6 +99,7 @@ void GameHandler::clearLevel(){
 
 void GameHandler::draw(){
 	// Clear the off-screen canvas to prepare for the new frame
+	canvas->startWrite();
 	canvas->fillScreen(TFT_NAVY);
 	switch(currentScreen){
 		case START:
@@ -114,7 +115,7 @@ void GameHandler::draw(){
 			drawGameOver();
 			break;
 	}
-
+	canvas->endWrite();
 	// Push the fully drawn canvas frame to the actual LCD display
 	canvas->pushSprite(0,0);
 
@@ -243,7 +244,7 @@ void GameHandler::drawGame(){
     if(renderX + obj->getWidth() < 0 || renderX > screenWidth) continue;
     obj->draw(canvas, offset, 0);
   }
-  canvas->fillRect(0,0,60,15,TFT_BLACK);
+  canvas->fillRect(0,0,60,17,TFT_BLACK);
   canvas->setTextColor(TFT_GOLD);
   canvas->setCursor(1,1);
   canvas->print("Score: ");
@@ -263,9 +264,18 @@ void GameHandler::updateGame(){
 		if(obj != nullptr) obj->update();
 	}
 
+	uint32_t start_time = esp_timer_get_time();
 	for(Object* obj : spawners){
-		if(obj != nullptr) obj->update();
+		if(obj != nullptr) obj->update();		
+		BulletSpawner* spawner = (BulletSpawner*)obj;
+		for(Bullet* bullet: spawner->children){
+			for(Object* object : objects){
+				if(checkCollision(bullet, object)) bullet->destroy();
+			}
+		}	
 	}
+	uint32_t current_time = esp_timer_get_time() - start_time;
+	//ESP_LOGI("TAG", "%d", current_time);
 
 	// 1. Move player purely on the X axis
 	player->move(controller);
@@ -276,11 +286,21 @@ void GameHandler::updateGame(){
 
 	// Check X axis collisions
 	for(Object* obj : objects){
+		//if its a bullet or a spike we return
 		if(checkCollisionX(obj)) return;
+			
 	}
 
 	for(Object* obj : spawners){
+		//if its a bullet or a spike we return
 		if(checkCollisionX(obj)) return;
+		BulletSpawner* spawner = (BulletSpawner*)obj;
+		for(Bullet* child : spawner->children){
+			if(checkCollisionX(child)){
+				child->destroy();
+				return;	
+			}
+		}
 	}
 
 	player->applyGravity();
@@ -295,11 +315,20 @@ void GameHandler::updateGame(){
 
 	// Update scene objects and check for collisions
 	for(Object* obj : objects){
+		//if its a bullet or a spike we return
 		if(checkCollisionY(obj)) return;
 	}
 
 	for(Object* obj : spawners){
+		//if its a bullet or a spike we return
 		if(checkCollisionY(obj)) return;
+		BulletSpawner* spawner = (BulletSpawner*)obj;
+		for(Bullet* child : spawner->children){
+			if(checkCollisionX(child)){
+				child->destroy();
+				return;	
+			}
+		}
 	}
 
 	for(auto it = collectibles.begin(); it != collectibles.end();){
@@ -408,7 +437,7 @@ bool GameHandler::checkCollision(Actor* obj1, Actor* obj2){
 	bool test1 = obj1->getLeft() >= obj2->getRight();
 	bool test2 = obj1->getRight() <= obj2->getLeft();
 	bool test3 = obj1->getBottom() <= obj2->getTop();
-	bool test4 = obj1->getTop() >= obj2->getBottom(); 
+	bool test4 = obj1->getTop() >= obj2->getBottom();
 	return !(test1 || test2 || test3 || test4);
 }
 

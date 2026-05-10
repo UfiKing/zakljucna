@@ -69,4 +69,7 @@ public:
    * @param newSpeed New speed in pixels per frame
    */
   void setSpeed(int16_t newSpeed);
+
+
+	void destroy();
 };

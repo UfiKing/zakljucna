@@ -1,3 +1,6 @@
 - Start screen
 - Death screen
 - make death text display over game
+
+BUGS
+when drawing bricks the vertical lines are black
