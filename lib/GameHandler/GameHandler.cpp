@@ -27,11 +27,12 @@ void GameHandler::loadLevel1(){
 	checkpointX = 20;
 	checkpointY = 0;
 	player->changeColour(TFT_BLACK);
+
   addObject(new Object(-10,0,10,128,TFT_SKYBLUE));
-  addObject(new Object(0,100,440,10,TFT_GREEN));
-  addObject(new Object(460,100,210,10,TFT_GREEN));
-  addObject(new Object(700,100,100,10,TFT_GREEN));
-  addObject(new Object(60,90,10,10,TFT_DARKGRAY));
+  addObject(new Object(-50,100,490,30,TFT_GREEN));
+  addObject(new Object(460,100,210,30,TFT_GREEN));
+  addObject(new Object(670,100,100,30,TFT_GREEN));
+  addObject(new Object(800,100,100,30,TFT_GREEN));
   addObject(new Object(90,90,10,10,TFT_RED));
   addObject(new Object(120,90,10,10,TFT_GOLD));
   addObject(new Platform(260,90,10,10,BROWNBLOCK));
@@ -58,17 +59,47 @@ void GameHandler::loadLevel1(){
   addObject(new Platform(740,70,10,30,BROWNBLOCK));
   addObject(new Platform(750,60,10,40,BROWNBLOCK));
   addObject(new Platform(760,50,10,50,BROWNBLOCK));
+
+
+	for(int i = 0; i < 4; i++){
+		addObject(new Spike(290 + i * 20,89,10,10));
+	}
 	
-	const char* text1Const = "hihiha";
-	char* text1 = new char[10];
-	std::strncpy(text1,text1Const,10);
-	addNonCollidingObject(new Text(10,50,35,10,text1,1,TFT_BLACK,backgroundColour));
-	addNonCollidingObject(new Checkpoint(10,81));
+	const char* text1Const = "This is a coin";
+	const char* text2Const = "It gives you 5 score";
+	char* text1 = new char[17];
+	char* text2 = new char[35];
+	std::strncpy(text1,text1Const,17);
+	std::strncpy(text2,text2Const,35);
+	addNonCollidingObject(new Text(50,50,102,10,text1,1,TFT_BLACK,backgroundColour));
+	addNonCollidingObject(new Text(50,70,150,10,text2,1,TFT_BLACK,backgroundColour));
+	addObject(new Coin(90,95,5));
+
+	const char* text3Const = "This is a spike";
+	const char* text4Const = "It kills you";
+	char* text3 = new char[20];
+	char* text4 = new char[20];
+	std::strncpy(text3,text3Const,20);
+	std::strncpy(text4,text4Const,20);
+	addNonCollidingObject(new Text(185,50,100,10,text3,1,TFT_BLACK,backgroundColour));
+	addNonCollidingObject(new Text(185,70,100,10,text4,1,TFT_BLACK,backgroundColour));
+	addObject(new Spike(200,89,10,10));
  
+
+	const char* text5Const = "This is a heart";
+	const char* text6Const = "It gives you an extra life";
+	char* text5 = new char[20];
+	char* text6 = new char[30];
+	std::strncpy(text5,text5Const,20);
+	std::strncpy(text6,text6Const,30);
+	addNonCollidingObject(new Text(300,25,100,10,text5,1,TFT_BLACK,backgroundColour));
+	addNonCollidingObject(new Text(300,35,200,30,text6,1,TFT_BLACK,backgroundColour));
+	addObject(new LifeCollectible(322,52));
+
 }
 
 void GameHandler::loadLevel2(){
-	checkpointX = 1080;
+	checkpointX = 0;
 	checkpointY = 20;
 	backgroundColour = 8420;
 
@@ -77,22 +108,22 @@ void GameHandler::loadLevel2(){
 	addObject(new Platform(-20,90,10,10,GRAYBRICKS));
 
 	for(int i = 0; i < 5; i++){
-		addObject(new Spike(130 + i * 20,100,10,4));
+		addObject(new Spike(130 + i * 20,96,10,4));
 	}
 
 	for(int i = 0; i < 3; i++){
-		addObject(new Spike(230 + i * 10,100,10,10));
+		addObject(new Spike(230 + i * 10,90,10,10));
 	}
 
-	addObject(new Spike(270,100,10,4));
+	addObject(new Spike(270,96,10,4));
 	//na unmu velkmu letecem boxu
 	for(int i = 0; i < 10; i++){
-		addObject(new Spike(365+i*5,61,5,5));
+		addObject(new Spike(365+i*5,56,5,5));
 	}
 
 	addSpawner(new BulletSpawner(810,56,2000,RIGHT,1));
 	for(int i = 0; i < 4; i++){
-		addObject(new Spike(835 + i * 25,80,10,5));
+		addObject(new Spike(835 + i * 25,75,10,5));
 	}
 
 	addObject(new Coin(245,46,5));
@@ -115,7 +146,7 @@ void GameHandler::loadLevel2(){
 	addSpawner(new BulletSpawner(930,113,1500,LEFT,2));
 
 
-	addObject(new MovingSpike(290, 100, 480, 100, 10,10,1));
+	addObject(new MovingSpike(290, 90, 480, 90, 10,10,1));
  
   addObject(new Object(-60,0,10,100,TFT_DARKGRAY));
   addObject(new Object(-60,100,780,10,TFT_DARKGRAY));
@@ -521,7 +552,7 @@ int GameHandler::checkCollisionX(Object* obj){
 int GameHandler::checkCollisionY(Object* obj){
 	if(obj == nullptr) return 0;
 	if(checkCollision(player,obj)){
-		if(obj->getType() == SPIKE){
+		if(obj->getType() == SPIKE || obj->getType() == BULLET){
 			currentScreen = DEATH;
 			life--;
 			score-= 10;
@@ -644,4 +675,3 @@ int8_t GameHandler::resolveCollision(Actor* obj1, Coin* obj2){
 	}
 	return 0;
 }
-
