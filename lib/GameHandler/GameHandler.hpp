@@ -45,7 +45,7 @@ class GameHandler {
 	Controller* controller;              ///< Pointer to the gamepad controller instance.
 	const int16_t startingPosX = 1080;    ///< Initial player X spawn position.
 	const int16_t startingPosY = 20;     ///< Initial player Y spawn position.
-
+	int backgroundColour = TFT_BLACK;
 	MainMenu* mainMenu;
 public:
   /**

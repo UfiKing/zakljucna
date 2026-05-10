@@ -8,6 +8,7 @@
 void GameHandler::loadLevel(){
 	checkpointX = 1080;
 	checkpointY = 20;
+	backgroundColour = 8420;
 
 	addObject(new Platform(-20,90,10,10,GRAYBRICKS));
 
@@ -128,7 +129,7 @@ void GameHandler::clearLevel(){
 void GameHandler::draw(){
 	// Clear the off-screen canvas to prepare for the new frame
 	canvas->startWrite();
-	canvas->fillScreen(TFT_NAVY);
+	canvas->fillScreen(backgroundColour);
 	switch(currentScreen){
 		case START:
 			//drawStart();
