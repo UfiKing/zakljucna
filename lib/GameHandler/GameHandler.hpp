@@ -34,6 +34,7 @@ class GameHandler {
   std::vector<Object*> objects; ///< List of active game world objects (platforms, obstacles)
 	std::vector<Collectible*> collectibles;		 ///< List of active coins in the world
 	std::vector<Object*> spawners;
+	std::vector<Object*> nonCollidingObjects;
   LGFX_Lcd *lcd_ptr;           ///< Pointer to the physical LCD screen structure
   enum Screens currentScreen = START; ///< Tracks the current game screen/state for rendering and logic control
   int16_t score = 0;                  ///< Current score of the player.
@@ -42,7 +43,7 @@ class GameHandler {
 	int16_t checkpointX;                 ///< X coordinate of the player's last checkpoint.
 	int16_t checkpointY;                 ///< Y coordinate of the player's last checkpoint.
 	Controller* controller;              ///< Pointer to the gamepad controller instance.
-	const int16_t startingPosX = -20;    ///< Initial player X spawn position.
+	const int16_t startingPosX = 1080;    ///< Initial player X spawn position.
 	const int16_t startingPosY = 20;     ///< Initial player Y spawn position.
 
 	MainMenu* mainMenu;
@@ -56,6 +57,7 @@ public:
 		objects.reserve(100);
 		collectibles.reserve(10);
 		spawners.reserve(10);
+		nonCollidingObjects.reserve(10);
 	}
     
   /**
@@ -78,15 +80,25 @@ public:
    */
   ~GameHandler(){
 		for(Object* obj : objects){
-			delete obj;
+			if(obj != nullptr) delete obj;
 		}
 		objects.clear();
 
 		for(Collectible* obj : collectibles){
-			delete obj;
+			if(obj != nullptr) delete obj;
 		}
 		collectibles.clear();
-		
+
+		for(Object* obj : spawners){
+			if(obj != nullptr) delete obj;
+		}
+		spawners.clear();
+
+		for(Object* obj : nonCollidingObjects){
+			if(obj != nullptr) delete obj;
+		}
+		nonCollidingObjects.clear();
+
 		delete player;
 		delete controller;
 		delete mainMenu;
@@ -176,6 +188,8 @@ public:
    * @param newObj Pointer to the Collectible to be added.
    */
   void addObject(Collectible* newObj);
+
+	void addNonCollidingObject(Object* newObj);
 
 	void addSpawner(Object* newObj);
 

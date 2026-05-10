@@ -12,5 +12,6 @@ enum ObjectTypes{
 	COLLECTIBLE, ///< Collectible item (e.g., coin)
 	SPIKE,
 	BULLET,
-	BULLETSPAWNER
+	BULLETSPAWNER,
+	CHECKPOINT
 };

@@ -6,7 +6,7 @@
 
 
 void GameHandler::loadLevel(){
-	checkpointX = -20;
+	checkpointX = 1080;
 	checkpointY = 20;
 
 	addObject(new Platform(-20,90,10,10,GRAYBRICKS));
@@ -52,9 +52,9 @@ void GameHandler::loadLevel(){
 
 	addObject(new MovingSpike(290, 100, 480, 100, 10,10,1));
  
-  addObject(new Object(-60,0,10,100,TFT_DARKGRAY));
+   addObject(new Object(-60,0,10,100,TFT_DARKGRAY));
   addObject(new Object(-60,100,780,10,TFT_DARKGRAY));
-  addObject(new Object(-10,0,1030,10,TFT_DARKGRAY));
+  addObject(new Object(-60,0,1220,10,TFT_DARKGRAY));
   addObject(new Platform(120,90,10,10,GRAYBLOCK));
   addObject(new Platform(140,80,10,20,GRAYBLOCK));
   addObject(new Platform(160,70,10,30,GRAYBLOCK));
@@ -81,7 +81,7 @@ void GameHandler::loadLevel(){
   addObject(new Platform(610,10,60,20,GRAYBRICKS));
   addObject(new Platform(650,30,20,40,GRAYBRICKS));
   addObject(new Platform(610,70,60,10,GRAYBRICKS));
-  addObject(new Platform(735,34,30,96,GRAYBRICKS));
+  addObject(new Platform(735,33,30,97,GRAYBRICKS));
   addObject(new Platform(710,10,10,70,GRAYBRICKS));
   addObject(new Platform(775,30,40,10,GRAYBRICKS));
   addObject(new Platform(825,30,40,10,GRAYBRICKS));
@@ -92,14 +92,15 @@ void GameHandler::loadLevel(){
   addObject(new Object(765,120,235,10,TFT_DARKGRAY));
   addObject(new Platform(1000,70,20,10,GRAYBRICKS));
   addObject(new Platform(1000,80,10,50,GRAYBRICKS));
-  addObject(new Platform(1010,100,50,10,GRAYBRICKS));
+  addObject(new Object(1010,100,150,10,TFT_DARKGRAY));
   addObject(new Platform(790,80,210,10,GRAYBRICKS));
   addObject(new Platform(790,105,10,15,GRAYBRICKS));
+  addObject(new Object(1150,0,10,100,TFT_DARKGRAY)); 
 
   addSpawner(new BulletSpawner(680,90,5000,LEFT,1)); 
 	
 	addSpawner(new BulletSpawner(945,20,2500,LEFT,1));
-	
+
 }
 
 void GameHandler::clearLevel(){
@@ -117,6 +118,11 @@ void GameHandler::clearLevel(){
 		if(spawners[i] != nullptr) delete spawners[i];
 	}
 	spawners.clear();
+
+	for (int i = 0; i < nonCollidingObjects.size(); i++) {
+    if (nonCollidingObjects[i] != nullptr) delete nonCollidingObjects[i];
+  }
+  nonCollidingObjects.clear();
 }
 
 void GameHandler::draw(){
@@ -127,7 +133,6 @@ void GameHandler::draw(){
 		case START:
 			//drawStart();
 			mainMenu->draw();
-
 			break;
 		case GAME:
 			drawGame();
@@ -260,9 +265,20 @@ void GameHandler::drawGame(){
     obj->draw(canvas, offset, 0);
   }
 
+  for (Object* obj : nonCollidingObjects) {
+    if (obj == nullptr) continue;
+    int renderX = obj->getX() - player->getX() + 64;
+    // Only draw if visible
+    if (renderX + obj->getWidth() >= 0 && renderX <= screenWidth) {
+      obj->draw(canvas, offset, 0);
+    }
+  }
+
+
   for(Object* obj : spawners){
     obj->draw(canvas, offset, 0);
   }
+
 
   for(Collectible* obj: collectibles){
     if(obj== nullptr) continue;
@@ -270,6 +286,9 @@ void GameHandler::drawGame(){
     if(renderX + obj->getWidth() < 0 || renderX > screenWidth) continue;
     obj->draw(canvas, offset, 0);
   }
+
+
+
   canvas->fillRect(0,0,60,17,TFT_BLACK);
   canvas->setTextColor(TFT_GOLD);
   canvas->setCursor(1,1);
@@ -290,9 +309,9 @@ void GameHandler::updateGame(){
 		if(obj != nullptr) obj->update();
 	}
 
-	uint32_t start_time = esp_timer_get_time();
 	for(Object* obj : spawners){
-		if(obj != nullptr) obj->update();		
+		if(obj == nullptr) continue; 		
+    obj->update();
 		BulletSpawner* spawner = (BulletSpawner*)obj;
 		for(Bullet* bullet: spawner->children){
 			for(Object* object : objects){
@@ -300,8 +319,10 @@ void GameHandler::updateGame(){
 			}
 		}	
 	}
-	uint32_t current_time = esp_timer_get_time() - start_time;
-	//ESP_LOGI("TAG", "%d", current_time);
+
+	for(Object* obj : nonCollidingObjects){
+		if(obj != nullptr) obj->update();
+	}
 
 	// 1. Move player purely on the X axis
 	player->move(controller);
@@ -456,6 +477,10 @@ void GameHandler::addObject(Collectible* newObj){
   collectibles.push_back(newObj);
 }
 
+void GameHandler::addNonCollidingObject(Object* newObj){
+	nonCollidingObjects.push_back(newObj);
+}
+
 void GameHandler::addSpawner(Object* newObj){
   spawners.push_back(newObj);
 }
@@ -533,3 +558,4 @@ int8_t GameHandler::resolveCollision(Actor* obj1, Coin* obj2){
 	}
 	return 0;
 }
+
