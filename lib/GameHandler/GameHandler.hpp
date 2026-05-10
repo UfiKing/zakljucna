@@ -24,6 +24,11 @@ enum Screens {
 	GAMEOVER  ///< The screen shown when all lives are lost.
 };
 
+enum Levels {
+	LEVEL1,
+	LEVEL2
+};
+
 /**
  * @brief Central game manager responsible for handling the main game loop,
  * rendering to the LCD, maintaining game objects, and managing collisions.
@@ -43,10 +48,11 @@ class GameHandler {
 	int16_t checkpointX;                 ///< X coordinate of the player's last checkpoint.
 	int16_t checkpointY;                 ///< Y coordinate of the player's last checkpoint.
 	Controller* controller;              ///< Pointer to the gamepad controller instance.
-	const int16_t startingPosX = 1080;    ///< Initial player X spawn position.
+	const int16_t startingPosX = 0;    ///< Initial player X spawn position.
 	const int16_t startingPosY = 20;     ///< Initial player Y spawn position.
 	int backgroundColour = TFT_BLACK;
 	MainMenu* mainMenu;
+	enum Levels currentLevel = LEVEL1;
 public:
   /**
    * @brief Construct a new GameHandler object.
@@ -117,11 +123,16 @@ public:
    */
   void loadLevel();
 
-  /**
+	/**
    * @brief Clears the current level layout by deleting all dynamically allocated objects
    * and collectibles, and resetting the score.
    */
   void clearLevel();
+
+	void loadLevel1();
+	
+	void loadLevel2();
+
 
   /**
    * @brief Master draw function that delegates to specific draw methods based on the current screen state.

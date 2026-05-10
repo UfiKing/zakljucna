@@ -4,11 +4,62 @@
 #include <esp_log.h>
 #include "BulletSpawner.hpp"
 
-
 void GameHandler::loadLevel(){
+	switch(currentLevel){
+		case LEVEL1:
+			loadLevel1();
+			break;
+		case LEVEL2: 
+			loadLevel2();
+			break;
+	}
+}
+
+
+void GameHandler::loadLevel1(){
+	backgroundColour = TFT_SKYBLUE;
+	checkpointX = 20;
+	checkpointY = 0;
+	player->changeColour(TFT_BLACK);
+  addObject(new Object(-10,0,10,128,TFT_SKYBLUE));
+  addObject(new Object(0,100,440,10,TFT_GREEN));
+  addObject(new Object(460,100,210,10,TFT_GREEN));
+  addObject(new Object(700,100,100,10,TFT_GREEN));
+  addObject(new Object(60,90,10,10,TFT_DARKGRAY));
+  addObject(new Object(90,90,10,10,TFT_RED));
+  addObject(new Object(120,90,10,10,TFT_GOLD));
+  addObject(new Platform(160,90,10,10,BROWNBLOCK));
+  addObject(new Platform(170,80,10,20,BROWNBLOCK));
+  addObject(new Platform(180,70,10,30,BROWNBLOCK));
+  addObject(new Platform(200,70,10,30,BROWNBLOCK));
+  addObject(new Platform(220,60,10,40,BROWNBLOCK));
+  addObject(new Platform(240,70,10,30,BROWNBLOCK));
+  addObject(new Platform(260,70,10,30,BROWNBLOCK));
+  addObject(new Platform(270,80,10,20,BROWNBLOCK));
+  addObject(new Platform(280,90,10,10,BROWNBLOCK));
+  addObject(new Platform(390,90,10,10,BROWNBLOCK));
+  addObject(new Platform(400,80,10,20,BROWNBLOCK));
+  addObject(new Platform(410,70,10,30,BROWNBLOCK));
+  addObject(new Platform(420,60,10,40,BROWNBLOCK));
+  addObject(new Platform(430,50,10,50,BROWNBLOCK));
+  addObject(new Platform(500,90,10,10,BROWNBLOCK));
+  addObject(new Platform(490,80,10,20,BROWNBLOCK));
+  addObject(new Platform(480,70,10,30,BROWNBLOCK));
+  addObject(new Platform(470,60,10,40,BROWNBLOCK));
+  addObject(new Platform(460,50,10,50,BROWNBLOCK));
+  addObject(new Platform(620,90,10,10,BROWNBLOCK));
+  addObject(new Platform(630,80,10,20,BROWNBLOCK));
+  addObject(new Platform(640,70,10,30,BROWNBLOCK));
+  addObject(new Platform(650,60,10,40,BROWNBLOCK));
+  addObject(new Platform(660,50,10,50,BROWNBLOCK));
+ 
+}
+
+void GameHandler::loadLevel2(){
 	checkpointX = 1080;
 	checkpointY = 20;
 	backgroundColour = 8420;
+	player->changeColour(TFT_PINK);
 
 	addObject(new Platform(-20,90,10,10,GRAYBRICKS));
 
@@ -53,7 +104,7 @@ void GameHandler::loadLevel(){
 
 	addObject(new MovingSpike(290, 100, 480, 100, 10,10,1));
  
-   addObject(new Object(-60,0,10,100,TFT_DARKGRAY));
+  addObject(new Object(-60,0,10,100,TFT_DARKGRAY));
   addObject(new Object(-60,100,780,10,TFT_DARKGRAY));
   addObject(new Object(-60,0,1220,10,TFT_DARKGRAY));
   addObject(new Platform(120,90,10,10,GRAYBLOCK));
