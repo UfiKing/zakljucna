@@ -13,7 +13,6 @@ enum Direction {
  * Inherits from Object and adds movement functionality and collision handling.
  */
 class Bullet : public Object {
-	enum ObjectTypes type = BULLET;	
 protected:
   Direction direction;  ///< Movement direction of the bullet
   int16_t speed;        ///< Speed of movement in pixels per frame
@@ -35,6 +34,7 @@ public:
     this->direction = direction;
     this->speed = speed;
     this->destroyed = false;
+		this->type = BULLET;
   }
 
   /**

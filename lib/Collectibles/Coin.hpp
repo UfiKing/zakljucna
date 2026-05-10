@@ -10,7 +10,6 @@ class Coin : public Collectible{
 	int16_t width;                       ///< Width of the coin's bounding box
 	int16_t height;                      ///< Height of the coin's bounding box
 	Vektor<int16_t> position;            ///< 2D vector storing the X and Y coordinates
-	enum ObjectTypes type = COLLECTIBLE; ///< Type identification for collision handling
 	int accentColour;                    ///< Lighter color used for highlights
 	int shadeColour;                     ///< Darker color used for shading/shadows
 	int accentShadeColour;               ///< Mixed color for shaded highlights
@@ -31,6 +30,7 @@ public:
 		accentColour = TFT_YELLOW;
 		shadeColour = 24992;
 		accentShadeColour = 43776;
+		this->type = COLLECTIBLE;
 	}
 
 	/**

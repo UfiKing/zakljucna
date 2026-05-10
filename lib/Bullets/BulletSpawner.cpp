@@ -13,6 +13,7 @@ BulletSpawner::BulletSpawner(int16_t x, int16_t y, int16_t width, int16_t height
   bulletSpeed = speed;
   bulletWidth = bWidth;
   bulletHeight = bHeight;
+	this->type = BULLETSPAWNER;
 }
 
 BulletSpawner::~BulletSpawner() {

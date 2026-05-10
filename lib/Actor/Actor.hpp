@@ -10,8 +10,9 @@
  */
 class Actor {
 private:
-	enum ObjectTypes type = ACTOR;
 protected:
+
+	enum ObjectTypes type;
   Vektor<int16_t> position; ///< 2D vector storing the X and Y coordinates
   uint16_t width;           ///< Width of the actor's bounding box
   uint16_t height;          ///< Height of the actor's bounding box
@@ -24,6 +25,7 @@ public:
     position = Vektor(x,y);
     this->width = width;
     this->height = height;
+		this->type = ACTOR;
   }
   
   /**

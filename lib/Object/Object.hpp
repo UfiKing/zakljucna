@@ -6,7 +6,7 @@
  * Inherits from Actor and adds color and drawing functionality.
  */
 class Object : public Actor{
-	enum ObjectTypes type = OBJECT; ///< Type identification for collision handling
+//	enum ObjectTypes type = OBJECT; ///< Type identification for collision handling
 protected:
 	uint16_t colour;                     ///< The color of the object
 public:
@@ -21,7 +21,7 @@ public:
 	 */
 	Object(int16_t x, int16_t y, int16_t width, int16_t height, uint16_t colour) : Actor(x,y,width,height){
 		this->colour = colour;
-
+		this->type = OBJECT;
 	}
 	/**
 	 * @brief Draws the object onto the provided canvas.

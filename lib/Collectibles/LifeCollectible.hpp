@@ -15,6 +15,7 @@ public:
    */
   LifeCollectible(int16_t x, int16_t y) : Collectible(x - 2 ,y - 2,12,12,LIFE1){
 		this->collectibleType = LIFE1;
+		this->type = COLLECTIBLE;
   }
 
   /**

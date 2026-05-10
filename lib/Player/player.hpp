@@ -18,7 +18,6 @@ protected:
 	uint8_t jumpConstant = defaultJump;	   ///< Force applied when jumping
 	bool hasJumped = false;			 			 ///< Prevents continuous jumping while the jump button is held down
   Vektor<int16_t> velocity;          ///< Current movement velocity vector of the player
-	enum ObjectTypes type = PLAYER;    ///< Type identification for collision handling
 public:
 	bool touchedGround = true;				  ///< Indicates if the player is currently touching the ground (prevents double jumping)
 	bool touchingWallLeft = false;			  ///< True if the player is touching a wall on their left
@@ -31,7 +30,7 @@ public:
    * @param y Initial Y coordinate.
    */
   Player(int16_t x, int16_t y) : Object(x, y, 5, 5, TFT_PINK){
-
+		this->type = PLAYER;
   }
 
   /**

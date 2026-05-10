@@ -6,7 +6,6 @@
  * Inherits from Object. Colliding with a spike instantly kills the player.
  */
 class Spike : public Object{
-	enum ObjectTypes type = SPIKE; ///< Type identification for collision handling.
 public:
 	/**
 	 * @brief Construct a new Spike object.
@@ -16,7 +15,7 @@ public:
 	 * @param height Height of the spike's bounding box.
 	 */
 	Spike(int16_t x, int16_t y, int16_t width, int16_t height) : Object(x,y,width,height, TFT_DARKGRAY){
-
+		this->type = SPIKE;
 	}
 
 	/**

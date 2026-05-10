@@ -29,6 +29,7 @@ public:
 		this->x2 = x2;
 		this->y2 = y2;
 		this->speed = speed;
+		this->type = SPIKE;
 	}
 
 	/**

@@ -9,7 +9,6 @@
  * Inherits from Object to allow positioning and drawing a spawn indicator if desired.
  */
 class BulletSpawner : public Object {
-	enum ObjectTypes type = BULLETSPAWNER;
 private:
   int spawnIntervalMs;          ///< Interval in milliseconds between spawns
   uint32_t lastSpawnTime;       ///< Timestamp of the last spawn
