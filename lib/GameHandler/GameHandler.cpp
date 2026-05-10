@@ -6,7 +6,7 @@
 
 
 void GameHandler::loadLevel(){
-	checkpointX = 970;
+	checkpointX = -20;
 	checkpointY = 20;
 
 	addObject(new Platform(-20,90,10,10,GRAYBRICKS));
@@ -97,7 +97,8 @@ void GameHandler::loadLevel(){
   addObject(new Platform(790,105,10,15,GRAYBRICKS));
 
   addSpawner(new BulletSpawner(680,90,5000,LEFT,1)); 
-	//addSpawner(new BulletSpawner(945,20,2500,LEFT,1));
+	
+	addSpawner(new BulletSpawner(945,20,2500,LEFT,1));
 	
 }
 
@@ -333,6 +334,7 @@ void GameHandler::updateGame(){
 	if(player->getY() > 130){
 		currentScreen = DEATH;
 		life--;
+		score-= 10;
 		return;
 	}
 
@@ -366,12 +368,12 @@ void GameHandler::updateGame(){
 		if(type == COIN1){
 			if(checkCollision(player, (Coin*)obj)){
 				collected = true;
-				score++;
+				score+=5;
 			}
 		}else if (type == LIFE1){
 			if(checkCollision(player,obj)){
 				collected = true;
-				score += 5;
+				score += 20;
 				life++;
 			}
 		}
@@ -391,6 +393,7 @@ int GameHandler::checkCollisionX(Object* obj){
 		if(obj->getType() == SPIKE || obj->getType() == BULLET){
 			currentScreen = DEATH;
 			life--;
+			score-= 10;
 			return 1;
 		}else{
 			int16_t overlapLeft = player->getRight() - obj->getLeft();
@@ -414,6 +417,7 @@ int GameHandler::checkCollisionY(Object* obj){
 		if(obj->getType() == SPIKE){
 			currentScreen = DEATH;
 			life--;
+			score-= 10;
 			return 1;
 		}else{
 			int16_t overlapTop = player->getBottom() - obj->getTop();

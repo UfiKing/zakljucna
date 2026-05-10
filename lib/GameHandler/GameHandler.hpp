@@ -36,13 +36,13 @@ class GameHandler {
 	std::vector<Object*> spawners;
   LGFX_Lcd *lcd_ptr;           ///< Pointer to the physical LCD screen structure
   enum Screens currentScreen = START; ///< Tracks the current game screen/state for rendering and logic control
-  uint16_t score = 0;                  ///< Current score of the player.
+  int16_t score = 0;                  ///< Current score of the player.
 	const int8_t maxLives = 5;           ///< Maximum number of lives the player starts with.
 	int8_t life = maxLives;              ///< Current remaining lives.
 	int16_t checkpointX;                 ///< X coordinate of the player's last checkpoint.
 	int16_t checkpointY;                 ///< Y coordinate of the player's last checkpoint.
 	Controller* controller;              ///< Pointer to the gamepad controller instance.
-	const int16_t startingPosX = 970;    ///< Initial player X spawn position.
+	const int16_t startingPosX = -20;    ///< Initial player X spawn position.
 	const int16_t startingPosY = 20;     ///< Initial player Y spawn position.
 
 	MainMenu* mainMenu;
