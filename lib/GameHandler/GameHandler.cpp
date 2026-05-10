@@ -276,48 +276,11 @@ void GameHandler::updateGame(){
 
 	// Check X axis collisions
 	for(Object* obj : objects){
-		if(obj == nullptr) continue;
-		if(checkCollision(player,obj)){
-			if(obj->getType() == SPIKE){
-				currentScreen = DEATH;
-				life--;
-				return;
-			}else{
-				int16_t overlapLeft = player->getRight() - obj->getLeft();
-				int16_t overlapRight = obj->getRight() - player->getLeft();
-				ESP_LOGI("TAG", "%d", overlapLeft);
-				if (overlapLeft < overlapRight) {
-					player->setRight(obj->getLeft());
-					player->touchingWallRight = true;
-				} else {
-					player->setLeft(obj->getRight());
-					player->touchingWallLeft = true;
-				}
-			}
-		}
+		if(checkCollisionX(obj)) return;
 	}
-	//TOLE bi blo zlo fajn spremenit da nimas duplicate kode
-	//ampak jbg bomo ze enkrat its too late in the day za zdele to nardit
+
 	for(Object* obj : spawners){
-		if(obj == nullptr) continue;
-		if(checkCollision(player,obj)){
-			if(obj->getType() == SPIKE || obj->getType() == BULLET){
-				currentScreen = DEATH;
-				life--;
-				return;
-			}else{
-				int16_t overlapLeft = player->getRight() - obj->getLeft();
-				int16_t overlapRight = obj->getRight() - player->getLeft();
-				ESP_LOGI("TAG", "%d", overlapLeft);
-				if (overlapLeft < overlapRight) {
-					player->setRight(obj->getLeft());
-					player->touchingWallRight = true;
-				} else {
-					player->setLeft(obj->getRight());
-					player->touchingWallLeft = true;
-				}
-			}
-		}
+		if(checkCollisionX(obj)) return;
 	}
 
 	player->applyGravity();
@@ -332,49 +295,11 @@ void GameHandler::updateGame(){
 
 	// Update scene objects and check for collisions
 	for(Object* obj : objects){
-		if(obj == nullptr) continue;
-		if(checkCollision(player,obj)){
-			if(obj->getType() == SPIKE){
-				currentScreen = DEATH;
-				life--;
-				return;
-			}else{
-				int16_t overlapTop = player->getBottom() - obj->getTop();
-				int16_t overlapBottom = obj->getBottom() - player->getTop();
-			
-				if (overlapTop < overlapBottom) {
-					player->setBottom(obj->getTop());
-					player->touchedGround = true;
-					player->setVelocityY(0); // Stop falling
-				} else {
-					player->setTop(obj->getBottom());
-					player->setVelocityY(0); // Hit ceiling, stop rising
-				}
-			}
-		}
+		if(checkCollisionY(obj)) return;
 	}
 
 	for(Object* obj : spawners){
-		if(obj == nullptr) continue;
-		if(checkCollision(player,obj)){
-			if(obj->getType() == SPIKE){
-				currentScreen = DEATH;
-				life--;
-				return;
-			}else{
-				int16_t overlapTop = player->getBottom() - obj->getTop();
-				int16_t overlapBottom = obj->getBottom() - player->getTop();
-			
-				if (overlapTop < overlapBottom) {
-					player->setBottom(obj->getTop());
-					player->touchedGround = true;
-					player->setVelocityY(0); // Stop falling
-				} else {
-					player->setTop(obj->getBottom());
-					player->setVelocityY(0); // Hit ceiling, stop rising
-				}
-			}
-		}
+		if(checkCollisionY(obj)) return;
 	}
 
 	for(auto it = collectibles.begin(); it != collectibles.end();){
@@ -406,6 +331,52 @@ void GameHandler::updateGame(){
 	}
 }
 
+int GameHandler::checkCollisionX(Object* obj){
+	if(obj == nullptr) return 0;
+	if(checkCollision(player,obj)){
+		if(obj->getType() == SPIKE || obj->getType() == BULLET){
+			currentScreen = DEATH;
+			life--;
+			return 1;
+		}else{
+			int16_t overlapLeft = player->getRight() - obj->getLeft();
+			int16_t overlapRight = obj->getRight() - player->getLeft();
+
+			if (overlapLeft < overlapRight) {
+				player->setRight(obj->getLeft());
+				player->touchingWallRight = true;
+			} else {
+				player->setLeft(obj->getRight());
+				player->touchingWallLeft = true;
+			}
+		}
+	}
+	return 0;
+}
+
+int GameHandler::checkCollisionY(Object* obj){
+	if(obj == nullptr) return 0;
+	if(checkCollision(player,obj)){
+		if(obj->getType() == SPIKE){
+			currentScreen = DEATH;
+			life--;
+			return 1;
+		}else{
+			int16_t overlapTop = player->getBottom() - obj->getTop();
+			int16_t overlapBottom = obj->getBottom() - player->getTop();
+		
+			if (overlapTop < overlapBottom) {
+				player->setBottom(obj->getTop());
+				player->touchedGround = true;
+				player->setVelocityY(0); // Stop falling
+			} else {
+				player->setTop(obj->getBottom());
+				player->setVelocityY(0); // Hit ceiling, stop rising
+			}
+		}
+	}
+	return 0;
+}
 
 void GameHandler::drawHeart(int16_t x, int16_t y){
 	canvas->startWrite();

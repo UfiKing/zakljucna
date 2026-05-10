@@ -172,7 +172,9 @@ public:
 
 	void addSpawner(Object* newObj);
 
-	int checkCollision(Object* obj);
+	int checkCollisionX(Object* obj);
+	
+	int checkCollisionY(Object* obj);
 
   /**
    * @brief Checks if two Actor objects are physically colliding.
