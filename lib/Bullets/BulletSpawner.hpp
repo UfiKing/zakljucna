@@ -31,9 +31,8 @@ public:
    * @param bWidth Width of the spawned bullets.
    * @param bHeight Height of the spawned bullets.
    */
-  BulletSpawner(int16_t x, int16_t y, int16_t width, int16_t height, float intervalSeconds, 
-                Direction direction, int16_t speed, 
-                int bWidth, int bHeight);
+  BulletSpawner(int16_t x, int16_t y,  float intervalSeconds, 
+                Direction direction, int16_t speed);
 
   /**
    * @brief Destroy the Bullet Spawner object and clean up bullets.

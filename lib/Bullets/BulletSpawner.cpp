@@ -2,17 +2,17 @@
 #include <algorithm>
 
 
-BulletSpawner::BulletSpawner(int16_t x, int16_t y, int16_t width, int16_t height, float intervalSeconds, 
-                             Direction direction, int16_t speed, 
-                             int bWidth, int bHeight) 
-    : Object(x, y, width, height, TFT_DARKGRAY) {
+BulletSpawner::BulletSpawner(int16_t x, int16_t y, float intervalSeconds, 
+                             Direction direction, int16_t speed) 
+    : Object(x, y, 16, 10, TFT_DARKGRAY) {
+
     
   spawnIntervalMs = static_cast<int>(intervalSeconds * 1000);
   lastSpawnTime = 0;
   spawnDirection = direction;
   bulletSpeed = speed;
-  bulletWidth = bWidth;
-  bulletHeight = bHeight;
+  bulletWidth = 10;
+  bulletHeight = 10;
 	this->type = BULLETSPAWNER;
 }
 
@@ -85,15 +85,28 @@ void BulletSpawner::draw(LGFX_Sprite* canvas) {
 void BulletSpawner::draw(LGFX_Sprite* canvas, int offsetX, int offsetY) {
 	int xoff = position.x + offsetX;
 	int yoff = position.y + offsetY + 9;
-	//front of the cannon
-	canvas->fillRect(xoff, yoff - 7, 2, 5, TFT_BLACK);
-	//circular part
-	canvas->fillCircle(xoff + 10, yoff - 5, 4, TFT_BLACK);
-	//barrel
-	canvas->fillRect(xoff + 2, yoff - 6, 4, 3, TFT_BLACK);
-	//triangle
-	canvas->fillTriangle(xoff + 6, yoff, xoff + 10, yoff - 4, xoff + 14, yoff, TFT_SILVER);
-	canvas->drawPixel(xoff + 10, yoff - 4, TFT_BLACK);
+	switch(spawnDirection){
+		case LEFT:
+			//front of the cannon
+			canvas->fillRect(xoff, yoff - 7, 2, 5, TFT_BLACK);
+			//circular part
+			canvas->fillCircle(xoff + 10, yoff - 5, 4, TFT_BLACK);
+			//barrel
+			canvas->fillRect(xoff + 2, yoff - 6, 4, 3, TFT_BLACK);
+			//triangle
+			canvas->fillTriangle(xoff + 6, yoff, xoff + 10, yoff - 4, xoff + 14, yoff, TFT_DARKGRAY);
+			canvas->drawPixel(xoff + 10, yoff - 4, TFT_BLACK);
+			break;
+		case RIGHT:
+			canvas->fillRect(xoff + 13, yoff - 7, 2, 5, TFT_BLACK);
+			canvas->fillRect(xoff + 9, yoff - 6, 4,3,TFT_BLACK);
+			canvas->fillCircle(xoff + 4, yoff - 5, 4, TFT_BLACK);
+			canvas->fillTriangle(xoff, yoff - 11, xoff + 4, yoff - 8, xoff + 8, yoff - 11, TFT_DARKGRAY);
+			canvas->drawPixel(xoff + 4, yoff - 8, TFT_BLACK);
+		default:
+			break;
+	}
+	
   // Draw bullets with the same offset
   for (Bullet* bullet : children) {
     bullet->draw(canvas, offsetX, offsetY);
