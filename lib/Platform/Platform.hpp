@@ -39,6 +39,14 @@ public:
 	 * @param offsetY Y coordinate offset.
 	 */
 	void drawGrayBricks(LGFX_Sprite* canvas, int offsetX, int offsetY);
+
+	/**
+	 * @brief Renders the platform using the BROWNBRICKS visual style.
+	 * @param canvas Pointer to the LovyanGFX sprite to draw on.
+	 * @param offsetX X coordinate offset.
+	 * @param offsetY Y coordinate offset.
+	 */
+	void drawBrownBricks(LGFX_Sprite* canvas, int offsetX, int offsetY);
 	
 	/**
 	 * @brief Renders the platform using the GRAYBLOCK visual style.
@@ -47,5 +55,13 @@ public:
 	 * @param offsetY Y coordinate offset.
 	 */
 	void drawGrayBlock(LGFX_Sprite* canvas, int offsetX, int offsetY);
+
+	/**
+	 * @brief Renders the platform using the BROWNBLOCK visual style.
+	 * @param canvas Pointer to the LovyanGFX sprite to draw on.
+	 * @param offsetX X coordinate offset.
+	 * @param offsetY Y coordinate offset.
+	 */
+	void drawBrownBlock(LGFX_Sprite* canvas, int offsetX, int offsetY);
 
 };
