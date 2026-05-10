@@ -24,17 +24,16 @@ void GameHandler::loadLevel(){
 
 void GameHandler::loadLevel1(){
 	backgroundColour = TFT_SKYBLUE;
-	checkpointX = 20;
+	checkpointX = 000;
 	checkpointY = 0;
 	player->changeColour(TFT_BLACK);
 
-  addObject(new Object(-10,0,10,128,TFT_SKYBLUE));
+	  addObject(new Object(-10,0,10,128,TFT_SKYBLUE));
   addObject(new Object(-50,100,490,30,TFT_GREEN));
   addObject(new Object(460,100,210,30,TFT_GREEN));
   addObject(new Object(670,100,100,30,TFT_GREEN));
-  addObject(new Object(800,100,100,30,TFT_GREEN));
-  addObject(new Object(90,90,10,10,TFT_RED));
-  addObject(new Object(120,90,10,10,TFT_GOLD));
+  addObject(new Object(800,100,500,30,TFT_GREEN));
+  addObject(new Object(1100,0,10,100,TFT_SKYBLUE));
   addObject(new Platform(260,90,10,10,BROWNBLOCK));
   addObject(new Platform(270,80,10,20,BROWNBLOCK));
   addObject(new Platform(280,70,10,30,BROWNBLOCK));
@@ -59,7 +58,9 @@ void GameHandler::loadLevel1(){
   addObject(new Platform(740,70,10,30,BROWNBLOCK));
   addObject(new Platform(750,60,10,40,BROWNBLOCK));
   addObject(new Platform(760,50,10,50,BROWNBLOCK));
-
+  addObject(new Platform(890,40,10,60,BROWNBRICKS));
+  addObject(new Platform(860,0,10,80,BROWNBRICKS));
+  addObject(new Platform(900,40,50,10,BROWNBRICKS));
 
 	for(int i = 0; i < 4; i++){
 		addObject(new Spike(290 + i * 20,89,10,10));
@@ -96,6 +97,30 @@ void GameHandler::loadLevel1(){
 	addNonCollidingObject(new Text(300,35,200,30,text6,1,TFT_BLACK,backgroundColour));
 	addObject(new LifeCollectible(322,52));
 
+	const char* text7Const = "You can wall jump";
+	char* text7 = new char[20];
+	std::strncpy(text7,text7Const,20);
+	addNonCollidingObject(new Text(755,20,150,10,text7,1,TFT_BLACK,backgroundColour));
+
+
+	const char* text8Const = "This is a checkpoint";
+	const char* text9Const = "It transports you to";
+	const char* textAConst = "the next level.";
+	const char* textBConst = "press down (yellow) to use";
+	char* text8 = new char[22];
+	char* text9 = new char[22];
+	char* textA = new char[20];
+	char* textB = new char[30];
+	std::strncpy(text8, text8Const,22);
+	std::strncpy(text9, text9Const,22);
+	std::strncpy(textA, textAConst,20);
+	std::strncpy(textB, textBConst,30);
+	addNonCollidingObject(new Text(960,20,150,10,text8,1,TFT_BLACK,backgroundColour));
+	addNonCollidingObject(new Text(960,30,150,10,text9,1,TFT_BLACK,backgroundColour));
+	addNonCollidingObject(new Text(960,40,150,10,textA,1,TFT_BLACK,backgroundColour));
+	addNonCollidingObject(new Text(960,50,150,10,textB,1,TFT_BLACK,backgroundColour));
+	addNonCollidingObject(new Checkpoint(1000,81));
+
 }
 
 void GameHandler::loadLevel2(){
@@ -105,7 +130,6 @@ void GameHandler::loadLevel2(){
 
 	player->changeColour(TFT_PINK);
 
-	addObject(new Platform(-20,90,10,10,GRAYBRICKS));
 
 	for(int i = 0; i < 5; i++){
 		addObject(new Spike(130 + i * 20,96,10,4));
@@ -191,7 +215,8 @@ void GameHandler::loadLevel2(){
   addObject(new Object(1010,100,150,10,TFT_DARKGRAY));
   addObject(new Platform(790,80,210,10,GRAYBRICKS));
   addObject(new Platform(790,105,10,15,GRAYBRICKS));
-  addObject(new Object(1150,0,10,100,TFT_DARKGRAY)); 
+  addObject(new Object(1150,0,10,100,TFT_DARKGRAY));
+ 
 
   addSpawner(new BulletSpawner(680,90,5000,LEFT,1)); 
 	
