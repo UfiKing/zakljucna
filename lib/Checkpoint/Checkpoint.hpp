@@ -3,12 +3,16 @@
 #include "ObjectTypes.hpp"
 
 class Checkpoint : public Object {
+	enum ObjectTypes type = CHECKPOINT;
 public:
     // Constructor
-    Checkpoint(int x, int y, int w, int h, uint16_t color);
+		Checkpoint(int x, int y) : Object(x, y, 18, 19, TFT_BROWN) {
+		}
 
     // Destructor
-    ~Checkpoint();
+    ~Checkpoint(){
+
+		}
 
     // Overridden methods from Object
     void draw(LGFX_Sprite* canvas, int offsetX, int offsetY) override;
@@ -16,4 +20,6 @@ public:
 
     // Method to be called when player hits this checkpoint
     void onPlayerHit();
+
+		ObjectTypes getType() override;
 };

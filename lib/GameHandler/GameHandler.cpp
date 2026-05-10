@@ -12,7 +12,12 @@ void GameHandler::loadLevel(){
 		case LEVEL2: 
 			loadLevel2();
 			break;
+		case LEVEL3:
+			break;
 	}
+	player->setX(checkpointX);
+	player->setY(checkpointY);
+	player->resetVelocity();
 }
 
 
@@ -52,6 +57,8 @@ void GameHandler::loadLevel1(){
   addObject(new Platform(640,70,10,30,BROWNBLOCK));
   addObject(new Platform(650,60,10,40,BROWNBLOCK));
   addObject(new Platform(660,50,10,50,BROWNBLOCK));
+
+	addNonCollidingObject(new Checkpoint(10,81));
  
 }
 
@@ -59,6 +66,7 @@ void GameHandler::loadLevel2(){
 	checkpointX = 1080;
 	checkpointY = 20;
 	backgroundColour = 8420;
+
 	player->changeColour(TFT_PINK);
 
 	addObject(new Platform(-20,90,10,10,GRAYBRICKS));
@@ -428,6 +436,27 @@ void GameHandler::updateGame(){
 				child->destroy();
 				return;	
 			}
+		}
+	}
+
+	for(Object* obj : nonCollidingObjects){
+		if(obj == nullptr) continue;
+		if(obj->getType() == CHECKPOINT){
+			ESP_LOGI("TAG", "%d", checkCollision(player,obj) && controller->buttons->getDownButton());
+			if(checkCollision(player, obj) && controller->buttons->getDownButton()){
+				if(currentLevel == LEVEL1){
+					currentLevel = LEVEL2;
+					clearLevel();
+					loadLevel();
+					return;
+				}
+				else if(currentLevel == LEVEL2){
+					currentLevel = LEVEL3;
+					clearLevel();
+					loadLevel();
+					return;
+				}
+			} 
 		}
 	}
 
