@@ -11,8 +11,13 @@ BulletSpawner::BulletSpawner(int16_t x, int16_t y, float intervalSeconds,
   lastSpawnTime = 0;
   spawnDirection = direction;
   bulletSpeed = speed;
-  bulletWidth = 10;
-  bulletHeight = 10;
+	if(direction == LEFT || direction == RIGHT){
+  	bulletWidth = 10;
+  	bulletHeight = 6;
+	}else{
+		bulletHeight = 10;
+		bulletWidth = 6;
+	}
 	this->type = BULLETSPAWNER;
 }
 

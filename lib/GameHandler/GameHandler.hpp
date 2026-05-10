@@ -12,6 +12,7 @@
 #include "MovingSpikes.hpp"
 #include "Collectible.hpp"
 #include "LifeCollectible.hpp"
+#include "MainMenu.hpp"
 
 /**
  * @brief Enumeration for the different game states/screens.
@@ -41,8 +42,10 @@ class GameHandler {
 	int16_t checkpointX;                 ///< X coordinate of the player's last checkpoint.
 	int16_t checkpointY;                 ///< Y coordinate of the player's last checkpoint.
 	Controller* controller;              ///< Pointer to the gamepad controller instance.
-	const int16_t startingPosX = 680;    ///< Initial player X spawn position.
+	const int16_t startingPosX = 970;    ///< Initial player X spawn position.
 	const int16_t startingPosY = 20;     ///< Initial player Y spawn position.
+
+	MainMenu* mainMenu;
 public:
   /**
    * @brief Construct a new GameHandler object.
@@ -66,6 +69,8 @@ public:
 		canvas->createSprite(lcd_ptr->width(), lcd_ptr->height());
 		player = new Player(startingPosX,startingPosY);
 		controller = new Controller();
+
+		mainMenu = new MainMenu(canvas, controller);
   }
 
   /**
@@ -84,6 +89,8 @@ public:
 		
 		delete player;
 		delete controller;
+		delete mainMenu;
+		delete canvas;
   }
 
   /**

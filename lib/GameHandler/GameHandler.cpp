@@ -6,7 +6,7 @@
 
 
 void GameHandler::loadLevel(){
-	checkpointX = 510;
+	checkpointX = 970;
 	checkpointY = 20;
 
 	addObject(new Platform(-20,90,10,10,GRAYBRICKS));
@@ -25,6 +25,11 @@ void GameHandler::loadLevel(){
 		addObject(new Spike(365+i*5,61,5,5));
 	}
 
+	addSpawner(new BulletSpawner(810,56,2000,RIGHT,1));
+	for(int i = 0; i < 4; i++){
+		addObject(new Spike(835 + i * 25,80,10,5));
+	}
+
 	addObject(new Coin(245,46,5));
 	addObject(new LifeCollectible(387,22));
 	addObject(new Coin(352,32,5));
@@ -37,12 +42,19 @@ void GameHandler::loadLevel(){
 	addObject(new Coin(635,62,5));
 	addObject(new Coin(645,62,5));
 
-	//addObject(new MovingSpike(290, 100, 480, 100, 10,10,1));
- 
+	addObject(new LifeCollectible(972,110));
+	addObject(new Coin(955,112,5));
+	addObject(new Coin(965,112,5));
+	addObject(new Coin(985,112,5));
+	addObject(new Coin(995,112,5));
+	addSpawner(new BulletSpawner(930,113,1500,LEFT,2));
+
+
+	addObject(new MovingSpike(290, 100, 480, 100, 10,10,1));
  
   addObject(new Object(-60,0,10,100,TFT_DARKGRAY));
   addObject(new Object(-60,100,780,10,TFT_DARKGRAY));
-  addObject(new Object(-10,0,830,10,TFT_DARKGRAY));
+  addObject(new Object(-10,0,1030,10,TFT_DARKGRAY));
   addObject(new Platform(120,90,10,10,GRAYBLOCK));
   addObject(new Platform(140,80,10,20,GRAYBLOCK));
   addObject(new Platform(160,70,10,30,GRAYBLOCK));
@@ -69,14 +81,23 @@ void GameHandler::loadLevel(){
   addObject(new Platform(610,10,60,20,GRAYBRICKS));
   addObject(new Platform(650,30,20,40,GRAYBRICKS));
   addObject(new Platform(610,70,60,10,GRAYBRICKS));
-  addObject(new Platform(735,33,30,80,GRAYBRICKS));
+  addObject(new Platform(735,34,30,96,GRAYBRICKS));
   addObject(new Platform(710,10,10,70,GRAYBRICKS));
   addObject(new Platform(775,30,40,10,GRAYBRICKS));
   addObject(new Platform(825,30,40,10,GRAYBRICKS));
-  addObject(new Platform(765,40,100,70,GRAYBRICKS));
+  addObject(new Platform(875,30,40,10,GRAYBRICKS));
+  addObject(new Platform(925,30,85,10,GRAYBRICKS));
+  addObject(new Platform(765,40,235,15,GRAYBRICKS));
+  addObject(new Platform(1000,40,10,20,GRAYBRICKS));
+  addObject(new Object(765,120,235,10,TFT_DARKGRAY));
+  addObject(new Platform(1000,70,20,10,GRAYBRICKS));
+  addObject(new Platform(1000,80,10,50,GRAYBRICKS));
+  addObject(new Platform(1010,100,50,10,GRAYBRICKS));
+  addObject(new Platform(790,80,210,10,GRAYBRICKS));
+  addObject(new Platform(790,105,10,15,GRAYBRICKS));
 
-  addSpawner(new BulletSpawner(660,90,16,10,5000,LEFT,1,10,10)); 
-
+  addSpawner(new BulletSpawner(680,90,5000,LEFT,1)); 
+	//addSpawner(new BulletSpawner(945,20,2500,LEFT,1));
 	
 }
 
@@ -103,7 +124,9 @@ void GameHandler::draw(){
 	canvas->fillScreen(TFT_NAVY);
 	switch(currentScreen){
 		case START:
-			drawStart();
+			//drawStart();
+			mainMenu->draw();
+
 			break;
 		case GAME:
 			drawGame();
@@ -124,7 +147,9 @@ void GameHandler::draw(){
 void GameHandler::update(){
 	switch (currentScreen){
 		case START:
-			updateStart();
+			//updateStart();
+			mainMenu->update();
+			if(mainMenu->exit) currentScreen = GAME;
 			break;
 		case GAME:
 			updateGame();
@@ -147,7 +172,7 @@ void GameHandler::updateGameOver(){
 		player->resetVelocity();
 
 		currentScreen = GAME;
-
+		
 		life = maxLives;
 		clearLevel();
 		loadLevel();
