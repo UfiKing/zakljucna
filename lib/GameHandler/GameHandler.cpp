@@ -14,6 +14,7 @@ void GameHandler::loadLevel(){
 			loadLevel2();
 			break;
 		case LEVEL3:
+			loadLevel3();
 			break;
 	}
 	player->setX(checkpointX);
@@ -84,7 +85,7 @@ void GameHandler::loadLevel1(){
 	std::strncpy(text4,text4Const,20);
 	addNonCollidingObject(new Text(185,50,100,10,text3,1,TFT_BLACK,backgroundColour));
 	addNonCollidingObject(new Text(185,70,100,10,text4,1,TFT_BLACK,backgroundColour));
-	addObject(new Spike(200,89,10,10));
+	addObject(new Spike(200,94,10,5));
  
 
 	const char* text5Const = "This is a heart";
@@ -121,10 +122,14 @@ void GameHandler::loadLevel1(){
 	addNonCollidingObject(new Text(960,50,150,10,textB,1,TFT_BLACK,backgroundColour));
 	addNonCollidingObject(new Checkpoint(1000,81));
 
+
+	addObject(new Spike(540,74,20,25));
+
 }
 
 void GameHandler::loadLevel2(){
-	checkpointX = 0;
+
+	checkpointX = 0000;
 	checkpointY = 20;
 	backgroundColour = 8420;
 
@@ -222,10 +227,17 @@ void GameHandler::loadLevel2(){
 	
 	addSpawner(new BulletSpawner(945,20,2500,LEFT,1));
 
+	addNonCollidingObject(new Checkpoint(1060,81));
+
+
+}
+
+void GameHandler::loadLevel3(){
+	backgroundColour = 8420;
+	currentScreen = DLC;	
 }
 
 void GameHandler::clearLevel(){
-	score = 0;
 	for(int i = 0; i < objects.size(); i++){
 		if(objects[i] != nullptr) delete objects[i];	
 	}
@@ -264,6 +276,12 @@ void GameHandler::draw(){
 		case GAMEOVER:
 			drawGameOver();
 			break;
+		case DLC:
+			drawDlc();
+			break;
+		case PURCHASE:
+			drawPurchase();
+			break;
 	}
 	canvas->endWrite();
 	// Push the fully drawn canvas frame to the actual LCD display
@@ -276,7 +294,11 @@ void GameHandler::update(){
 		case START:
 			//updateStart();
 			mainMenu->update();
-			if(mainMenu->exit) currentScreen = GAME;
+			if(mainMenu->exit) {
+				currentScreen = GAME;
+				clearLevel();
+				loadLevel();
+			}
 			break;
 		case GAME:
 			updateGame();
@@ -287,8 +309,65 @@ void GameHandler::update(){
 		case GAMEOVER:
 			updateGameOver();
 			break;
+		case DLC:
+			updateDlc();
+			break;
+		case PURCHASE:
+			updatePurchase();
+			break;
 	}
 
+}
+
+void GameHandler::updateDlc(){
+	if(controller->getAnyButton()){
+		currentScreen = PURCHASE;
+		vTaskDelay(pdMS_TO_TICKS(500));
+	}
+}
+
+void GameHandler::drawDlc(){
+	canvas->setTextSize(1);
+	canvas->setCursor(20,20);
+	canvas->println("For more content");
+	canvas->setCursor(20,30);
+	canvas->println("Buy the DLC");
+	canvas->setCursor(20,40);
+	canvas->println("Only 99.99Eur");
+
+	canvas->setCursor(20,60);
+	canvas->println("Press any button");
+	canvas->setCursor(20,70);
+	canvas->println("To purchase the DLC");
+
+}
+
+void GameHandler::drawPurchase(){
+	canvas->setTextSize(1);
+	canvas->setCursor(20,20);
+	canvas->println("Just joking ;)");
+	canvas->setCursor(20,30);
+	canvas->println("This is it!");
+	canvas->setCursor(20,40);
+	canvas->println("You achived a score of:");
+	canvas->setCursor(20,50);
+	canvas->println(score);
+
+	canvas->setCursor(20,60);
+	canvas->println("Press any button");
+	canvas->setCursor(20,70);
+	canvas->println("To go to the Main Menu");
+}
+
+void GameHandler::updatePurchase(){
+	if(controller->getAnyButton()){
+		currentScreen = START;
+		currentLevel = LEVEL1;
+		score = 0;
+		life = maxLives;
+		mainMenu->reset();
+		vTaskDelay(pdMS_TO_TICKS(200));
+	}
 }
 
 void GameHandler::updateGameOver(){
@@ -299,7 +378,7 @@ void GameHandler::updateGameOver(){
 		player->resetVelocity();
 
 		currentScreen = GAME;
-		
+		score = 0;	
 		life = maxLives;
 		clearLevel();
 		loadLevel();
@@ -509,12 +588,14 @@ void GameHandler::updateGame(){
 					currentLevel = LEVEL2;
 					clearLevel();
 					loadLevel();
+					vTaskDelay(pdMS_TO_TICKS(200));
 					return;
 				}
 				else if(currentLevel == LEVEL2){
 					currentLevel = LEVEL3;
 					clearLevel();
 					loadLevel();
+					vTaskDelay(pdMS_TO_TICKS(200));
 					return;
 				}
 			} 

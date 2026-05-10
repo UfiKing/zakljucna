@@ -1,5 +1,11 @@
 #include "MainMenu.hpp"
 
+
+void MainMenu::reset(){
+	currentScreen = WELCOME;
+	exit = false;
+}
+
 void MainMenu::update(){
 	switch(currentScreen){
 		case WELCOME:

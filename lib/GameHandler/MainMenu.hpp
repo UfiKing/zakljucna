@@ -57,4 +57,6 @@ public:
 	 */
 	void updateCredits();
 
+	void reset();
+
 };

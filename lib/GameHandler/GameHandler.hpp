@@ -23,7 +23,9 @@ enum Screens {
 	START,    ///< The initial start screen shown upon boot.
 	GAME,     ///< The main active gameplay screen.
 	DEATH,    ///< The screen shown when the player dies (respawn prompt).
-	GAMEOVER  ///< The screen shown when all lives are lost.
+	GAMEOVER, ///< The screen shown when all lives are lost.
+	DLC,
+	PURCHASE
 };
 
 enum Levels {
@@ -136,6 +138,8 @@ public:
 	
 	void loadLevel2();
 
+	void loadLevel3();
+
 
   /**
    * @brief Master draw function that delegates to specific draw methods based on the current screen state.
@@ -159,6 +163,16 @@ public:
    * running collision detection and resolution, and managing collectibles.
    */
 	void updateGame();
+
+	void drawDlc();
+
+	void updateDlc();
+
+	void drawPurchase();
+
+	void updatePurchase();
+
+
 
   /**
    * @brief Renders the start screen text.
